@@ -1,4 +1,52 @@
 'use client';
+import Link from 'next/link';
+
+function TypewriterEyebrow({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
+  return (
+    <motion.span
+      className={`text-[11px] font-semibold uppercase tracking-[.28em] ${className}`}
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.045,
+          },
+        },
+      }}
+      aria-label={text}
+    >
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          aria-hidden="true"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: [0, 1, 1, 0],
+            },
+          }}
+          transition={{
+            duration: 2.5,
+            times: [0, 0.08, 0.78, 1],
+            repeat: Infinity,
+            repeatDelay: 0.7,
+            delay: index * 0.045,
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
 
 import {
   AnimatePresence,
@@ -89,10 +137,20 @@ const services = [
     'Launch narrative, rollout, campaign direction, and the handoff into the next chapter.',
   ],
 ];
+const sections = [
+  { id: 'top', theme: 'light' },
+  { id: 'approach', theme: 'dark' },
+  { id: 'services', theme: 'light' },
+  { id: 'contact', theme: 'dark' },
+  { id: 'footer', theme: 'light' },
+] as const;
 
 export default function BrandPage() {
   const [rotation, setRotation] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [navTheme, setNavTheme] = useState<
+  'light' | 'dark'
+>('light');
 
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -127,24 +185,82 @@ export default function BrandPage() {
     () => rotations[rotation],
     [rotation]
   );
+ 
+useEffect(() => {
+  const sections = [
+    { id: 'top', theme: 'light' },
+    { id: 'approach', theme: 'dark' },
+    { id: 'services', theme: 'light' },
+    { id: 'contact', theme: 'dark' },
+  ] as const;
 
+  const handleScroll = () => {
+    const navOffset = 80;
+
+    for (const section of sections) {
+      const element = document.getElementById(
+        section.id
+      );
+
+      if (!element) continue;
+
+      const rect = element.getBoundingClientRect();
+
+      if (
+        rect.top <= navOffset &&
+        rect.bottom > navOffset
+      ) {
+        setNavTheme(section.theme);
+        break;
+      }
+    }
+  };
+
+  handleScroll();
+
+  window.addEventListener('scroll', handleScroll, {
+    passive: true,
+  });
+
+  window.addEventListener('resize', handleScroll);
+
+  return () => {
+    window.removeEventListener(
+      'scroll',
+      handleScroll
+    );
+
+    window.removeEventListener(
+      'resize',
+      handleScroll
+    );
+  };
+}, []);
   return (
     <main className="overflow-hidden bg-bone text-ink">
 
       {/* NAV */}
-      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 mix-blend-difference text-white md:px-10">
-        <a
-          href="#top"
-          className="text-sm font-black tracking-[-0.04em]"
-        >
-          LEX & HUE
-        </a>
+      <header
+  className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 transition-colors duration-500 md:px-10 ${
+    navTheme === 'light'
+      ? 'text-white'
+      : 'text-[#1a1715]'
+  }`}
+>
+      <Link
+  href="/"
+  className="text-sm font-black tracking-[-0.04em]"
+>
+  LEX & HUE
+</Link>
 
         <nav className="hidden gap-8 text-[11px] uppercase tracking-[.18em] md:flex">
           <a href="#work">Work</a>
           <a href="#approach">Approach</a>
           <a href="#services">Services</a>
-          <a href="#contact">Start a project</a>
+          <Link href="/start-a-project">
+  Start a project
+</Link>
         </nav>
 
         <button
@@ -208,14 +324,9 @@ export default function BrandPage() {
                 Services
               </a>
 
-              <a
-                onClick={() =>
-                  setMenuOpen(false)
-                }
-                href="#contact"
-              >
-                Start a project
-              </a>
+              <Link href="/start-a-project">
+  Start a project
+</Link>
             </div>
           </motion.div>
         )}
@@ -245,8 +356,7 @@ export default function BrandPage() {
               }}
               className="mb-10 max-w-sm text-[11px] uppercase tracking-[.18em] text-white/50"
             >
-              Brand reinvention for established
-              businesses ready for what comes next.
+              Businesses ready for a rebrand, reinvention and relaunch 
             </motion.p>
 
             <motion.h1
@@ -289,8 +399,8 @@ export default function BrandPage() {
             {/* ROTATION */}
             <div className="mt-12 md:mt-14">
               <div className="flex flex-col">
-                <span className="mb-3 text-[11px] font-medium uppercase tracking-[.22em] text-white/45">
-                  Time to
+                <span className="mb-3 text-[14px] font-medium uppercase tracking-[.22em] text-white/">
+                  It is time to
                 </span>
 
                 <div className="relative h-[1.05em] overflow-hidden text-[clamp(3rem,5vw,5.5rem)] font-black uppercase leading-none tracking-[-.055em] text-orange">
@@ -327,30 +437,38 @@ export default function BrandPage() {
               </div>
 
               <div className="mt-10">
-  <p className="max-w-md text-sm leading-6 text-white/55 md:text-base">
-    For businesses that have grown beyond the brand they started with.
-  </p>
-
+  
   <div className="mt-7 flex flex-wrap gap-3">
-    <a
-      href="#contact"
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 text-xs font-semibold uppercase tracking-[.16em] text-ink transition-transform duration-300 hover:-translate-y-0.5"
-    >
-      Start a project
-      <ArrowUpRight size={15} />
-    </a>
+  <div className="flex flex-wrap items-center gap-4">
+  <Link
+    href="/start-a-project"
+    className="group inline-flex items-center gap-4 rounded-full border border-orange bg-orange px-7 py-4 text-[12px] font-bold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:bg-transparent hover:text-orange"
+  >
+    Start a project
 
-    <a
-      href="#work"
-      className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-xs font-semibold uppercase tracking-[.16em] text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-ink"
-    >
-      View case studies
-      <ArrowDownRight size={15} />
-    </a>
+    <ArrowUpRight
+      size={17}
+      className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+    />
+  </Link>
+
+  <a
+    href="#work"
+    className="group inline-flex items-center gap-4 rounded-full border border-white/30 px-7 py-4 text-[12px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+  >
+    View case studies
+
+    <ArrowDownRight
+      size={17}
+      className="transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"
+    />
+  </a>
+</div>
   </div>
 </div>
             </div>
           </div>
+
 
           {/* RIGHT VISUAL */}
           <motion.div
@@ -509,11 +627,10 @@ export default function BrandPage() {
           }}
           className="mb-10 flex items-center gap-4"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[.28em] text-orange">
-            The reality
-          </span>
+      
 
-          <span className="h-px w-12 bg-orange/60" />
+      <TypewriterEyebrow text="The Reality" />
+
         </motion.div>
 
         <motion.h2
@@ -556,7 +673,7 @@ export default function BrandPage() {
         }}
         className="mt-16 max-w-sm text-sm leading-6 text-black/45"
       >
-        The business evolved. The brand didn&apos;t evolve with it.
+       
       </motion.p>
     </div>
 
@@ -565,6 +682,7 @@ export default function BrandPage() {
 
 <div className="w-full">
   <RealityAccordion />
+  
 </div>
 
 {/* BOTTOM RIGHT CTA */}
@@ -641,11 +759,8 @@ export default function BrandPage() {
       className="mb-14 md:mb-16"
     >
       <div className="mb-5 flex items-center gap-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[.28em] text-orange">
-          What we build
-        </span>
+      <TypewriterEyebrow text="What We Build" />
 
-        <span className="h-px w-12 bg-orange/60" />
       </div>
 
       <h2 className="max-w-[900px] text-[clamp(2.8rem,5vw,5.8rem)] font-black uppercase leading-[.92] tracking-[-.06em]">
@@ -673,6 +788,30 @@ export default function BrandPage() {
     </div>
 
   </div>
+  {/* CTA — BOTTOM RIGHT */}
+<motion.div
+  initial={{ opacity: 0, x: 40 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.7,
+    delay: 0.2,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="mt-auto flex justify-end pt-16"
+>
+<Link href="/start-a-project">
+  Start a project
+
+    <ArrowUpRight
+      size={17}
+      className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+    />
+    
+  </Link>
+  
+</motion.div>
+  
 </section>
 
       {/* CTA */}
@@ -694,9 +833,10 @@ export default function BrandPage() {
 
         <div className="relative z-10 grid gap-12 lg:grid-cols-[.75fr_.25fr] lg:items-end">
           <div>
-            <p className="kicker">
-              The next chapter
-            </p>
+            <TypewriterEyebrow
+              text="The next chapter"
+              className="text-black"
+            />
 
             <h2 className="mt-5 text-[clamp(4.5rem,11vw,12rem)] font-black uppercase leading-[.8] tracking-[-.08em]">
               Outgrown
@@ -707,27 +847,38 @@ export default function BrandPage() {
 
           <div>
             <p className="max-w-sm text-lg leading-relaxed">
-              Good. That means the business
+              Good! That means the business
               moved. Now the identity needs to
-              catch up — deliberately.
+              catch up, deliberately.
             </p>
+            <div className="flex flex-wrap items-center gap-4">
+  <Link
+    href="/start-a-project"
+    className="group mt-10 inline-flex items-center gap-4 rounded-full border border-black bg-black px-7 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-300 hover:bg-transparent hover:text-white"
+  >
+    Start a project
 
-            <a
-              href="mailto:hello@example.com"
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-6 py-4 text-sm uppercase tracking-[.16em] text-white"
-            >
-              Start a project
-              <ArrowUpRight size={17} />
-            </a>
+    <ArrowUpRight
+      size={17}
+      className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+    />
+  </Link>
+
+ 
+</div>
+
+
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="flex flex-col gap-6 bg-ink px-5 py-8 text-bone md:flex-row md:items-end md:justify-between md:px-10">
-        <div className="text-4xl font-black tracking-[-.06em]">
+      <footer
+  id="footer"
+  className="flex flex-col gap-6 bg-ink px-5 py-8 text-bone md:flex-row md:items-end md:justify-between md:px-10"
+>
           LEX & HUE
-        </div>
+       
 
         <div className="text-xs uppercase tracking-[.16em] text-white/55">
           Strategy / Identity / Digital /
@@ -938,7 +1089,7 @@ function RealityAccordion() {
                       className="relative z-10 ml-auto max-w-[570px]"
                     >
                       <p className="mb-6 text-[10px] font-semibold uppercase tracking-[.28em] text-orange">
-                        {item.eyebrow}
+                      
                       </p>
 
                       <h3 className="max-w-[520px] text-[clamp(2.2rem,3.4vw,4rem)] font-black leading-[.98] tracking-[-.05em] text-black">

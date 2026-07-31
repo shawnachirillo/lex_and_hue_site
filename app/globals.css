@@ -14,7 +14,7 @@ body {
   margin: 0;
   background: var(--bone);
   color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  
 }
 ::selection { background: var(--orange); color: white; }
 
@@ -26,7 +26,6 @@ body {
   line-height: .84;
   letter-spacing: -.07em;
 }
-.kicker { letter-spacing: .18em; text-transform: uppercase; font-size: .72rem; }
 .hero-statement {
   font-size: clamp(3.8rem, 8.2vw, 8.6rem);
   line-height: .82;
@@ -50,3 +49,55 @@ body {
     scroll-behavior: auto !important;
   }
 }
+/* =========================
+   LEX & HUE TYPOGRAPHY
+   ========================= */
+
+   :root {
+    --font-sans: var(--font-archivo);
+    --font-serif: var(--font-instrument-serif);
+  }
+  
+  /* DEFAULT SITE TYPE */
+  html,
+  body {
+    font-family: var(--font-sans), Arial, sans-serif;
+  }
+  
+  /* DISPLAY / HEADLINE TYPE */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans), Arial, sans-serif;
+  }
+  
+  /* EDITORIAL SERIF */
+  .font-editorial {
+    font-family: var(--font-serif), Georgia, serif !important;
+  }
+  
+  /* ALL EXISTING EYEBROWS / KICKERS */
+  .kicker {
+    font-family: var(--font-serif), Georgia, serif !important;
+    font-size: 1.35rem;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: 0.8;
+    text-transform: none;
+    font-style: normal;
+  }
+  .eyebrow {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .font-sans-ui {
+    font-family: Arial, Helvetica, sans-serif;
+  }
