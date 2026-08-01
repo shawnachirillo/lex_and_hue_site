@@ -258,6 +258,9 @@ useEffect(() => {
           <a href="#work">Work</a>
           <a href="#approach">Approach</a>
           <a href="#services">Services</a>
+          <Link href="/pricing">
+  Pricing
+</Link>
           <Link href="/start-a-project">
   Start a project
 </Link>

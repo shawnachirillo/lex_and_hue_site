@@ -55,6 +55,7 @@ body {
 
    :root {
     --font-sans: var(--font-archivo);
+    --font-sans: var(--font-archivo-bold);
     --font-serif: var(--font-instrument-serif);
   }
   
