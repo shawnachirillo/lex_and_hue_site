@@ -977,33 +977,33 @@ function RealityAccordion() {
     {
       label: 'The problem',
       // eyebrow: '01 / Friction',
-      title: 'What once felt good enough now creates friction.',
+      title: 'You out grew it',
       copy:
-        'The website no longer reflects the quality of the work. Messaging has evolved in different directions. Things that once felt simple now take more explanation.',
+        'The business evolved. The brand simply hasn\'t caught up.',
       word: 'FRICTION',
     },
     {
       label: 'The gap',
       // eyebrow: '02 / Gaps',
-      title: 'The business and the brand stop matching.',
+      title: 'People feel the difference.',
       copy:
-        'Your offer is stronger. Your experience is better. Your audience has matured. But what people see from the outside still belongs to an earlier version of the business.',
+        'Even if they can\'t explain it, they notice when the experience and the identity don\'t align.',
       word: 'GAPS',
     },
     {
       label: 'The drift',
       // eyebrow: '03 / Drift',
-      title: 'Growth adds more — without always adding clarity.',
+      title: 'It happened gradually.',
       copy:
-        'New services, audiences, ideas and opportunities accumulate over time. Without a system connecting them, the brand begins to feel fragmented instead of expansive.',
+        'One change became another until the brand no longer told the whole story.',
       word: 'DRIFT',
     },
     {
       label: 'The shift',
       // eyebrow: 'What comes next',
-      title: 'You don’t need to start over.',
+      title: 'Now make it visible.',
       copy:
-        'You need the brand to catch up to the business it represents now — with a clearer strategy, stronger identity and an experience built for where you’re going.',
+        'Not by starting over but by bringing everything back into alignment.',
       word: 'EVOLVE',
     },
   ];
