@@ -205,7 +205,7 @@ export default function StartAProjectPage() {
               duration: 0.8,
               ease,
             }}
-            className="max-w-[9ch] text-[clamp(5rem,14vw,13rem)] font-black uppercase leading-[.78] tracking-[-.085em]"
+            className="max-w-[9ch] text-[clamp(5rem,14vw,13rem)] font-black uppercase leading-[.78]"
           >
             Good things{' '}
             <span className="font-serif font-normal italic">
@@ -230,7 +230,7 @@ export default function StartAProjectPage() {
 
             <Link
               href="/"
-              className="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[.16em]"
+              className="inline-flex items-center gap-3 text-sm font-bold uppercase"
             >
               Back to Lex & Hue
               <ArrowUpRight size={17} />
@@ -246,7 +246,7 @@ export default function StartAProjectPage() {
       <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-5 mix-blend-difference text-white md:px-10 md:py-7">
         <Link
           href="/"
-          className="text-sm font-black tracking-[-0.04em]"
+          className="text-sm font-black"
         >
           LEX & HUE
         </Link>
@@ -282,7 +282,7 @@ export default function StartAProjectPage() {
               {/* Progress */}
 
               <div className="mb-10 md:mb-16">
-                <div className="mb-4 flex items-center justify-between text-[10px] uppercase tracking-[.2em] text-white/50 md:text-xs">
+                <div className="mb-4 flex items-center justify-between text-[10px] uppercase text-white/50 md:text-xs">
                   <span>Start a project</span>
 
                   <span>
@@ -403,7 +403,7 @@ export default function StartAProjectPage() {
                 <button
                   type="button"
                   onClick={goBack}
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[.17em] text-white/60 transition hover:text-white"
+                  className="inline-flex items-center gap-2 text-xs uppercase text-white/60 transition hover:text-white"
                 >
                   <ArrowLeft size={15} />
                   Back
@@ -414,7 +414,7 @@ export default function StartAProjectPage() {
                     type="button"
                     onClick={goNext}
                     disabled={!canContinue}
-                    className="group inline-flex items-center gap-3 rounded-full bg-orange px-6 py-4 text-xs font-bold uppercase tracking-[.17em] text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-25 md:px-8"
+                    className="group inline-flex items-center gap-3 rounded-full bg-orange px-6 py-4 text-xs font-bold uppercase text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-25 md:px-8"
                   >
                     Continue
 
@@ -427,7 +427,7 @@ export default function StartAProjectPage() {
                   <button
                     type="submit"
                     disabled={!canContinue}
-                    className="group inline-flex items-center gap-3 rounded-full bg-orange px-6 py-4 text-xs font-bold uppercase tracking-[.17em] text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-25 md:px-8"
+                    className="group inline-flex items-center gap-3 rounded-full bg-orange px-6 py-4 text-xs font-bold uppercase text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-25 md:px-8"
                   >
                     Send project
 
@@ -451,91 +451,101 @@ export default function StartAProjectPage() {
 /* -------------------------------------------------------------------------- */
 
 function Intro({
-  onStart,
-}: {
-  onStart: () => void;
-}) {
-  return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 0,
-        y: -30,
-      }}
-      transition={{
-        duration: 0.5,
-      }}
-      className="relative flex min-h-screen overflow-hidden px-5 pb-8 pt-28 md:px-10 md:pt-32"
-    >
-      {/* Moving graphic */}
-
-      <div className="pointer-events-none absolute inset-0">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-          className="absolute -right-40 top-[14%] h-[32rem] w-[32rem] rounded-full border border-white/10"
-        />
-
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{
-            duration: 42,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-          className="absolute -right-16 top-[23%] h-[20rem] w-[20rem] rounded-full border border-orange/55"
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto grid w-full max-w-[1500px] content-end gap-10 lg:grid-cols-[1fr_.34fr] lg:items-end">
-        <div>
-          <p className="kicker mb-7 text-white/55">
-            New business / Start here
-          </p>
-
-          <h1 className="max-w-[9ch] text-[clamp(4.6rem,12vw,12rem)] font-black uppercase leading-[.79] tracking-[-.08em]">
-            Let&apos;s make what&apos;s next{' '}
-            <span className="font-serif font-normal italic text-orange">
-              look like it.
-            </span>
-          </h1>
-        </div>
-
-        <div className="border-t border-white/25 pt-6 lg:mb-2">
-          <p className="max-w-sm text-lg leading-relaxed text-white/70">
-            Tell us a little about your business and
-            where it&apos;s headed. No polished brief
-            required.
-          </p>
-
-          <div className="mt-7 flex items-center justify-between gap-5">
-            <span className="text-[10px] uppercase tracking-[.19em] text-white/40">
-              About 3 minutes
-            </span>
-
-            <button
-              onClick={onStart}
-              className="group inline-flex items-center gap-3 rounded-full bg-orange px-6 py-4 text-xs font-bold uppercase tracking-[.17em] text-ink transition hover:scale-[1.02] md:px-8"
+    onStart,
+  }: {
+    onStart: () => void;
+  }) {
+    return (
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{
+          opacity: 0,
+          y: -24,
+        }}
+        transition={{
+          duration: 0.45,
+        }}
+        className="flex min-h-screen px-5 pb-10 pt-28 md:px-10 md:pt-32"
+      >
+        <div className="mx-auto flex w-full max-w-[1500px] items-center">
+          <div className="w-full max-w-[980px]">
+  
+            <p className="mb-7 text-[10px] font-medium uppercase tracking-[.14em] text-white/45">
+              New business / Start here
+            </p>
+  
+            <motion.h1
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.75,
+                ease,
+              }}
+              className="max-w-[900px] text-[clamp(3.8rem,7.2vw,7.8rem)] font-black uppercase leading-[.84] "
             >
-              Start
-
-              <ArrowRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </button>
+              Let&apos;s work 
+              <br />
+              together
+  
+              <span className="mt-2 block font-serif text-[.58em] font-normal italic normal-case leading-[.82] text-orange">
+              Tell us about your business.
+              </span>
+            </motion.h1>
+  
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 22,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: 0.14,
+                ease,
+              }}
+              className="mt-10 max-w-[620px] border-t border-white/20 pt-6"
+            >
+              <p className="max-w-xl text-base leading-7 text-white/60 md:text-lg md:leading-8">
+                Tell us a little about your business and
+                where it&apos;s headed. No polished brief
+                required.
+              </p>
+  
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <button
+                  type="button"
+                  onClick={onStart}
+                  className="group inline-flex items-center gap-3 rounded-full bg-orange px-7 py-4 text-[10px] font-bold uppercase text-ink transition duration-300 hover:scale-[1.02]"
+                >
+                  Start
+  
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </button>
+  
+                <span className="text-[9px] uppercase text-white/35">
+                  About 3 minutes
+                </span>
+              </div>
+            </motion.div>
+  
           </div>
         </div>
-      </div>
-    </motion.section>
-  );
-}
-
+      </motion.section>
+    );
+  }
 /* -------------------------------------------------------------------------- */
 /*                                  HEADINGS                                  */
 /* -------------------------------------------------------------------------- */
@@ -555,7 +565,7 @@ function StepHeading({
         {eyebrow}
       </p>
 
-      <h2 className="max-w-[13ch] text-[clamp(3.2rem,7.5vw,7.5rem)] font-black leading-[.88] tracking-[-.065em]">
+      <h2 className="max-w-[13ch] text-[clamp(3.2rem,7.5vw,7.5rem)] font-black leading-[.88]">
         {question}
       </h2>
 
@@ -585,7 +595,7 @@ function OptionButton({
     <button
       type="button"
       onClick={onClick}
-      className={`group flex min-h-20 w-full items-center justify-between border-b border-white/20 py-5 text-left text-xl tracking-[-.025em] transition md:min-h-24 md:text-3xl ${
+      className={`group flex min-h-20 w-full items-center justify-between border-b border-white/20 py-5 text-left text-xl transition md:min-h-24 md:text-3xl ${
         selected
           ? 'text-orange'
           : 'text-white hover:text-orange'
@@ -744,7 +754,7 @@ function StepText({
           className="min-h-[260px] w-full resize-none border-0 border-b border-white/30 bg-transparent px-0 py-4 text-2xl leading-relaxed text-white outline-none placeholder:text-white/22 focus:border-orange md:min-h-[340px] md:text-4xl"
         />
 
-        <div className="mt-3 flex justify-between gap-4 text-[10px] uppercase tracking-[.17em] text-white/35">
+        <div className="mt-3 flex justify-between gap-4 text-[10px] uppercase text-white/35">
           <span>
             Speak plainly. No brand jargon required.
           </span>
@@ -784,7 +794,7 @@ function StepFive({
 
       <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <div>
-          <p className="mb-3 text-xs uppercase tracking-[.18em] text-white/45">
+          <p className="mb-3 text-xs uppercase text-white/45">
             Investment
           </p>
 
@@ -809,7 +819,7 @@ function StepFive({
         </div>
 
         <div>
-          <p className="mb-3 text-xs uppercase tracking-[.18em] text-white/45">
+          <p className="mb-3 text-xs uppercase text-white/45">
             Timing
           </p>
 
@@ -909,7 +919,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[10px] uppercase tracking-[.18em] text-white/45">
+      <span className="mb-2 block text-[10px] uppercase text-white/45">
         {label}
       </span>
 
@@ -941,7 +951,7 @@ function TextAreaField({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[10px] uppercase tracking-[.18em] text-white/45">
+      <span className="mb-2 block text-[10px] uppercase text-white/45">
         {label}
       </span>
 

@@ -380,7 +380,7 @@ useEffect(() => {
                   1,
                 ],
               }}
-              className="max-w-[820px] text-[clamp(3.1rem,5.5vw,6rem)] font-black uppercase leading-[.91] tracking-[-.055em]"
+              className="max-w-[820px] text-[clamp(3.1rem,5.5vw,6rem)] font-black uppercase leading-[.91] "
             >
               <span className="block">
                 Your business
@@ -645,7 +645,7 @@ useEffect(() => {
             delay: 0.08,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="max-w-[680px] text-[clamp(2rem,4vw,5.7rem)] font-black leading-[.92] tracking-[-.06em]"
+          className="max-w-[680px] text-[clamp(2rem,4vw,5.7rem)] font-black leading-[.92] "
         >
           GROWING BUSINESSES OFTEN REACH A POINT WHERE THINGS NO LONGER FEEL CONNECTED.
         </motion.h2>
@@ -659,7 +659,7 @@ useEffect(() => {
             delay: 0.18,
             ease: [1, 1, 0.36, 1],
           }}
-          className="mt-6 text-[clamp(2rem,3.2vw,3.7rem)] font-black italic leading-none tracking-[-.04em] text-orange"
+          className="mt-6 text-[clamp(4rem,3.2vw,3.7rem)] font-black italic leading-none tracking-[-.04em] text-orange"
         >
           Why is that?
         </motion.p>
@@ -841,7 +841,7 @@ useEffect(() => {
               className="text-black"
             />
 
-            <h2 className="mt-5 text-[clamp(4.5rem,11vw,12rem)] font-black uppercase leading-[.8] tracking-[-.08em]">
+            <h2 className="mt-5 text-[clamp(4.5rem,11vw,12rem)] font-black uppercase leading-[.8]">
               Outgrown
               <br />
               your brand?

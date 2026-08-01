@@ -476,11 +476,11 @@ export default function PricingPage() {
               PRICING
             </p>
 
-            <h2 className="mt-7 max-w-[950px] text-[clamp(3.3rem,6vw,6.3rem)] font sans uppercase leading-[.86] tracking-[-.065em]">
+            <h2 className="mt-7 max-w-[950px] text-[clamp(3.3rem,6vw,6.3rem)] font sans uppercase leading-[.86] ">
               Choose the level of
 
               <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.76] tracking-[-.03em] text-orange`}
+                className={`${cormorant.className} block font-medium italic normal-case leading-[.76]  text-orange`}
               >
                 transformation.
               </span>
@@ -589,7 +589,7 @@ export default function PricingPage() {
         <div className="mx-auto max-w-[1600px]">
 
           <div className="px-6 py-12 md:px-10">
-            <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/40">
+            <p className="text-[10px] font-medium uppercase  text-black/40">
               Need more detail?
             </p>
 
@@ -785,7 +785,7 @@ export default function PricingPage() {
               Before we begin
             </p>
 
-            <h2 className="mt-7 max-w-[500px] text-[clamp(3rem,5vw,5rem)] font-black uppercase leading-[.88] tracking-[-.06em]">
+            <h2 className="mt-7 max-w-[500px] text-[clamp(3rem,5vw,5rem)] font-black uppercase leading-[.88] ">
               A note on
 
               <span
@@ -844,15 +844,15 @@ export default function PricingPage() {
         <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-24 md:px-12 lg:grid-cols-[1fr_.4fr] lg:items-end lg:px-16 lg:py-28">
 
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-[.13em]">
+            <p className="text-[10px] font-medium uppercase ">
               Not sure where you fit?
             </p>
 
-            <h2 className="mt-7 max-w-[1000px] text-[clamp(4rem,8vw,8rem)] font-black uppercase leading-[.8] tracking-[-.07em]">
+            <h2 className="mt-7 max-w-[1000px] text-[clamp(4rem,8vw,8rem)] font-black uppercase leading-[.8] ">
               Tell us
 
               <span
-                className={`${cormorant.className} ml-[.15em] inline-block font-medium italic normal-case tracking-[-.025em]`}
+                className={`${cormorant.className} ml-[.15em] inline-block font-medium italic normal-case `}
               >
                 what changed.
               </span>
@@ -1027,7 +1027,7 @@ function TransformationScope({
                   className="border-t border-black/10 py-5"
                 >
                   <h4
-                    className={`${cormorant.className} text-2xl font-medium tracking-[-.025em]`}
+                    className={`${cormorant.className} text-2xl font-medium `}
                   >
                     {group.title}
                   </h4>
