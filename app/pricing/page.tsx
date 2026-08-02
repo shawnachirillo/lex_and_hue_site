@@ -38,7 +38,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const transformations = [
   {
-    number: '01',
+    // number: '01',
     name: 'Rebrand',
     price: 'from $3,500',
     description:
@@ -105,7 +105,7 @@ const transformations = [
   },
 
   {
-    number: '02',
+    // number: '02',
     name: 'Reinvent',
     price: 'from $6,500',
     description:
@@ -177,7 +177,7 @@ const transformations = [
   },
 
   {
-    number: '03',
+    // number: '03',
     name: 'Relaunch',
     price: 'from $10,000',
     description:
@@ -294,7 +294,7 @@ const comparisonRows = [
 
 const digital = [
   {
-    number: '01',
+    // number: '01',
     title: 'Website Audit',
     price: '$350',
     description:
@@ -312,7 +312,7 @@ const digital = [
     ],
   },
   {
-    number: '02',
+    // number: '02',
     title: 'Audit + Strategy',
     price: '$550',
     description:
@@ -325,7 +325,7 @@ const digital = [
     ],
   },
   {
-    number: '03',
+    // number: '03',
     title: 'Platform Website',
     price: 'from $2,500',
     description:
@@ -343,7 +343,7 @@ const digital = [
     ],
   },
   {
-    number: '04',
+    // number: '04',
     title: 'Custom Digital Experience',
     price: 'from $4,500',
     description:
@@ -364,28 +364,58 @@ const digital = [
 
 const stewardship = [
   {
-    number: '01',
+    // number: '01',
     title: 'Essential',
     price: '$300 / mo',
     description:
       'For occasional updates and small refinements.',
     detail: 'Up to 2 hours per month',
+    items: [
+      'Content and copy updates',
+      'Image swaps and light page edits',
+      'Minor layout refinements',
+      'CMS support',
+      'Monthly priority list',
+    ],
+    bestFor:
+      'Established sites that need reliable maintenance without ongoing campaign work.',
   },
   {
-    number: '02',
+    // number: '02',
     title: 'Growth',
     price: '$600 / mo',
     description:
       'For brands that need regular changes, new content and ongoing refinement.',
     detail: 'Up to 5 hours per month',
+    items: [
+      'Everything in Essential',
+      'New sections and landing pages',
+      'Campaign and seasonal updates',
+      'Ongoing design refinements',
+      'Light UX improvements',
+      'Monthly planning check-in',
+    ],
+    bestFor:
+      'Growing brands that regularly publish, promote, adjust offers or evolve their customer experience.',
   },
   {
-    number: '03',
+    // number: '03',
     title: 'Partner',
     price: '$1,000 / mo',
     description:
       'For businesses that want an ongoing digital design and web partner.',
     detail: 'Up to 8–10 hours per month',
+    items: [
+      'Everything in Growth',
+      'Priority design and development support',
+      'New page design',
+      'Campaign creative support',
+      'Conversion and experience refinements',
+      'Ongoing visual direction',
+      'Monthly strategy session',
+    ],
+    bestFor:
+      'Brands that need a consistent creative and digital partner embedded in the business.',
   },
 ];
 
@@ -399,6 +429,9 @@ export default function PricingPage() {
   >(null);
   const [selectedDigital, setSelectedDigital] = useState<
     (typeof digital)[number] | null
+  >(null);
+  const [selectedStewardship, setSelectedStewardship] = useState<
+    (typeof stewardship)[number] | null
   >(null);
 
   return (
@@ -446,38 +479,34 @@ export default function PricingPage() {
 
       <section
         id="transformation"
-        className="border-b border-black/15"
+        className="border-b border-black/25 bg-orange text-bone"
       >
-        <div className="mx-auto grid max-w-[1600px] gap-10 px-6 py-20 md:px-12 lg:grid-cols-[1fr_.34fr] lg:items-end lg:px-16 lg:py-24">
-          <div>
-            <p className="text-[12px] font-medium uppercase tracking-[.13em] text-black/45">
-              PRICING
-            </p>
+        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
+          <p className="text-[12px] font-medium uppercase tracking-[.13em] text-black/65">
+            TRANSFORMATION
+          </p>
 
-            <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[52px] font-black uppercase leading-[.88] md:text-[72px] lg:text-[88px]`}>
-              Choose the level of
+          <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
+            Choose the level of
 
-              <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.76]  text-orange`}
-              >
-                transformation.
-              </span>
-            </h2>
-          </div>
+            <span
+              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-black`}
+            >
+              transformation.
+            </span>
+          </h2>
 
-          <p className="max-w-sm text-base leading-7 text-black/50">
-            These are not logo packages.
-            They are progressively deeper engagements
-            built around how much of the business
-            needs to evolve.
+          <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-bone/75 md:text-base">
+            These are not logo packages. They are progressively deeper
+            engagements built around how much of the business needs to evolve.
           </p>
         </div>
       </section>
 
       {/* TRANSFORMATION OFFERS */}
 
-      <section className="border-b border-black/15">
-        <div className="mx-auto grid max-w-[1600px] md:grid-cols-3">
+      <section className="border-b border-black/25 bg-orange text-bone">
+        <div className="mx-auto grid max-w-[1600px] border-t border-black/25 md:grid-cols-3">
           {transformations.map((offer, index) => (
             <TransformationCard
               key={offer.name}
@@ -495,27 +524,24 @@ export default function PricingPage() {
         id="digital"
         className="border-b border-black/15"
       >
-        <div className="mx-auto grid max-w-[1600px] gap-10 px-6 py-20 md:px-12 lg:grid-cols-[1fr_.34fr] lg:items-end lg:px-16 lg:py-24">
-          <div>
-            <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/45">
-              Digital
-            </p>
+        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
+          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/45">
+            Digital
+          </p>
 
-            <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[52px] font-black uppercase leading-[.88] md:text-[72px] lg:text-[88px]`}>
-              When only the website
+          <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
+            When the website
 
-              <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
-              >
-                needs the work.
-              </span>
-            </h2>
-          </div>
+            <span
+              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
+            >
+              needs the work.
+            </span>
+          </h2>
 
-          <p className="max-w-sm text-base leading-7 text-black/50">
-            Standalone digital work for businesses
-            whose brand still works, but whose website
-            no longer does.
+          <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-black/50 md:text-base">
+            Standalone digital work for businesses whose brand still works,
+            but whose website no longer does.
           </p>
         </div>
       </section>
@@ -553,163 +579,46 @@ export default function PricingPage() {
 
       <section
         id="stewardship"
-        className="bg-[#111111] text-[#f2eee7]"
+        className="bg-orange text-black"
       >
-        <div className="mx-auto grid max-w-[1600px] gap-10 px-6 py-20 md:px-12 lg:grid-cols-[1fr_.34fr] lg:items-end lg:px-16 lg:py-24">
-          <div>
-            <p className="text-[10px] font-medium uppercase tracking-[.13em] text-white/40">
-              Ongoing Support
-            </p>
+        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
+          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/55">
+            Ongoing support
+          </p>
 
-            <h2 className="mt-7 text-[clamp(3.3rem,6vw,6rem)] font-black uppercase leading-[.84] tracking-[-.065em]">
-              Site
+          <h2 className={`${archivo.className} mt-7 max-w-[900px] text-[48px] font-black uppercase leading-[.88] text-white sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
+            Site
 
-              <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.76] tracking-[-.03em] text-orange`}
-              >
-                Stewardship.
-              </span>
-            </h2>
-          </div>
+            <span
+              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-black`}
+            >
+              Stewardship.
+            </span>
+          </h2>
 
-          <p className="max-w-sm text-base leading-7 text-white/50">
-            For brands that need ongoing updates,
-            refinement and redesign work after the
-            initial launch.
+          <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-black/65 md:text-base">
+            Ongoing updates, refinements and redesign support after launch.
+            Choose the level of partnership your site actually needs.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-[1600px] border-t border-white/15 md:grid-cols-3">
-
+        <div className="mx-auto grid max-w-[1600px] border-t border-black/20 md:grid-cols-2">
           {stewardship.map((plan, index) => (
-            <motion.article
+            <StewardshipCard
               key={plan.title}
-              initial={{
-                opacity: 0,
-                y: 25,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.2,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.07,
-                ease,
-              }}
-              className={`flex min-h-[390px] flex-col border-b border-white/15 px-6 py-11 md:px-10 ${
-                index !== stewardship.length - 1
-                  ? 'md:border-r'
-                  : ''
-              }`}
-            >
-              <div className="flex items-start justify-between gap-5">
-                <span className="text-[9px] uppercase tracking-[.12em] text-white/30">
-                  Stewardship / {plan.number}
-                </span>
-
-                <span className="text-lg font-bold text-orange">
-                  {plan.price}
-                </span>
-              </div>
-
-              <h3
-                className={`${cormorant.className} mt-10 text-[clamp(3.1rem,4.5vw,5rem)] font-medium leading-[.9] tracking-[-.035em]`}
-              >
-                {plan.title}
-              </h3>
-
-              <p className="mt-7 max-w-md text-sm leading-7 text-white/50">
-                {plan.description}
-              </p>
-
-              <div className="mt-auto border-t border-white/15 pt-5">
-                <p
-                  className={`${cormorant.className} text-xl italic text-white/65`}
-                >
-                  {plan.detail}
-                </p>
-              </div>
-            </motion.article>
+              plan={plan}
+              index={index}
+              onOpen={() => setSelectedStewardship(plan)}
+            />
           ))}
-
         </div>
 
-        <div className="mx-auto max-w-[1600px] px-6 py-9 md:px-10">
-          <p className="max-w-4xl text-[11px] leading-6 text-white/35">
-            Stewardship may include content updates,
-            layout refinements, landing pages, campaign
-            changes, CMS management and ongoing visual
-            improvements. Larger redesign and development
-            projects are scoped separately.
+        <div className="mx-auto max-w-[1600px] border-t border-black/20 px-6 py-7 md:px-10">
+          <p className="max-w-[900px] text-[11px] leading-6 text-black/55">
+            Stewardship may include content updates, layout refinements,
+            landing pages, campaign changes, CMS management and ongoing visual
+            improvements. Larger redesign and development projects are scoped separately.
           </p>
-        </div>
-      </section>
-
-      {/* PRICING NOTES */}
-
-      <section className="border-b border-black/15">
-        <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[.38fr_.62fr]">
-
-          <div className="border-b border-black/15 px-6 py-20 md:px-12 lg:border-b-0 lg:border-r lg:px-14">
-            <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/40">
-              Before we begin
-            </p>
-
-            <h2 className="mt-7 max-w-[500px] text-[clamp(3rem,5vw,5rem)] font-black uppercase leading-[.88] ">
-              A note on
-
-              <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.8] text-orange`}
-              >
-                pricing.
-              </span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2">
-
-            <Note
-              number="01"
-              title="Starting means starting."
-            >
-              Complexity, page count, integrations,
-              touchpoints and launch needs determine
-              the final investment.
-            </Note>
-
-            <Note
-              number="02"
-              title="Scope comes first."
-            >
-              Every project begins with a clearly
-              defined proposal outlining deliverables,
-              timeline and investment.
-            </Note>
-
-            <Note
-              number="03"
-              title="No unlimited anything."
-            >
-              Deliverables are intentionally defined
-              so both sides know what is being created
-              and why.
-            </Note>
-
-            <Note
-              number="04"
-              title="Payment plans are available."
-            >
-              Larger engagements may be divided into
-              scheduled installments aligned with the
-              project timeline.
-            </Note>
-
-          </div>
         </div>
       </section>
 
@@ -775,6 +684,15 @@ export default function PricingPage() {
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {selectedStewardship && (
+          <StewardshipScopeModal
+            plan={selectedStewardship}
+            onClose={() => setSelectedStewardship(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* FOOTER */}
 
       <footer className="bg-[#111111] text-[#f2eee7]">
@@ -818,44 +736,44 @@ function TransformationCard({
         delay: index * 0.06,
         ease,
       }}
-      className={`border-b border-black/15 md:border-b-0 ${
-        index !== transformations.length - 1 ? 'md:border-r' : ''
+      className={`border-b border-black/25 md:border-b-0 ${
+        index !== transformations.length - 1 ? 'md:border-r md:border-black/25' : ''
       }`}
     >
       <button
         type="button"
         onClick={onOpen}
-        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-black/[0.035] md:px-9 md:py-12"
+        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-white/10 md:px-9 md:py-12"
       >
         <div className="flex items-start justify-between gap-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-            Brand transformation / {offer.number}
+          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/65">
+            Brand transformation
           </p>
 
           <ArrowUpRight
             size={19}
-            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            className="shrink-0 text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
           />
         </div>
 
-        <h3 className={`${archivo.className} mt-10 text-[42px] font-black uppercase leading-none md:text-[48px] lg:text-[56px]`}>
+        <h3 className={`${archivo.className} mt-10 text-[42px] font-black uppercase leading-none text-black md:text-[48px] lg:text-[56px]`}>
           {offer.name}
         </h3>
 
-        <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-orange md:text-[28px]`}>
+        <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-black md:text-[28px]`}>
           {offer.price}
         </p>
 
-        <p className="mt-7 max-w-md text-[14px] leading-6 text-black/55 md:text-[15px]">
+        <p className="mt-7 max-w-md text-[14px] leading-6 text-white/80 md:text-[15px]">
           {offer.description}
         </p>
 
         <div className="mt-auto pt-9">
-          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase">
+          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-white">
             View full scope
             <ArrowUpRight
               size={14}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+              className="text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
             />
           </span>
         </div>
@@ -883,7 +801,7 @@ function ScopeModal({
       className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
       role="dialog"
       aria-modal="true"
-      aria-labelledby={`scope-${offer.number}`}
+      aria-labelledby={`scope-${offer.name.toLowerCase()}`}
       onMouseDown={(event) => {
         if (event.currentTarget === event.target) {
           onClose();
@@ -910,22 +828,22 @@ function ScopeModal({
           duration: 0.35,
           ease,
         }}
-        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#f2eee7] text-[#111111] shadow-2xl"
+        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-orange text-white shadow-2xl"
       >
-        <div className="flex items-start justify-between gap-8 border-b border-black/15 px-6 py-6 md:px-10 md:py-8">
+        <div className="flex items-start justify-between gap-8 border-b border-black/25 px-6 py-6 md:px-10 md:py-8">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-              Brand transformation / {offer.number}
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/50">
+              Brand transformation
             </p>
 
             <h2
-              id={`scope-${offer.number}`}
-              className={`${archivo.className} mt-3 text-[42px] font-black uppercase leading-none md:text-[60px]`}
+              id={`scope-${offer.name.toLowerCase()}`}
+              className={`${archivo.className} mt-3 text-[42px] font-black uppercase leading-none text-black md:text-[60px]`}
             >
               {offer.name}
             </h2>
 
-            <p className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-orange md:text-[30px]`}>
+            <p className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-black md:text-[30px]`}>
               {offer.price}
             </p>
           </div>
@@ -934,14 +852,14 @@ function ScopeModal({
             type="button"
             onClick={onClose}
             aria-label="Close full scope"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/20 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/30 text-[24px] text-black transition-colors duration-300 hover:bg-black hover:text-white"
           >
             ×
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
-          <p className="max-w-2xl text-[15px] leading-7 text-black/60 md:text-[17px]">
+          <p className="max-w-2xl text-[15px] leading-7 text-white/80 md:text-[17px]">
             {offer.description}
           </p>
 
@@ -949,9 +867,9 @@ function ScopeModal({
             {offer.groups.map((group) => (
               <section
                 key={group.title}
-                className="border-t border-black/15 py-6"
+                className="border-t border-black/25 py-6"
               >
-                <h3 className={`${archivo.className} text-[20px] font-black uppercase`}>
+                <h3 className={`${archivo.className} text-[20px] font-black uppercase text-black`}>
                   {group.title}
                 </h3>
 
@@ -959,11 +877,11 @@ function ScopeModal({
                   {group.items.map((item) => (
                     <div
                       key={item}
-                      className="flex gap-3 text-[13px] leading-5 text-black/55 md:text-[14px]"
+                      className="flex gap-3 text-[13px] leading-5 text-white/75 md:text-[14px]"
                     >
                       <Check
                         size={14}
-                        className="mt-[3px] shrink-0 text-orange"
+                        className="mt-[3px] shrink-0 text-black"
                       />
 
                       <span>{item}</span>
@@ -974,25 +892,25 @@ function ScopeModal({
             ))}
           </div>
 
-          <div className="mt-3 border-t border-black/15 pt-7">
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
+          <div className="mt-3 border-t border-black/25 pt-7">
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black">
               The outcome
             </p>
 
-            <p className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-black/75 md:text-[32px] md:leading-10`}>
+            <p className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-white/90 md:text-[32px] md:leading-10`}>
               {offer.outcome}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-black/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
-          <p className="text-[11px] leading-5 text-black/40">
+        <div className="flex flex-col gap-4 border-t border-black/25 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <p className="text-[11px] leading-5 text-white/65">
             Final scope and investment are confirmed after discovery.
           </p>
 
           <Link
             href="/start-a-project"
-            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
+            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-white px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-black hover:text-white"
           >
             Start a project
 
@@ -1191,6 +1109,217 @@ function DigitalScopeModal({
           <Link
             href="/start-a-project"
             className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
+          >
+            Start a project
+
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                         STEWARDSHIP CARD                                   */
+/* -------------------------------------------------------------------------- */
+
+function StewardshipCard({
+  plan,
+  index,
+  onOpen,
+}: {
+  plan: (typeof stewardship)[number];
+  index: number;
+  onOpen: () => void;
+}) {
+  const isWide = index === 2;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        duration: 0.55,
+        delay: index * 0.06,
+        ease,
+      }}
+      className={`border-b border-black/20 ${
+        index === 0 ? 'md:border-r' : ''
+      } ${isWide ? 'md:col-span-2' : ''}`}
+    >
+      <button
+        type="button"
+        onClick={onOpen}
+        className="group w-full px-6 py-9 text-left transition-colors duration-300 hover:bg-white/10 md:px-9 md:py-11"
+      >
+        <div
+          className={`${
+            isWide
+              ? 'md:grid md:grid-cols-[1fr_.8fr] md:items-end md:gap-12'
+              : ''
+          }`}
+        >
+          <div>
+            <div className="flex items-start justify-between gap-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/50">
+                Stewardship / {plan.number}
+              </p>
+
+              <ArrowUpRight
+                size={19}
+                className="shrink-0 text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+              />
+            </div>
+
+            <h3 className={`${archivo.className} mt-10 text-[38px] font-black uppercase leading-none text-white md:text-[46px] lg:text-[52px]`}>
+              {plan.title}
+            </h3>
+
+            <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-black md:text-[28px]`}>
+              {plan.price}
+            </p>
+          </div>
+
+          <div className={isWide ? 'mt-7 md:mt-0' : ''}>
+            <p className="max-w-md text-[14px] leading-6 text-black/65 md:text-[15px]">
+              {plan.description}
+            </p>
+
+            <p className={`${cormorant.className} mt-5 text-[20px] italic text-black/70`}>
+              {plan.detail}
+            </p>
+
+            <div className="mt-8">
+              <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-black">
+                View full scope
+                <ArrowUpRight
+                  size={14}
+                  className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </button>
+    </motion.article>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                      STEWARDSHIP SCOPE MODAL                               */
+/* -------------------------------------------------------------------------- */
+
+function StewardshipScopeModal({
+  plan,
+  onClose,
+}: {
+  plan: (typeof stewardship)[number];
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/70 p-3 backdrop-blur-sm md:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`stewardship-scope-${plan.number}`}
+      onMouseDown={(event) => {
+        if (event.currentTarget === event.target) {
+          onClose();
+        }
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.985 }}
+        transition={{ duration: 0.35, ease }}
+        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#111111] text-[#f2eee7] shadow-2xl"
+      >
+        <div className="flex items-start justify-between gap-8 border-b border-white/15 px-6 py-6 md:px-10 md:py-8">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-white/35">
+              Stewardship / {plan.number}
+            </p>
+
+            <h2
+              id={`stewardship-scope-${plan.number}`}
+              className={`${archivo.className} mt-3 text-[40px] font-black uppercase leading-none md:text-[58px]`}
+            >
+              {plan.title}
+            </h2>
+
+            <p className={`${cormorant.className} mt-3 text-[27px] font-semibold italic text-orange md:text-[31px]`}>
+              {plan.price}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close stewardship scope"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
+          <p className="max-w-2xl text-[15px] leading-7 text-white/60 md:text-[17px]">
+            {plan.description}
+          </p>
+
+          <p className={`${cormorant.className} mt-4 text-[23px] italic text-white/70`}>
+            {plan.detail}
+          </p>
+
+          <section className="mt-8 border-t border-white/15 py-6">
+            <h3 className={`${archivo.className} text-[20px] font-black uppercase`}>
+              What&apos;s included
+            </h3>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {plan.items.map((item) => (
+                <div
+                  key={item}
+                  className="flex gap-3 text-[13px] leading-5 text-white/55 md:text-[14px]"
+                >
+                  <Check
+                    size={14}
+                    className="mt-[3px] shrink-0 text-orange"
+                  />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-3 border-t border-white/15 pt-7">
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
+              Best for
+            </p>
+
+            <p className={`${cormorant.className} mt-3 max-w-2xl text-[27px] leading-9 text-white/75 md:text-[32px] md:leading-10`}>
+              {plan.bestFor}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 border-t border-white/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <p className="text-[11px] leading-5 text-white/35">
+            Hours reset monthly. Larger redesigns and development projects are scoped separately.
+          </p>
+
+          <Link
+            href="/start-a-project"
+            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-orange px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-[#f2eee7]"
           >
             Start a project
 
