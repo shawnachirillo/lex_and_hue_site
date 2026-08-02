@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import FeaturedCaseStudies from '@/components/FeaturedCaseStudies';
 
 function TypewriterEyebrow({
   text,
@@ -263,7 +264,9 @@ useEffect(() => {
 </Link>
 
         <nav className="hidden gap-8 text-[11px] uppercase md:flex">
-          <a href="#work">Work</a>
+        <Link href="/case-studies">
+  Case Studies
+</Link>
           <a href="#approach">Approach</a>
           <a href="#services">Services</a>
           <Link href="/pricing">
@@ -308,14 +311,12 @@ useEffect(() => {
             className="fixed inset-0 z-40 flex flex-col justify-end bg-ink p-7 text-bone md:hidden"
           >
             <div className="mb-8 flex flex-col gap-3 text-[48px]">
-              <a
-                onClick={() =>
-                  setMenuOpen(false)
-                }
-                href="#work"
+              <Link
+                href="/case-studies"
+                onClick={() => setMenuOpen(false)}
               >
-                Work
-              </a>
+                Case Studies
+              </Link>
 
               <a
                 onClick={() =>
@@ -463,17 +464,17 @@ useEffect(() => {
     />
   </Link>
 
-  <a
-    href="#work"
-    className="group inline-flex items-center gap-4 rounded-full border border-white/30 px-7 py-4 text-[12px] font-bold uppercase text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
-  >
-    View case studies
+  <Link
+  href="/case-studies"
+  className="group inline-flex items-center gap-4 rounded-full border border-white/30 px-7 py-4 text-[12px] font-bold uppercase text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+>
+  View case studies
 
-    <ArrowDownRight
-      size={17}
-      className="transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"
-    />
-  </a>
+  <ArrowDownRight
+    size={17}
+    className="transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"
+  />
+</Link>
 </div>
   </div>
 </div>
@@ -682,17 +683,17 @@ useEffect(() => {
           }}
           className="mt-14 flex justify-end"
         >
-          <a
-            href="#work"
-            className="group inline-flex items-center gap-4 border-b border-black pb-2 text-[14px] font-semibold uppercase transition-colors hover:border-orange hover:text-orange"
-          >
-            View case studies
+                <Link
+                  href="/case-studies"
+                  className="group inline-flex items-center gap-4 border-b border-black pb-2 text-[14px] font-semibold uppercase transition-colors hover:border-orange hover:text-orange"
+                >
+                  View case studies
 
-            <ArrowDownRight
-              size={17}
-              className="transition-transform group-hover:translate-x-1 group-hover:translate-y-1"
-            />
-          </a>
+                  <ArrowDownRight
+                    size={17}
+                    className="transition-transform group-hover:translate-x-1 group-hover:translate-y-1"
+                  />
+                </Link>
         </motion.div>
       </div>
     </div>
