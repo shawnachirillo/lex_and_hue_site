@@ -105,7 +105,7 @@ const transformations = [
   },
 
   {
-    // number: '02',
+    number: '02',
     name: 'Reinvent',
     price: 'from $6,500',
     description:
@@ -310,6 +310,7 @@ const digital = [
       'Basic SEO observations',
       'Prioritized recommendations',
     ],
+    bestFor:'Businesses that know something isn\'t working but aren\'t sure what yet. Perfect before investing in a redesign or larger website project.'
   },
   {
     // number: '02',
@@ -323,6 +324,7 @@ const digital = [
       'Priority roadmap',
       'Recommended next steps',
     ],
+    bestFor:'Businesses ready to improve their website with a clear roadmap and prioritized action plan before committing to design or development.'
   },
   {
     // number: '03',
@@ -341,6 +343,7 @@ const digital = [
       'Analytics',
       'Launch',
     ],
+    bestFor:'Businesses that need a polished, strategic website built on Squarespace, Showit or Wix without the complexity of custom development.'
   },
   {
     // number: '04',
@@ -359,6 +362,7 @@ const digital = [
       'Analytics',
       'Deployment',
     ],
+    bestFor:'Brands that need a fully custom website, advanced functionality, unique interactions, or a digital experience that can\'t be achieved with a website builder.'
   },
 ];
 
@@ -366,10 +370,10 @@ const stewardship = [
   {
     // number: '01',
     title: 'Essential',
-    price: '$300 / mo',
+    price: 'starting at $150 / mo',
     description:
       'For occasional updates and small refinements.',
-    detail: 'Up to 2 hours per month',
+    // detail: 'Up to 3 hours per month',
     items: [
       'Content and copy updates',
       'Image swaps and light page edits',
@@ -383,10 +387,10 @@ const stewardship = [
   {
     // number: '02',
     title: 'Growth',
-    price: '$600 / mo',
+    price: 'starting at $300 / mo',
     description:
       'For brands that need regular changes, new content and ongoing refinement.',
-    detail: 'Up to 5 hours per month',
+    // detail: 'Up to 5 hours per month',
     items: [
       'Everything in Essential',
       'New sections and landing pages',
@@ -401,10 +405,10 @@ const stewardship = [
   {
     // number: '03',
     title: 'Partner',
-    price: '$1,000 / mo',
+    price: 'starting at $500 / mo',
     description:
       'For businesses that want an ongoing digital design and web partner.',
-    detail: 'Up to 8–10 hours per month',
+    detail: '',
     items: [
       'Everything in Growth',
       'Priority design and development support',
@@ -487,37 +491,44 @@ export default function PricingPage() {
           </p>
 
           <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
-            Choose the level of
+          When your business needs
 
             <span
               className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-black`}
             >
-              transformation.
+              a transformation.
             </span>
           </h2>
-
+         
           <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-bone/75 md:text-base">
             These are not logo packages. They are progressively deeper
             engagements built around how much of the business needs to evolve.
           </p>
-        </div>
+          </div>
+      
       </section>
 
-      {/* TRANSFORMATION OFFERS */}
+     {/* TRANSFORMATION OFFERS */}
 
-      <section className="border-b border-black/25 bg-orange text-bone">
-        <div className="mx-auto grid max-w-[1600px] border-t border-black/25 md:grid-cols-3">
-          {transformations.map((offer, index) => (
-            <TransformationCard
-              key={offer.name}
-              offer={offer}
-              index={index}
-              onOpen={() => setSelectedOffer(offer)}
-            />
-          ))}
-        </div>
-      </section>
+<section className="border-b border-black/25 bg-orange text-bone">
+  <div className="mx-auto max-w-[1600px]">
+    <div className="grid border-t border-black/20 md:grid-cols-3">
+      {transformations.map((offer, index) => (
+        <TransformationCard
+          key={offer.name}
+          offer={offer}
+          index={index}
+          onOpen={() => setSelectedOffer(offer)}
+        />
+      ))}
+    </div>
 
+    {/* Bottom breathing room + divider */}
+    <div className="px-6 md:px-12 lg:px-16 pt-10 pb-12">
+      <div className="border-t border-black/20" />
+    </div>
+  </div>
+</section>
       {/* DIGITAL INTRO */}
 
       <section
@@ -530,7 +541,7 @@ export default function PricingPage() {
           </p>
 
           <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
-            When the website
+            When the website only
 
             <span
               className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
@@ -538,12 +549,14 @@ export default function PricingPage() {
               needs the work.
             </span>
           </h2>
+          
 
           <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-black/50 md:text-base">
             Standalone digital work for businesses whose brand still works,
             but whose website no longer does.
           </p>
         </div>
+        
       </section>
 
       {/* DIGITAL OFFERS */}
@@ -565,13 +578,7 @@ export default function PricingPage() {
 
       <section className="border-b border-black/15 px-6 py-7 md:px-10">
         <div className="mx-auto max-w-[1500px]">
-          <p className="max-w-4xl text-[11px] leading-6 text-black/40">
-            Platform website pricing generally assumes
-            approximately 5–7 primary pages. Ecommerce,
-            advanced integrations, large content libraries,
-            custom functionality and expanded page counts
-            are scoped separately.
-          </p>
+          
         </div>
       </section>
 
@@ -579,30 +586,30 @@ export default function PricingPage() {
 
       <section
         id="stewardship"
-        className="bg-orange text-black"
+        className="bg-[#111111] text-[#f2eee7]"
       >
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
-          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/55">
+          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-white/40">
             Ongoing support
           </p>
 
-          <h2 className={`${archivo.className} mt-7 max-w-[900px] text-[48px] font-black uppercase leading-[.88] text-white sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
+          <h2 className={`${archivo.className} mt-7 max-w-[900px] text-[48px] font-black uppercase leading-[.88] text-[#f2eee7] sm:text-[58px] md:text-[72px] lg:text-[88px]`}>
             Site
 
             <span
-              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-black`}
+              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
             >
               Stewardship.
             </span>
           </h2>
 
-          <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-black/65 md:text-base">
+          <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-white/55 md:text-base">
             Ongoing updates, refinements and redesign support after launch.
             Choose the level of partnership your site actually needs.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-[1600px] border-t border-black/20 md:grid-cols-2">
+        <div className="mx-auto grid max-w-[1600px] border-t border-white/15 md:grid-cols-3">
           {stewardship.map((plan, index) => (
             <StewardshipCard
               key={plan.title}
@@ -613,12 +620,8 @@ export default function PricingPage() {
           ))}
         </div>
 
-        <div className="mx-auto max-w-[1600px] border-t border-black/20 px-6 py-7 md:px-10">
-          <p className="max-w-[900px] text-[11px] leading-6 text-black/55">
-            Stewardship may include content updates, layout refinements,
-            landing pages, campaign changes, CMS management and ongoing visual
-            improvements. Larger redesign and development projects are scoped separately.
-          </p>
+        <div className="mx-auto max-w-[1600px] border-t border-white/15 px-6 py-7 md:px-10">
+         
         </div>
       </section>
 
@@ -628,34 +631,32 @@ export default function PricingPage() {
         <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-24 md:px-12 lg:grid-cols-[1fr_.4fr] lg:items-end lg:px-16 lg:py-28">
 
           <div>
-            <p className="text-[10px] font-medium uppercase ">
-              Not sure where you fit?
-            </p>
+          
 
             <h2 className="mt-7 max-w-[1000px] text-[clamp(4rem,8vw,8rem)] font-black uppercase leading-[.8] ">
-              Tell us
+            Not sure where you fit?
 
               <span
-                className={`${cormorant.className} ml-[.15em] inline-block font-medium italic normal-case `}
+                className={`${cormorant.className} ml-[.15em] inline-block font-medium italic text-bone normal-case `}
               >
-                what changed.
+                Contact Us
               </span>
             </h2>
           </div>
 
           <div>
-            <p className="max-w-md text-base leading-7">
+            {/* <p className="max-w-md text-base leading-7">
               You do not need to know which package
               you need before reaching out. Tell us
               where the business is and where it is
               going. We will help determine the scope.
-            </p>
+            </p> */}
 
             <Link
               href="/start-a-project"
               className="group mt-10 inline-flex items-center gap-5 rounded-full bg-black px-8 py-5 text-[10px] font-bold uppercase tracking-[.15em] text-white transition-all duration-300 hover:bg-[#f2eee7] hover:text-black"
             >
-              Start a project
+              Tell Us What You Need
 
               <ArrowUpRight
                 size={17}
@@ -854,7 +855,7 @@ function ScopeModal({
             aria-label="Close full scope"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/30 text-[24px] text-black transition-colors duration-300 hover:bg-black hover:text-white"
           >
-            ×
+            
           </button>
         </div>
 
@@ -905,7 +906,7 @@ function ScopeModal({
 
         <div className="flex flex-col gap-4 border-t border-black/25 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
           <p className="text-[11px] leading-5 text-white/65">
-            Final scope and investment are confirmed after discovery.
+           
           </p>
 
           <Link
@@ -959,7 +960,7 @@ function DigitalOfferCard({
       >
         <div className="flex items-start justify-between gap-6">
           <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-            Digital / {service.number}
+            Digital service
           </p>
 
           <ArrowUpRight
@@ -1015,7 +1016,7 @@ function DigitalScopeModal({
       className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
       role="dialog"
       aria-modal="true"
-      aria-labelledby={`digital-scope-${service.number}`}
+      aria-labelledby={`digital-scope-${service.title.toLowerCase().replace(/\s+/g, '-')}`}
       onMouseDown={(event) => {
         if (event.currentTarget === event.target) {
           onClose();
@@ -1032,11 +1033,11 @@ function DigitalScopeModal({
         <div className="flex items-start justify-between gap-8 border-b border-black/15 px-6 py-6 md:px-10 md:py-8">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-              Digital service / {service.number}
+              Digital service
             </p>
 
             <h2
-              id={`digital-scope-${service.number}`}
+              id={`digital-scope-${service.title.toLowerCase().replace(/\s+/g, '-')}`}
               className={`${archivo.className} mt-3 max-w-[720px] text-[38px] font-black uppercase leading-[.95] md:text-[54px]`}
             >
               {service.title}
@@ -1089,14 +1090,7 @@ function DigitalScopeModal({
             </p>
 
             <p className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-black/75 md:text-[32px] md:leading-10`}>
-              {service.number === '01' &&
-                'Businesses that need clarity before investing in a redesign.'}
-              {service.number === '02' &&
-                'Businesses ready to turn an audit into a focused, prioritized plan.'}
-              {service.number === '03' &&
-                'Brands that need a polished, manageable website on a trusted platform.'}
-              {service.number === '04' &&
-                'Brands that need custom interaction, development and greater control.'}
+              {service.bestFor}
             </p>
           </div>
         </div>
@@ -1136,8 +1130,6 @@ function StewardshipCard({
   index: number;
   onOpen: () => void;
 }) {
-  const isWide = index === 2;
-
   return (
     <motion.article
       initial={{ opacity: 0, y: 22 }}
@@ -1148,62 +1140,50 @@ function StewardshipCard({
         delay: index * 0.06,
         ease,
       }}
-      className={`border-b border-black/20 ${
-        index === 0 ? 'md:border-r' : ''
-      } ${isWide ? 'md:col-span-2' : ''}`}
+      className={`border-b border-white/15 md:border-b-0 ${
+        index !== stewardship.length - 1 ? 'md:border-r md:border-white/15' : ''
+      }`}
     >
       <button
         type="button"
         onClick={onOpen}
-        className="group w-full px-6 py-9 text-left transition-colors duration-300 hover:bg-white/10 md:px-9 md:py-11"
+        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-white/[0.04] md:px-9 md:py-12"
       >
-        <div
-          className={`${
-            isWide
-              ? 'md:grid md:grid-cols-[1fr_.8fr] md:items-end md:gap-12'
-              : ''
-          }`}
-        >
-          <div>
-            <div className="flex items-start justify-between gap-6">
-              <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/50">
-                Stewardship / {plan.number}
-              </p>
+        <div className="flex items-start justify-between gap-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-white/35">
+            Stewardship
+          </p>
 
-              <ArrowUpRight
-                size={19}
-                className="shrink-0 text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-              />
-            </div>
+          <ArrowUpRight
+            size={19}
+            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+          />
+        </div>
 
-            <h3 className={`${archivo.className} mt-10 text-[38px] font-black uppercase leading-none text-white md:text-[46px] lg:text-[52px]`}>
-              {plan.title}
-            </h3>
+        <h3 className={`${archivo.className} mt-10 text-[38px] font-black uppercase leading-none text-[#f2eee7] md:text-[46px] lg:text-[52px]`}>
+          {plan.title}
+        </h3>
 
-            <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-black md:text-[28px]`}>
-              {plan.price}
-            </p>
-          </div>
+        <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-orange md:text-[28px]`}>
+          {plan.price}
+        </p>
 
-          <div className={isWide ? 'mt-7 md:mt-0' : ''}>
-            <p className="max-w-md text-[14px] leading-6 text-black/65 md:text-[15px]">
-              {plan.description}
-            </p>
+        <p className="mt-7 max-w-md text-[14px] leading-6 text-white/55 md:text-[15px]">
+          {plan.description}
+        </p>
 
-            <p className={`${cormorant.className} mt-5 text-[20px] italic text-black/70`}>
-              {plan.detail}
-            </p>
+        <p className={`${cormorant.className} mt-5 text-[20px] italic text-white/65`}>
+          {plan.detail}
+        </p>
 
-            <div className="mt-8">
-              <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-black">
-                View full scope
-                <ArrowUpRight
-                  size={14}
-                  className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                />
-              </span>
-            </div>
-          </div>
+        <div className="mt-auto pt-9">
+          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-[#f2eee7]">
+            View full scope
+            <ArrowUpRight
+              size={14}
+              className="text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </span>
         </div>
       </button>
     </motion.article>
@@ -1229,7 +1209,7 @@ function StewardshipScopeModal({
       className="fixed inset-0 z-[100] bg-black/70 p-3 backdrop-blur-sm md:p-6"
       role="dialog"
       aria-modal="true"
-      aria-labelledby={`stewardship-scope-${plan.number}`}
+      aria-labelledby={`stewardship-scope-${plan.title.toLowerCase().replace(/\s+/g, '-')}`}
       onMouseDown={(event) => {
         if (event.currentTarget === event.target) {
           onClose();
@@ -1246,11 +1226,11 @@ function StewardshipScopeModal({
         <div className="flex items-start justify-between gap-8 border-b border-white/15 px-6 py-6 md:px-10 md:py-8">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-white/35">
-              Stewardship / {plan.number}
+              Stewardship
             </p>
 
             <h2
-              id={`stewardship-scope-${plan.number}`}
+              id={`stewardship-scope-${plan.title.toLowerCase().replace(/\s+/g, '-')}`}
               className={`${archivo.className} mt-3 text-[40px] font-black uppercase leading-none md:text-[58px]`}
             >
               {plan.title}
