@@ -726,71 +726,76 @@ useEffect(() => {
           </div>
         </div>
       </section> */}
-   {/* PROCESS */}
-<section
-  id="services"
-  className="bg-ink px-5 py-24 text-bone md:px-10 md:py-28"
->
-  <div className="mx-auto max-w-[1500px]">
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="mb-16 grid gap-10 lg:grid-cols-[1fr_.38fr] lg:items-end"
-    >
-      <div>
-        <TypewriterEyebrow text="How We Work" />
-
-        <h2 className="mt-6 max-w-[900px] text-[52px] font-black uppercase leading-[.9] md:text-[72px] lg:text-[88px]">
-          Our process
-          <span className="block font-serif text-[34px] font-normal italic normal-case text-orange md:text-[44px] lg:text-[52px]">
-            behind every shift.
-          </span>
-        </h2>
-      </div>
-
-     
-    </motion.div>
-
-    <div className="border-t border-white/15">
-      {processSteps.map((step, index) => (
-        <ProcessRow
-          key={step.number}
-          step={step}
-          defaultOpen={index === 0}
-        />
-      ))}
-    </div>
-
-    <motion.div
-      initial={{ opacity: 0, x: 40 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.7,
-        delay: 0.2,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="mt-14 flex justify-end"
-    >
-      <Link
-        href="/start-a-project"
-        className="group inline-flex items-center gap-4 rounded-full bg-orange px-7 py-4 text-[12px] font-bold uppercase text-black transition-all duration-300 hover:bg-bone"
+      {/* PROCESS */}
+      <section
+        id="services"
+        className="bg-ink text-bone"
       >
-        Start a project
+        <div className="grid min-h-[75vh] lg:grid-cols-2">
+          {/* LEFT HALF: PROCESS ACCORDION */}
+          <div className="flex min-h-[75vh] flex-col  px-5 py-10 md:px-10 md:py-12 ">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{
+                duration: 0.65,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mb-20"
+            >
+              <TypewriterEyebrow text="How We Work" />
 
-        <ArrowUpRight
-          size={17}
-          className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-        />
-      </Link>
-    </motion.div>
-  </div>
-</section>
+              <h2 className="mt-8 text-[38px] font-black uppercase leading-[.88] md:text-[48px] lg:text-[52px] xl:text-[58px]">
+                Our process
+                <span className="mt-1 block font-serif text-[24px] font-normal italic normal-case text-orange md:text-[30px] lg:text-[34px]">
+                  behind every shift.
+                </span>
+              </h2>
+            </motion.div>
+
+            <div className="flex-1 border-t border-white/15">
+              {processSteps.map((step, index) => (
+                <ProcessRow
+                  key={step.number}
+                  step={step}
+                  defaultOpen={index === 0}
+                />
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-7 flex justify-end translate-x-20"
+            >
+              <Link
+                href="/start-a-project"
+                className="group inline-flex items-center gap-4 rounded-full bg-orange px-6 py-3 text-[11px] font-bold uppercase text-black transition-all duration-300 hover:bg-bone"
+              >
+                Start a project
+
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* RIGHT HALF: INTENTIONALLY EMPTY FOR FUTURE IMAGE */}
+          <div
+            aria-hidden="true"
+            className="hidden min-h-[75vh] bg-ink lg:block"
+          />
+        </div>
+      </section>
 
       {/* CTA */}
       <section
@@ -882,31 +887,30 @@ function ProcessRow({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-white/15">
+    <div className="group/row border-b border-white/15 transition-colors duration-300 hover:border-orange">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="group w-full py-5 text-left md:py-6"
+        className="group w-full py-3.5 text-left md:py-4"
       >
-        <div className="grid items-start gap-4 md:grid-cols-[48px_1fr_auto] md:items-center">
-
-          <span className="text-[10px] text-white/35 transition-colors duration-300 group-hover:text-orange">
+        <div className="grid items-start gap-3 sm:grid-cols-[34px_1fr_auto] sm:items-center">
+          <span className="text-[9px] text-white/30 transition-colors duration-300 group-hover:text-orange">
             {step.number}
           </span>
 
           <div>
-          <h3
-  className={`text-[44px] md:text-[56px] font-black uppercase leading-[0.92] transition-colors duration-300 ${
-    open
-      ? "text-orange"
-      : "text-bone group-hover:text-orange"
-  }`}
->
-  {step.title}
-</h3>
+            <h3
+              className={`text-[27px] font-black uppercase leading-[.9] transition-colors duration-300 md:text-[32px] lg:text-[34px] xl:text-[38px] ${
+                open
+                  ? 'text-orange'
+                  : 'text-bone group-hover:text-orange'
+              }`}
+            >
+              {step.title}
+            </h3>
 
-            <p className="mt-3 max-w-2xl font-sans text-[15px] leading-6 text-white/45 md:text-[16px]">
+            <p className="mt-1.5 max-w-lg font-sans text-[12px] leading-5 text-white/40 transition-colors duration-300 group-hover:text-white/65 md:text-[13px]">
               {step.summary}
             </p>
           </div>
@@ -918,7 +922,7 @@ function ProcessRow({
             transition={{
               duration: 0.25,
             }}
-            className="text-2xl font-light leading-none text-orange"
+            className="text-xl font-light leading-none text-orange transition-transform duration-300 group-hover:scale-110"
           >
             +
           </motion.span>
@@ -946,8 +950,8 @@ function ProcessRow({
             }}
             className="overflow-hidden"
           >
-            <div className="pb-6 md:ml-12 md:pb-7">
-              <p className="max-w-3xl font-sans text-[16px] leading-7 text-white/60 md:text-[18px] md:leading-8">
+            <div className="pb-4 sm:ml-[46px]">
+              <p className="max-w-lg font-sans text-[13px] leading-6 text-white/58 md:text-[14px]">
                 {step.detail}
               </p>
             </div>
@@ -957,6 +961,7 @@ function ProcessRow({
     </div>
   );
 }
+
 function RealityAccordion() {
   const [active, setActive] = useState<number | null>(0);
 
