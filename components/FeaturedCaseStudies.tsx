@@ -233,8 +233,6 @@ function CaseStudyCard({
             }}
           />
 
-          
-
           <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
             <motion.div
               initial={{
@@ -260,7 +258,7 @@ function CaseStudyCard({
               </p>
 
               <div className="flex items-end justify-between gap-5">
-                <h3 className="max-w-[12ch] text-[28px] font-black uppercase leading-[.9] text-white md:text-[36px]">
+                <h3 className="max-w-[12ch] text-[28px] font-white uppercase leading-[.9] text-white md:text-[36px]">
                   {project.title}
                 </h3>
 
@@ -337,178 +335,232 @@ function CaseStudyModal({
 }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-3 backdrop-blur-sm md:p-6"
+      className="fixed inset-0 z-[100] bg-black/85 p-0 backdrop-blur-sm md:p-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
-      }}
     >
       <motion.div
         role="dialog"
         aria-modal="true"
         aria-labelledby="case-study-title"
-        initial={{
-          opacity: 0,
-          y: 28,
-          scale: 0.985,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        }}
-        exit={{
-          opacity: 0,
-          y: 20,
-          scale: 0.985,
-        }}
-        transition={{
-          duration: 0.35,
-          ease,
-        }}
-        className="relative flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden border border-white/15 bg-ink text-bone shadow-2xl"
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.35, ease }}
+        className="relative mx-auto h-full w-full max-w-[1500px] overflow-hidden bg-bone text-ink shadow-2xl"
       >
-        <header className="flex shrink-0 items-center justify-between border-b border-white/15 px-5 py-4 md:px-7">
+        {/* MODAL BACKGROUND IMAGE */}
+        <motion.div
+  aria-hidden="true"
+  initial={{ opacity: 0, scale: 1.04 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 1.1, ease }}
+  className="pointer-events-none absolute inset-0"
+>
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[]"
+    style={{
+      backgroundImage: "url('/images/doorknob.jpg')",
+    }}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/55" />
+</motion.div>
+
+        {/* MODAL CONTENT */}
+        <div className="relative z-10 flex h-full flex-col">
+          <header className="flex shrink-0 items-center justify-between border-b border-bone/15 bg-bone/80 px-5 py-4 backdrop-blur-[2px] md:px-8">
+          <Link
+            href="/"
+            onClick={onClose}
+            className="text-[14px] font-black uppercase"
+          >
+            Lex & Hue
+          </Link>
+
           <div className="flex items-center gap-4">
-            <span className="text-[10px] uppercase tracking-[.18em] text-white/40">
+            <span className="hidden text-[10px] uppercase tracking-[.18em] text-bonek/45 sm:block">
               {String(projectIndex + 1).padStart(2, '0')} /{' '}
               {String(totalProjects).padStart(2, '0')}
             </span>
 
-            <span className="hidden text-[10px] uppercase tracking-[.16em] text-orange sm:block">
-              {project.category}
-            </span>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/25 transition hover:border-orange hover:bg-orange"
+              aria-label="Close case study"
+            >
+              <X size={17} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition hover:border-orange hover:bg-orange hover:text-black"
-            aria-label="Close case study"
-          >
-            <X size={17} />
-          </button>
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto">
-          <section
-            className="relative min-h-[46vh] overflow-hidden px-5 py-10 md:min-h-[58vh] md:px-10 md:py-14"
-            style={{
-              backgroundImage: `${project.gradient}, url(${project.image})`,
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-            }}
-          >
-            <div className="absolute inset-0 bg-black/25" />
+          {/* INTRO */}
+          <section className="px-5 pb-14 pt-12 md:px-10 md:pb-20 md:pt-16 lg:px-14">
+            <div className="mx-auto max-w-[1280px]">
+             
 
-            <div className="relative z-10 flex min-h-[38vh] flex-col justify-between md:min-h-[46vh]">
-              <TypewriterEyebrow
-                text={project.eyebrow}
-                className="text-white/75"
-              />
+            <div className="grid gap-10 lg:grid-cols-[.72fr_.28fr] lg:items-end">
+                <div>
+                 
+                  <motion.h2
+                    id="case-study-title"
+                    key={project.slug}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, ease }}
+                    className="mt-5 max-w-[12ch] text-[52px] font-black uppercase leading-[.85] text-white md:text-[76px] lg:text-[96px]"
+                  >
+                    {project.title}
+                  </motion.h2>
+
+                  <motion.p
+                    key={`${project.slug}-caption`}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.12, ease }}
+                    className="mt-7 max-w-3xl text-lg leading-8 text-white/80 md:text-xl"
+                  >
+                    {project.caption}
+                  </motion.p>
+                </div>
+
+                <Link
+                  href="/start-a-project"
+                  onClick={onClose}
+                  className="group inline-flex w-fit items-center gap-4 rounded-full bg-orange px-7 py-4 text-[11px] font-bold uppercase text-black transition hover:bg-black hover:text-white"
+                >
+                  Start a project
+                  <ArrowUpRight
+                    size={17}
+                    className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+
+              <div className="mt-12 grid gap-px bg-black/45 backdrop-blur-sm md:grid-cols-4">
+                <MetaBlock label="Client" value={project.title} />
+                <MetaBlock label="Services" value={project.services.join(' / ')} />
+                <MetaBlock label="Location" value="Milwaukee, USA" />
+                <MetaBlock label="Timeline" value="Project based" />
+              </div>
+            </div>
+          </section>
+
+          {/* HERO VISUAL */}
+          <section className="px-5 md:px-10 lg:px-14">
+            <div
+              className="mx-auto aspect-[16/8] max-w-[1280px] overflow-hidden border border-black/10"
+              style={{
+                backgroundImage: `${project.gradient}, url(${project.image})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+              }}
+            />
+          </section>
+
+          {/* STORY */}
+          <LongCaseSection
+            eyebrow="The business we met"
+            title="A strong business whose identity no longer reflected its reality."
+            copy={project.overview}
+            mediaLabel="Before / existing brand"
+          />
+
+          <LongCaseSection
+            eyebrow="The challenge"
+            title="The gap was larger than a visual refresh."
+            copy={project.challenge}
+            mediaLabel="Audit / discovery / strategic findings"
+            dark
+          />
+
+          <LongCaseSection
+            eyebrow="The scope that changed"
+            title="The work expanded as the real problem became clear."
+            copy={project.direction}
+            mediaLabel="Strategy / positioning / creative direction"
+          />
+
+          <LongCaseSection
+            eyebrow="The system"
+            title="Every touchpoint needed to tell the same story."
+            copy={`The identity was shaped as a complete system across ${project.services.join(
+              ', '
+            )}. Each part was designed to feel connected rather than treated as an isolated deliverable.`}
+            mediaLabel="Identity system / applications / digital experience"
+            dark
+          />
+
+          <LongCaseSection
+            eyebrow="What the client received"
+            title="A brand capable of carrying what came next."
+            copy={project.outcome}
+            mediaLabel="Final brand / website / rollout"
+          />
+
+          {/* REVIEW */}
+          <section className="bg-orange px-5 py-14 text-black md:px-10 md:py-20 lg:px-14">
+            <div className="mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[.28fr_.72fr]">
+              <p className="text-[10px] font-bold uppercase tracking-[.2em]">
+                Client review
+              </p>
 
               <div>
-                <motion.h2
-                  id="case-study-title"
-                  key={project.slug}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.55, ease }}
-                  className="max-w-[10ch] text-[48px] font-black uppercase leading-[.84] text-white md:text-[78px] lg:text-[96px]"
-                >
-                  {project.title}
-                </motion.h2>
+                <blockquote className="max-w-4xl font-serif text-[34px] italic leading-[1.08] md:text-[52px]">
+                  “The brand finally feels like the business we have already become.”
+                </blockquote>
 
-                <motion.p
-                  key={`${project.slug}-caption`}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.45,
-                    delay: 0.12,
-                    ease,
-                  }}
-                  className="mt-6 max-w-2xl text-base leading-7 text-white/75 md:text-lg"
-                >
-                  {project.caption}
-                </motion.p>
+                <p className="mt-7 text-[11px] font-bold uppercase tracking-[.14em]">
+                  Client name / Founder
+                </p>
               </div>
             </div>
           </section>
 
-          <section className="grid border-b border-white/15 md:grid-cols-[.34fr_.66fr]">
-            <div className="border-b border-white/15 px-5 py-8 md:border-b-0 md:border-r md:px-8 md:py-12">
-              <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-white/35">
-                Scope
-              </p>
+          {/* MORE PROJECTS */}
+          <section className="bg-ink px-5 py-14 text-bone md:px-10 md:py-20 lg:px-14">
+            <div className="mx-auto max-w-[1280px]">
+              <div className="flex items-end justify-between gap-6">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[.18em] text-orange">
+                    Featured projects
+                  </p>
+                  <h3 className="mt-4 text-[38px] font-black uppercase leading-[.9] md:text-[56px]">
+                    Keep exploring.
+                  </h3>
+                </div>
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.services.map((service) => (
-                  <span
-                    key={service}
-                    className="rounded-full border border-white/25 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[.12em] text-white/65"
-                  >
-                    {service}
-                  </span>
-                ))}
+                <button
+                  type="button"
+                  onClick={onNext}
+                  className="group inline-flex items-center gap-3 border-b border-white/30 pb-2 text-[11px] font-bold uppercase transition hover:border-orange hover:text-orange"
+                >
+                  Next case study
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </button>
               </div>
-            </div>
-
-            <div className="px-5 py-8 md:px-10 md:py-12">
-              <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-orange">
-                The business
-              </p>
-
-              <p className="mt-5 max-w-3xl font-serif text-[28px] leading-[1.08] text-white md:text-[38px]">
-                {project.overview}
-              </p>
             </div>
           </section>
 
-          <CaseSection
-            number="01"
-            eyebrow="Discover"
-            title="What needed to change"
-            copy={project.challenge}
-          />
-
-          <CaseSection
-            number="02"
-            eyebrow="Define"
-            title="The direction"
-            copy={project.direction}
-            alternate
-          />
-
-          <CaseSection
-            number="03"
-            eyebrow="Design + Introduce"
-            title="What the new system made possible"
-            copy={project.outcome}
-          />
-
-          <section className="bg-orange px-5 py-12 text-black md:px-10 md:py-16">
-            <TypewriterEyebrow
-              text="Your next chapter"
-              className="text-black/65"
-            />
-
-            <div className="mt-6 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <h3 className="max-w-[12ch] text-[44px] font-black uppercase leading-[.86] md:text-[64px]">
-                Ready to make the shift visible?
+          {/* CTA */}
+          <section className="bg-bone px-5 py-14 md:px-10 md:py-20 lg:px-14">
+            <div className="mx-auto flex max-w-[1280px] flex-col gap-8 border-t border-black/15 pt-10 md:flex-row md:items-end md:justify-between">
+              <h3 className="max-w-[10ch] text-[48px] font-black uppercase leading-[.85] md:text-[70px]">
+                Ready to start the project?
               </h3>
 
               <Link
                 href="/start-a-project"
                 onClick={onClose}
-                className="group inline-flex w-fit items-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition hover:bg-bone hover:text-black"
+                className="group inline-flex w-fit items-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition hover:bg-orange hover:text-black"
               >
-                Start a project
-
+                Start project
                 <ArrowUpRight
                   size={17}
                   className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
@@ -518,11 +570,11 @@ function CaseStudyModal({
           </section>
         </div>
 
-        <footer className="flex shrink-0 items-center justify-between border-t border-white/15 bg-ink px-5 py-4 md:px-7">
+          <footer className="flex shrink-0 items-center justify-between border-t border-black/15 bg-bone/80 px-5 py-4 backdrop-blur-[2px] md:px-8">
           <button
             type="button"
             onClick={onPrevious}
-            className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-white/55 transition hover:text-orange"
+            className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-black/50 transition hover:text-orange"
           >
             <ArrowLeft
               size={15}
@@ -534,7 +586,7 @@ function CaseStudyModal({
           <button
             type="button"
             onClick={onNext}
-            className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-white/55 transition hover:text-orange"
+            className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-black/50 transition hover:text-orange"
           >
             Next
             <ArrowRight
@@ -542,60 +594,91 @@ function CaseStudyModal({
               className="transition-transform group-hover:translate-x-1"
             />
           </button>
-        </footer>
+          </footer>
+        </div>
       </motion.div>
     </motion.div>
   );
 }
 
-function CaseSection({
-  number,
+function MetaBlock({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="bg-transparent px-5 py-5">
+      <p className="text-[9px] font-bold uppercase tracking-[.18em] text-white/60">
+        {label}
+      </p>
+      <p className="mt-2 text-sm font-semibold uppercase leading-5 text-white">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function LongCaseSection({
   eyebrow,
   title,
   copy,
-  alternate = false,
+  mediaLabel,
+  dark = false,
 }: {
-  number: string;
   eyebrow: string;
   title: string;
   copy: string;
-  alternate?: boolean;
+  mediaLabel: string;
+  dark?: boolean;
 }) {
   return (
     <section
-      className={`grid border-b border-white/15 px-5 py-12 md:grid-cols-[.28fr_.72fr] md:px-10 md:py-16 ${
-        alternate ? 'bg-white/[0.035]' : 'bg-ink'
+      className={`px-5 py-14 md:px-10 md:py-20 lg:px-14 ${
+        dark ? 'bg-ink text-bone' : 'bg-bone text-ink'
       }`}
     >
-      <div>
-        <span className="text-[10px] text-white/30">
-          {number}
-        </span>
+      <div className="mx-auto max-w-[1280px]">
+        <div className="grid gap-10 lg:grid-cols-[.28fr_.72fr]">
+          <p
+            className={`text-[10px] font-bold uppercase tracking-[.2em] ${
+              dark ? 'text-orange' : 'text-orange'
+            }`}
+          >
+            {eyebrow}
+          </p>
 
-        <p className="mt-4 text-[10px] font-semibold uppercase tracking-[.18em] text-orange">
-          {eyebrow}
-        </p>
-      </div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.55, ease }}
+          >
+            <h3 className="max-w-[16ch] text-[36px] font-black uppercase leading-[.9] md:text-[52px]">
+              {title}
+            </h3>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.5, ease }}
-      >
-        <h3 className="max-w-[15ch] text-[34px] font-black uppercase leading-[.9] md:text-[48px]">
-          {title}
-        </h3>
-
-        <p className="mt-6 max-w-3xl text-base leading-7 text-white/60 md:text-lg md:leading-8">
-          {copy}
-        </p>
+            <p
+              className={`mt-7 max-w-3xl text-base leading-8 md:text-lg ${
+                dark ? 'text-white/60' : 'text-black/60'
+              }`}
+            >
+              {copy}
+            </p>
+          </motion.div>
+        </div>
 
         <div
-          aria-hidden="true"
-          className="mt-10 aspect-[16/7] w-full border border-white/10 bg-white/[0.035]"
-        />
-      </motion.div>
+          className={`mt-12 flex aspect-[16/8] items-center justify-center border text-[10px] font-bold uppercase tracking-[.18em] ${
+            dark
+              ? 'border-white/15 bg-white/[0.035] text-white/30'
+              : 'border-black/10 bg-black/[0.025] text-black/30'
+          }`}
+        >
+          {mediaLabel}
+        </div>
+      </div>
     </section>
   );
 }
@@ -714,9 +797,7 @@ export default function FeaturedCaseStudies() {
             className="grid gap-10 border-b border-white/15 pb-12 lg:grid-cols-[1fr_.55fr] lg:items-end"
           >
             <div>
-             
-
-              <h2 className="mt-5 max-w-[12ch] text-[44px] font-black uppercase leading-[.88] md:text-[58px] lg:text-[68px]">
+              <h2 className="max-w-[12ch] text-[44px] font-black uppercase leading-[.88] md:text-[58px] lg:text-[68px]">
                 Featured
                 <span className="block font-serif font-normal italic normal-case text-orange">
                   case studies.
@@ -724,7 +805,11 @@ export default function FeaturedCaseStudies() {
               </h2>
             </div>
 
-          
+            <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
+              A closer look at businesses that outgrew where they
+              started and needed a brand capable of carrying what came
+              next.
+            </p>
           </motion.div>
 
           <div className="flex flex-wrap gap-2 py-8">
