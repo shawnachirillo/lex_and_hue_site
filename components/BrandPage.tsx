@@ -115,27 +115,35 @@ const work = [
   },
 ];
 
-const services = [
-  [
-    '01',
-    'Brand Strategy',
-    'Positioning, audience, point of view, naming direction, verbal character.',
-  ],
-  [
-    '02',
-    'Identity Systems',
-    'Logo ecosystems, typography, color, art direction, image language, brand rules.',
-  ],
-  [
-    '03',
-    'Digital Experience',
-    'Web direction and design that feels like the brand, not a template wearing it.',
-  ],
-  [
-    '04',
-    'Relaunch Direction',
-    'Launch narrative, rollout, campaign direction, and the handoff into the next chapter.',
-  ],
+const processSteps = [
+  {
+    number: '01',
+    title: 'Discover',
+    summary: 'Understand the business beneath the brand.',
+    detail:
+      'We begin with conversation, research and a close look at what already exists. We uncover what changed, what still works and what the current brand can no longer support.',
+  },
+  {
+    number: '02',
+    title: 'Define',
+    summary: 'Decide what the next version needs to communicate.',
+    detail:
+      'We clarify positioning, audience, messaging and creative direction before designing. This gives the work a reason and keeps every decision connected.',
+  },
+  {
+    number: '03',
+    title: 'Design',
+    summary: 'Build the identity and experience as one system.',
+    detail:
+      'We shape the visual identity, typography, color, imagery and digital experience around the strategy, not as disconnected pieces.',
+  },
+  {
+    number: '04',
+    title: 'Introduce',
+    summary: 'Bring the next chapter into the world intentionally.',
+    detail:
+      'We prepare the rollout, refine the essential touchpoints and help the business introduce its evolution with clarity and confidence.',
+  },
 ];
 const sections = [
   { id: 'top', theme: 'light' },
@@ -249,12 +257,12 @@ useEffect(() => {
 >
       <Link
   href="/"
-  className="text-sm font-black tracking-[-0.04em]"
+  className="text-[14px] font-black"
 >
   LEX & HUE
 </Link>
 
-        <nav className="hidden gap-8 text-[11px] uppercase tracking-[.18em] md:flex">
+        <nav className="hidden gap-8 text-[11px] uppercase md:flex">
           <a href="#work">Work</a>
           <a href="#approach">Approach</a>
           <a href="#services">Services</a>
@@ -299,7 +307,7 @@ useEffect(() => {
             }}
             className="fixed inset-0 z-40 flex flex-col justify-end bg-ink p-7 text-bone md:hidden"
           >
-            <div className="mb-8 flex flex-col gap-3 text-5xl tracking-[-.06em]">
+            <div className="mb-8 flex flex-col gap-3 text-[48px]">
               <a
                 onClick={() =>
                   setMenuOpen(false)
@@ -380,7 +388,7 @@ useEffect(() => {
                   1,
                 ],
               }}
-              className="max-w-[820px] text-[clamp(3.1rem,5.5vw,6rem)] font-black uppercase leading-[.91] "
+              className="max-w-[820px] text-[52px] font-black uppercase leading-[.91] md:text-[72px] lg:text-[88px]"
             >
               <span className="block">
                 Your business
@@ -402,11 +410,11 @@ useEffect(() => {
             {/* ROTATION */}
             <div className="mt-12 md:mt-14">
               <div className="flex flex-col">
-                <span className="mb-3 text-[14px] font-medium uppercase tracking-[.22em] text-white/">
+                <span className="mb-3 text-[12px] font-medium uppercase tracking-[.22em] text-white/50">
                   It is time to
                 </span>
 
-                <div className="relative h-[1.05em] overflow-hidden text-[clamp(3rem,5vw,5.5rem)] font-black uppercase leading-none tracking-[-.055em] text-orange">
+                <div className="relative h-[1.05em] overflow-hidden text-[48px] font-black uppercase leading-none text-orange md:text-[64px] lg:text-[80px]">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={current.word}
@@ -445,7 +453,7 @@ useEffect(() => {
   <div className="flex flex-wrap items-center gap-4">
   <Link
     href="/start-a-project"
-    className="group inline-flex items-center gap-4 rounded-full border border-orange bg-orange px-7 py-4 text-[12px] font-bold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:bg-transparent hover:text-orange"
+    className="group inline-flex items-center gap-4 rounded-full border border-orange bg-orange px-7 py-4 text-[12px] font-bold uppercase text-black transition-all duration-300 hover:bg-transparent hover:text-orange"
   >
     Start a project
 
@@ -457,7 +465,7 @@ useEffect(() => {
 
   <a
     href="#work"
-    className="group inline-flex items-center gap-4 rounded-full border border-white/30 px-7 py-4 text-[12px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
+    className="group inline-flex items-center gap-4 rounded-full border border-white/30 px-7 py-4 text-[12px] font-bold uppercase text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
   >
     View case studies
 
@@ -577,7 +585,7 @@ useEffect(() => {
 
       {/* MARQUEE */}
       <section className="border-b hairline px-5 py-6 md:px-10">
-        <div className="flex min-w-max animate-[marquee_22s_linear_infinite] gap-12 text-sm uppercase tracking-[.18em] [@media(prefers-reduced-motion:reduce)]:animate-none">
+        <div className="flex min-w-max animate-[marquee_22s_linear_infinite] gap-12 text-[14px] uppercase [@media(prefers-reduced-motion:reduce)]:animate-none">
           {[0, 1].map((i) => (
             <div
               key={i}
@@ -605,116 +613,92 @@ useEffect(() => {
         `}</style>
       </section>
 
-     {/* REALITY / INTERACTIVE SECTION */}
+    {/* REALITY / INTERACTIVE SECTION */}
 <section
   id="approach"
-  className="relative min-h-[90vh] overflow-hidden bg-bone text-ink"
+  className="relative overflow-hidden bg-bone text-ink"
 >
-  <div className="grid min-h-[90vh] lg:grid-cols-[0.46fr_0.54fr]">
+  <div className="grid sm:grid-cols-[minmax(0,46fr)_minmax(0,54fr)]">
 
-    {/* LEFT — STATEMENT */}
-    <div className="relative flex flex-col justify-between px-6 py-20 md:px-10 md:py-24 lg:px-14">
-
-      {/* subtle background circles */}
-      <div className="pointer-events-none absolute -left-32 top-[28%] h-[420px] w-[420px] rounded-full border border-black/[0.05]" />
-      <div className="pointer-events-none absolute -left-20 top-[34%] h-[340px] w-[340px] rounded-full border border-black/[0.05]" />
-
-      <div>
+    {/* LEFT */}
+    <div className="relative min-w-0 px-5 py-16 sm:flex sm:min-h-[560px] sm:items-center sm:px-7 sm:py-10 md:min-h-[620px] md:px-9 lg:min-h-[680px] lg:px-12 xl:px-14">
+      <div className="w-full min-w-0">
         <motion.div
-          initial={{ opacity: 0, x: -90 }}
+          initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{
             duration: 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-10 flex items-center gap-4"
+          className="mb-8"
         >
-      
-
-      <TypewriterEyebrow text="The Reality" />
-
+          <TypewriterEyebrow text="The Pattern" />
         </motion.div>
 
         <motion.h2
-          initial={{ opacity: 0, x: -110 }}
+          initial={{ opacity: 0, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{
-            duration: 0.95,
+            duration: 0.9,
             delay: 0.08,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="max-w-[680px] text-[clamp(2rem,4vw,5.7rem)] font-black leading-[.92] "
+          className="max-w-[680px] text-[42px] font-black uppercase leading-[0.92] sm:text-[38px] md:text-[46px] lg:text-[58px] xl:text-[68px]"
         >
-          GROWING BUSINESSES OFTEN REACH A POINT WHERE THINGS NO LONGER FEEL CONNECTED.
+          No longer feel connected to your business identity?
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, x: -90 }}
+          initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true }}
           transition={{
-            duration: .8,
-            delay: 0.18,
-            ease: [1, 1, 0.36, 1],
+            duration: 0.75,
+            delay: 0.16,
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="mt-6 text-[clamp(4rem,3.2vw,3.7rem)] font-black italic leading-none tracking-[-.04em] text-orange"
+          className="mt-6 max-w-[500px] font-serif text-[36px] font-normal italic leading-[0.92] text-orange sm:text-[30px] md:text-[36px] lg:text-[42px] xl:text-[48px]"
         >
-          Why is that?
+          Here&apos;s what happened.
         </motion.p>
       </div>
-
-      <motion.p
-        initial={{ opacity: 0, x: -70 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{
-          duration: 0.7,
-          delay: 0.28,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="mt-16 max-w-sm text-sm leading-6 text-black/45"
-      >
-       
-      </motion.p>
     </div>
 
-    {/* RIGHT — ACCORDION + CTA */}
-<div className="relative flex flex-col justify-center border-l border-black/10 px-6 py-16 md:px-10 lg:px-14">
+    {/* RIGHT */}
+    <div className="min-w-0 border-t border-black/10 px-5 py-14 sm:min-h-[560px] sm:border-l sm:border-t-0 sm:px-6 sm:py-10 md:min-h-[620px] md:px-8 lg:min-h-[680px] lg:px-10 xl:px-12">
+      <div className="flex h-full min-w-0 flex-col justify-center">
+        <RealityAccordion />
 
-<div className="w-full">
-  <RealityAccordion />
-  
-</div>
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mt-14 flex justify-end"
+        >
+          <a
+            href="#work"
+            className="group inline-flex items-center gap-4 border-b border-black pb-2 text-[14px] font-semibold uppercase transition-colors hover:border-orange hover:text-orange"
+          >
+            View case studies
 
-{/* BOTTOM RIGHT CTA */}
-<motion.div
-  initial={{ opacity: 0, x: 50 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  viewport={{ once: true }}
-  transition={{
-    duration: 0.75,
-    delay: 0.25,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="mt-16 flex justify-end md:mt-20"
->
-  <a
-    href="#work"
-    className="group inline-flex items-center gap-5 border-b border-black pb-2 text-sm font-semibold uppercase tracking-[.16em] transition-colors duration-300 hover:border-orange hover:text-orange"
-  >
-    View Case Studies
-    <ArrowDownRight
-      size={18}
-      className="transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1"
-    />
-  </a>
-</motion.div>
-
-</div>
-</div>
+            <ArrowDownRight
+              size={17}
+              className="transition-transform group-hover:translate-x-1 group-hover:translate-y-1"
+            />
+          </a>
+        </motion.div>
+      </div>
+    </div>
+  </div>
 </section>
+
 
      
       {/* <section className="bg-ink px-5 py-24 text-bone md:px-10 md:py-36">
@@ -742,15 +726,12 @@ useEffect(() => {
           </div>
         </div>
       </section> */}
-
-   {/* SERVICES */}
+   {/* PROCESS */}
 <section
   id="services"
   className="bg-ink px-5 py-24 text-bone md:px-10 md:py-28"
 >
   <div className="mx-auto max-w-[1500px]">
-
-    {/* SECTION INTRO */}
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -759,62 +740,56 @@ useEffect(() => {
         duration: 0.7,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="mb-14 md:mb-16"
+      className="mb-16 grid gap-10 lg:grid-cols-[1fr_.38fr] lg:items-end"
     >
-      <div className="mb-5 flex items-center gap-4">
-      <TypewriterEyebrow text="What We Build" />
+      <div>
+        <TypewriterEyebrow text="How We Work" />
 
+        <h2 className="mt-6 max-w-[900px] text-[52px] font-black uppercase leading-[.9] md:text-[72px] lg:text-[88px]">
+          Our process
+          <span className="block font-serif text-[34px] font-normal italic normal-case text-orange md:text-[44px] lg:text-[52px]">
+            behind every shift.
+          </span>
+        </h2>
       </div>
 
-      <h2 className="max-w-[900px] text-[clamp(2.8rem,5vw,5.8rem)] font-black uppercase leading-[.92] tracking-[-.06em]">
-        The system behind
-        <span className="block text-orange">
-          the shift.
-        </span>
-      </h2>
-
-      <p className="mt-6 max-w-xl text-base leading-7 text-white/55 md:text-lg">
-        Strategy, identity and experience working together so the brand can support where the business is going next.
-      </p>
+     
     </motion.div>
 
-    {/* SERVICES LIST */}
     <div className="border-t border-white/15">
-      {services.map(([n, title, desc]) => (
-        <ServiceRow
-          key={title}
-          n={n}
-          title={title}
-          desc={desc}
+      {processSteps.map((step, index) => (
+        <ProcessRow
+          key={step.number}
+          step={step}
+          defaultOpen={index === 0}
         />
       ))}
     </div>
 
-  </div>
-  {/* CTA — BOTTOM RIGHT */}
-<motion.div
-  initial={{ opacity: 0, x: 40 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  viewport={{ once: true }}
-  transition={{
-    duration: 0.7,
-    delay: 0.2,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="mt-auto flex justify-end pt-16"
->
-<Link href="/start-a-project">
-  Start a project
+    <motion.div
+      initial={{ opacity: 0, x: 40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.7,
+        delay: 0.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="mt-14 flex justify-end"
+    >
+      <Link
+        href="/start-a-project"
+        className="group inline-flex items-center gap-4 rounded-full bg-orange px-7 py-4 text-[12px] font-bold uppercase text-black transition-all duration-300 hover:bg-bone"
+      >
+        Start a project
 
-    <ArrowUpRight
-      size={17}
-      className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-    />
-    
-  </Link>
-  
-</motion.div>
-  
+        <ArrowUpRight
+          size={17}
+          className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+        />
+      </Link>
+    </motion.div>
+  </div>
 </section>
 
       {/* CTA */}
@@ -841,7 +816,7 @@ useEffect(() => {
               className="text-black"
             />
 
-            <h2 className="mt-5 text-[clamp(4.5rem,11vw,12rem)] font-black uppercase leading-[.8]">
+            <h2 className="mt-5 text-[64px] font-black uppercase leading-[.8] md:text-[96px] lg:text-[128px]">
               Outgrown
               <br />
               your brand?
@@ -857,7 +832,7 @@ useEffect(() => {
             <div className="flex flex-wrap items-center gap-4">
   <Link
     href="/start-a-project"
-    className="group mt-10 inline-flex items-center gap-4 rounded-full border border-black bg-black px-7 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-all duration-300 hover:bg-transparent hover:text-white"
+    className="group mt-10 inline-flex items-center gap-4 rounded-full border border-black bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-all duration-300 hover:bg-transparent hover:text-white"
   >
     Start a project
 
@@ -883,7 +858,7 @@ useEffect(() => {
           LEX & HUE
        
 
-        <div className="text-xs uppercase tracking-[.16em] text-white/55">
+        <div className="text-[12px] uppercase text-white/55">
           Strategy / Identity / Digital /
           Relaunch
         </div>
@@ -892,53 +867,63 @@ useEffect(() => {
   );
 }
 
-function ServiceRow({
-  n,
-  title,
-  desc,
+function ProcessRow({
+  step,
+  defaultOpen = false,
 }: {
-  n: string;
-  title: string;
-  desc: string;
+  step: {
+    number: string;
+    title: string;
+    summary: string;
+    detail: string;
+  };
+  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <button
-      onClick={() => setOpen(!open)}
-      className="group w-full border-b border-white/15 py-6 text-left transition-colors duration-300 hover:border-orange/50 md:py-7"
-    >
-      <div className="grid items-center gap-4 md:grid-cols-[56px_1fr_auto]">
+    <div className="border-b border-white/15">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="group w-full py-5 text-left md:py-6"
+      >
+        <div className="grid items-start gap-4 md:grid-cols-[48px_1fr_auto] md:items-center">
 
-        {/* NUMBER */}
-        <span className="text-[11px] text-white/35 transition-colors duration-300 group-hover:text-orange">
-          {n}
-        </span>
-
-        {/* TITLE + DESCRIPTION */}
-        <div>
-          <span className="block text-[clamp(1.8rem,3vw,3.2rem)] font-black tracking-[-.045em] text-white transition-colors duration-300 group-hover:text-orange">
-            {title}
+          <span className="text-[10px] text-white/35 transition-colors duration-300 group-hover:text-orange">
+            {step.number}
           </span>
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/45 md:text-base">
-            {desc}
-          </p>
-        </div>
+          <div>
+          <h3
+  className={`text-[44px] md:text-[56px] font-black uppercase leading-[0.92] transition-colors duration-300 ${
+    open
+      ? "text-orange"
+      : "text-bone group-hover:text-orange"
+  }`}
+>
+  {step.title}
+</h3>
 
-        {/* PLUS */}
-        <motion.span
-          animate={{
-            rotate: open ? 45 : 0,
-          }}
-          transition={{
-            duration: 0.25,
-          }}
-          className="text-2xl font-light text-orange"
-        >
-          +
-        </motion.span>
-      </div>
+            <p className="mt-3 max-w-2xl font-sans text-[15px] leading-6 text-white/45 md:text-[16px]">
+              {step.summary}
+            </p>
+          </div>
+
+          <motion.span
+            animate={{
+              rotate: open ? 45 : 0,
+            }}
+            transition={{
+              duration: 0.25,
+            }}
+            className="text-2xl font-light leading-none text-orange"
+          >
+            +
+          </motion.span>
+        </div>
+      </button>
 
       <AnimatePresence initial={false}>
         {open && (
@@ -961,13 +946,15 @@ function ServiceRow({
             }}
             className="overflow-hidden"
           >
-            <div className="ml-0 mt-5 max-w-2xl text-sm leading-7 text-white/50 md:ml-14">
-              Additional detail can go here later.
+            <div className="pb-6 md:ml-12 md:pb-7">
+              <p className="max-w-3xl font-sans text-[16px] leading-7 text-white/60 md:text-[18px] md:leading-8">
+                {step.detail}
+              </p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </button>
+    </div>
   );
 }
 function RealityAccordion() {
@@ -976,23 +963,20 @@ function RealityAccordion() {
   const items = [
     {
       label: 'The problem',
-      // eyebrow: '01 / Friction',
-      title: 'You out grew it',
+      title: 'You outgrew it.',
       copy:
-        'The business evolved. The brand simply hasn\'t caught up.',
+        "The business evolved, but the brand simply hasn't caught up.",
       word: 'FRICTION',
     },
     {
       label: 'The gap',
-      // eyebrow: '02 / Gaps',
       title: 'People feel the difference.',
       copy:
-        'Even if they can\'t explain it, they notice when the experience and the identity don\'t align.',
+        "Even when they can't explain it, they notice when the experience and identity don't align.",
       word: 'GAPS',
     },
     {
       label: 'The drift',
-      // eyebrow: '03 / Drift',
       title: 'It happened gradually.',
       copy:
         'One change became another until the brand no longer told the whole story.',
@@ -1000,28 +984,30 @@ function RealityAccordion() {
     },
     {
       label: 'The shift',
-      // eyebrow: 'What comes next',
       title: 'Now make it visible.',
       copy:
-        'Not by starting over but by bringing everything back into alignment.',
+        'Not by starting over, but by bringing everything back into alignment.',
       word: 'EVOLVE',
     },
   ];
 
   return (
-    <div className="border-t border-black/15">
+    <div className="w-full min-w-0 border-t border-black/15">
       {items.map((item, index) => {
         const isOpen = active === index;
 
         return (
           <div
             key={item.label}
-            className="border-b border-black/15"
+            className="w-full min-w-0 border-b border-black/15"
           >
             <button
               type="button"
-              onClick={() => setActive(isOpen ? null : index)}
-              className="group flex w-full items-center justify-between py-7 text-left md:py-8"
+              onClick={() =>
+                setActive(isOpen ? null : index)
+              }
+              aria-expanded={isOpen}
+              className="group flex w-full min-w-0 items-center justify-between gap-4 py-6 text-left sm:py-5 md:py-6 lg:py-7"
             >
               <span
                 className={`text-[11px] font-semibold uppercase tracking-[.28em] transition-colors ${
@@ -1040,7 +1026,7 @@ function RealityAccordion() {
                 transition={{
                   duration: 0.25,
                 }}
-                className="text-3xl font-light leading-none text-orange"
+                className="shrink-0 text-[28px] font-light leading-none text-orange"
               >
                 +
               </motion.span>
@@ -1062,44 +1048,38 @@ function RealityAccordion() {
                     opacity: 0,
                   }}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.45,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="overflow-hidden"
+                  className="w-full min-w-0 overflow-hidden"
                 >
-                  <div className="relative mb-8 overflow-hidden border border-black/10 bg-white/40 px-6 py-10 text-black md:px-10 md:py-12">
+                  <div className="relative mb-7 w-full min-w-0 overflow-hidden border border-black/10 bg-white/40 px-5 py-8 text-black sm:px-5 sm:py-8 md:px-7 md:py-10 lg:px-9 lg:py-11">
 
-                    {/* LARGE BACKGROUND WORD */}
-                    <div className="pointer-events-none absolute -left-2 top-4 select-none text-[clamp(5rem,10vw,10rem)] font-black leading-[.75] tracking-[-.07em] text-black/[0.045]">
+                    <div className="pointer-events-none absolute left-3 top-3 whitespace-nowrap text-[64px] font-black leading-none text-black/[0.04] sm:text-[58px] md:text-[72px] lg:text-[92px]">
                       {item.word}
                     </div>
 
-                    {/* CONTENT */}
                     <motion.div
                       initial={{
                         opacity: 0,
-                        x: 40,
+                        y: 18,
                       }}
                       animate={{
                         opacity: 1,
-                        x: 0,
+                        y: 0,
                       }}
                       transition={{
-                        duration: 0.55,
-                        delay: 0.1,
+                        duration: 0.45,
+                        delay: 0.08,
                         ease: [0.22, 1, 0.36, 1],
                       }}
-                      className="relative z-10 ml-auto max-w-[570px]"
+                      className="relative z-10 min-w-0 pt-10 sm:pt-9 md:pt-12 lg:pt-14"
                     >
-                      <p className="mb-6 text-[10px] font-semibold uppercase tracking-[.28em] text-orange">
-                      
-                      </p>
-
-                      <h3 className="max-w-[520px] text-[clamp(2.2rem,3.4vw,4rem)] font-black leading-[.98] tracking-[-.05em] text-black">
+                      <h3 className="max-w-[640px] text-[32px] font-black leading-[1.02] text-black sm:text-[27px] md:text-[32px] lg:text-[40px] xl:text-[46px]">
                         {item.title}
                       </h3>
 
-                      <p className="mt-7 max-w-[520px] text-base leading-7 text-black/60 md:text-lg md:leading-8">
+                      <p className="mt-5 max-w-[620px] text-[16px] leading-7 text-black/60 sm:text-[14px] sm:leading-6 md:text-[16px] md:leading-7 lg:text-[18px] lg:leading-8">
                         {item.copy}
                       </p>
                     </motion.div>
