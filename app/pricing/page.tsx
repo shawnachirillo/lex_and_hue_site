@@ -4,18 +4,25 @@ import Link from 'next/link';
 import {
   ArrowUpRight,
   Check,
-  Minus,
   Plus,
 } from 'lucide-react';
 import {
   AnimatePresence,
   motion,
 } from 'framer-motion';
-import { Cormorant_Garamond } from 'next/font/google';
+import {
+  Archivo,
+  Cormorant_Garamond,
+} from 'next/font/google';
 import {
   ReactNode,
   useState,
 } from 'react';
+
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+});
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -236,87 +243,51 @@ const transformations = [
 
 const comparisonRows = [
   {
-    label: 'Discovery + audit',
-    rebrand: 'yes',
-    reinvent: 'yes',
-    relaunch: 'yes',
-  },
-  {
-    label: 'Brand strategy',
-    rebrand: 'yes',
-    reinvent: 'yes',
-    relaunch: 'yes',
-  },
-  {
-    label: 'Atmosphere direction',
-    rebrand: 'yes',
-    reinvent: 'yes',
-    relaunch: 'yes',
+    label: 'Brand foundation',
+    rebrand: 'Included',
+    reinvent: 'Included',
+    relaunch: 'Included',
   },
   {
     label: 'Identity system',
-    rebrand: 'yes',
-    reinvent: 'yes',
-    relaunch: 'yes',
-  },
-  {
-    label: 'Brand guidelines',
-    rebrand: 'yes',
-    reinvent: 'yes',
-    relaunch: 'yes',
+    rebrand: 'Included',
+    reinvent: 'Included',
+    relaunch: 'Included',
   },
   {
     label: 'Positioning + messaging',
-    rebrand: 'no',
-    reinvent: 'yes',
-    relaunch: 'yes',
+    rebrand: 'Core',
+    reinvent: 'Expanded',
+    relaunch: 'Expanded',
   },
   {
     label: 'Experience strategy',
-    rebrand: 'no',
-    reinvent: 'yes',
-    relaunch: 'yes',
+    rebrand: '—',
+    reinvent: 'Included',
+    relaunch: 'Included',
   },
   {
-    label: 'Website strategy + design',
+    label: 'Website',
     rebrand: 'Add-on',
     reinvent: 'Included',
     relaunch: 'Included',
   },
   {
-    label: 'Website development',
-    rebrand: 'Add-on',
-    reinvent: 'Included',
-    relaunch: 'Included',
-  },
-  {
-    label: 'Brand touchpoints',
+    label: 'Priority touchpoints',
     rebrand: 'Core assets',
     reinvent: '2–4',
-    relaunch: 'Launch-driven',
+    relaunch: 'Launch-led',
   },
   {
-    label: 'Relaunch strategy',
-    rebrand: 'no',
-    reinvent: 'no',
-    relaunch: 'yes',
+    label: 'Launch direction',
+    rebrand: '—',
+    reinvent: '—',
+    relaunch: 'Included',
   },
   {
-    label: 'Launch campaign creative',
-    rebrand: 'no',
-    reinvent: 'no',
-    relaunch: 'yes',
-  },
-  {
-    label: 'Reveal narrative',
-    rebrand: 'no',
-    reinvent: 'no',
-    relaunch: 'yes',
-  },
-  {
-    label: 'Post-launch stewardship',
-    rebrand: 'no',
-    reinvent: 'no',
+    label: 'Post-launch support',
+    rebrand: '—',
+    reinvent: '—',
     relaunch: '30 days',
   },
 ];
@@ -423,8 +394,15 @@ const stewardship = [
 /* -------------------------------------------------------------------------- */
 
 export default function PricingPage() {
+  const [selectedOffer, setSelectedOffer] = useState<
+    (typeof transformations)[number] | null
+  >(null);
+  const [selectedDigital, setSelectedDigital] = useState<
+    (typeof digital)[number] | null
+  >(null);
+
   return (
-    <main className="overflow-hidden bg-[#f2eee7] text-[#111111]">
+    <main className={`${archivo.className} overflow-hidden bg-[#f2eee7] text-[#111111]`}>
 
       {/* NAV */}
 
@@ -476,7 +454,7 @@ export default function PricingPage() {
               PRICING
             </p>
 
-            <h2 className="mt-7 max-w-[950px] text-[clamp(3.3rem,6vw,6.3rem)] font sans uppercase leading-[.86] ">
+            <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[52px] font-black uppercase leading-[.88] md:text-[72px] lg:text-[88px]`}>
               Choose the level of
 
               <span
@@ -496,120 +474,18 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* COMPARISON TABLE */}
+      {/* TRANSFORMATION OFFERS */}
 
       <section className="border-b border-black/15">
-        <div className="mx-auto max-w-[1600px] overflow-x-auto">
-
-          <div className="min-w-[880px]">
-
-            {/* TABLE HEADER */}
-
-            <div className="grid grid-cols-[1.25fr_repeat(3,1fr)] border-b border-black/15">
-
-              <div className="px-8 py-10 md:px-10">
-                <p className="text-[9px] font-semibold uppercase tracking-[.14em] text-black/35">
-                  What&apos;s included
-                </p>
-              </div>
-
-              {transformations.map((offer) => (
-                <div
-                  key={offer.name}
-                  className="border-l border-black/15 px-7 py-10"
-                >
-                  <p className="text-[9px] font-semibold uppercase tracking-[.12em] text-black/35">
-                    {offer.number}
-                  </p>
-
-                  <h3
-                    className={`${cormorant.className} mt-4 text-[clamp(2.5rem,3.5vw,4rem)] font-medium leading-none tracking-[-.035em]`}
-                  >
-                    {offer.name}
-                  </h3>
-
-                  <p className="mt-4 text-lg font-black tracking-[-.03em] text-orange">
-                    {offer.price}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* TABLE ROWS */}
-
-            {comparisonRows.map((row) => (
-              <div
-                key={row.label}
-                className="grid grid-cols-[1.25fr_repeat(3,1fr)] border-b border-black/10 last:border-b-0"
-              >
-                <div className="flex items-center px-8 py-5 md:px-10">
-                  <span className="text-sm font-medium text-black/65">
-                    {row.label}
-                  </span>
-                </div>
-
-                <ComparisonCell value={row.rebrand} />
-                <ComparisonCell value={row.reinvent} />
-                <ComparisonCell value={row.relaunch} />
-              </div>
-            ))}
-
-            {/* CTA ROW */}
-
-            <div className="grid grid-cols-[1.25fr_repeat(3,1fr)] border-t border-black/15">
-              <div />
-
-              {transformations.map((offer) => (
-                <div
-                  key={offer.name}
-                  className="border-l border-black/15 px-7 py-8"
-                >
-                  <Link
-                    href="/start-a-project"
-                    className="group inline-flex items-center gap-3 text-[9px] font-bold uppercase tracking-[.13em]"
-                  >
-                    Start a project
-
-                    <ArrowUpRight
-                      size={14}
-                      className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                    />
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* FULL SCOPE ACCORDIONS */}
-
-      <section className="border-b border-black/15">
-        <div className="mx-auto max-w-[1600px]">
-
-          <div className="px-6 py-12 md:px-10">
-            <p className="text-[10px] font-medium uppercase  text-black/40">
-              Need more detail?
-            </p>
-
-            <h3
-              className={`${cormorant.className} mt-4 text-[clamp(2.4rem,4vw,4.2rem)] font-medium leading-none tracking-[-.03em]`}
-            >
-              View the full scope.
-            </h3>
-          </div>
-
-          <div className="grid lg:grid-cols-3">
-            {transformations.map((offer, index) => (
-              <TransformationScope
-                key={offer.name}
-                offer={offer}
-                index={index}
-              />
-            ))}
-          </div>
-
+        <div className="mx-auto grid max-w-[1600px] md:grid-cols-3">
+          {transformations.map((offer, index) => (
+            <TransformationCard
+              key={offer.name}
+              offer={offer}
+              index={index}
+              onOpen={() => setSelectedOffer(offer)}
+            />
+          ))}
         </div>
       </section>
 
@@ -625,11 +501,11 @@ export default function PricingPage() {
               Digital
             </p>
 
-            <h2 className="mt-7 max-w-[950px] text-[clamp(3.3rem,6vw,6.3rem)] font-black uppercase leading-[.86] tracking-[-.065em]">
-              When the website
+            <h2 className={`${archivo.className} mt-7 max-w-[950px] text-[52px] font-black uppercase leading-[.88] md:text-[72px] lg:text-[88px]`}>
+              When only the website
 
               <span
-                className={`${cormorant.className} block font-medium italic normal-case leading-[.76] tracking-[-.03em] text-orange`}
+                className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
               >
                 needs the work.
               </span>
@@ -644,19 +520,18 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* DIGITAL CARDS */}
+      {/* DIGITAL OFFERS */}
 
       <section className="border-b border-black/15">
         <div className="mx-auto grid max-w-[1600px] md:grid-cols-2">
-
           {digital.map((service, index) => (
-            <DigitalCard
+            <DigitalOfferCard
               key={service.title}
               service={service}
               index={index}
+              onOpen={() => setSelectedDigital(service)}
             />
           ))}
-
         </div>
       </section>
 
@@ -882,6 +757,24 @@ export default function PricingPage() {
         </div>
       </section>
 
+      <AnimatePresence>
+        {selectedOffer && (
+          <ScopeModal
+            offer={selectedOffer}
+            onClose={() => setSelectedOffer(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {selectedDigital && (
+          <DigitalScopeModal
+            service={selectedDigital}
+            onClose={() => setSelectedDigital(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* FOOTER */}
 
       <footer className="bg-[#111111] text-[#f2eee7]">
@@ -903,298 +796,412 @@ export default function PricingPage() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                         COMPARISON CELL                                    */
+/*                         TRANSFORMATION CARD                                */
 /* -------------------------------------------------------------------------- */
 
-function ComparisonCell({
-  value,
-}: {
-  value: string;
-}) {
-  const yes = value === 'yes';
-  const no = value === 'no';
-
-  return (
-    <div className="flex items-center justify-center border-l border-black/15 px-5 py-5 text-center">
-
-      {yes && (
-        <Check
-          size={18}
-          strokeWidth={1.7}
-          className="text-orange"
-        />
-      )}
-
-      {no && (
-        <Minus
-          size={17}
-          strokeWidth={1.4}
-          className="text-black/20"
-        />
-      )}
-
-      {!yes && !no && (
-        <span className="text-[12px] font-medium text-black/55">
-          {value}
-        </span>
-      )}
-
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                       TRANSFORMATION SCOPE                                 */
-/* -------------------------------------------------------------------------- */
-
-function TransformationScope({
+function TransformationCard({
   offer,
   index,
+  onOpen,
 }: {
   offer: (typeof transformations)[number];
   index: number;
+  onOpen: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div
-      className={`border-t border-black/15 ${
-        index !== transformations.length - 1
-          ? 'lg:border-r'
-          : ''
+    <motion.article
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.55,
+        delay: index * 0.06,
+        ease,
+      }}
+      className={`border-b border-black/15 md:border-b-0 ${
+        index !== transformations.length - 1 ? 'md:border-r' : ''
       }`}
     >
       <button
         type="button"
-        onClick={() => setOpen(!open)}
-        className="group flex w-full items-center justify-between gap-5 px-6 py-7 text-left md:px-10"
+        onClick={onOpen}
+        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-black/[0.035] md:px-9 md:py-12"
       >
-        <div>
-          <p className="text-[9px] uppercase tracking-[.12em] text-black/35">
-            {offer.number}
+        <div className="flex items-start justify-between gap-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
+            Brand transformation / {offer.number}
           </p>
 
-          <p
-            className={`${cormorant.className} mt-2 text-3xl font-medium tracking-[-.03em]`}
-          >
-            {offer.name}
-          </p>
+          <ArrowUpRight
+            size={19}
+            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+          />
         </div>
 
-        <motion.span
-          animate={{
-            rotate: open ? 45 : 0,
-          }}
-          transition={{
-            duration: 0.25,
-          }}
-          className="text-orange"
-        >
-          <Plus size={20} />
-        </motion.span>
+        <h3 className={`${archivo.className} mt-10 text-[42px] font-black uppercase leading-none md:text-[48px] lg:text-[56px]`}>
+          {offer.name}
+        </h3>
+
+        <p className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-orange md:text-[28px]`}>
+          {offer.price}
+        </p>
+
+        <p className="mt-7 max-w-md text-[14px] leading-6 text-black/55 md:text-[15px]">
+          {offer.description}
+        </p>
+
+        <div className="mt-auto pt-9">
+          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase">
+            View full scope
+            <ArrowUpRight
+              size={14}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </span>
+        </div>
       </button>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{
-              height: 0,
-              opacity: 0,
-            }}
-            animate={{
-              height: 'auto',
-              opacity: 1,
-            }}
-            exit={{
-              height: 0,
-              opacity: 0,
-            }}
-            transition={{
-              duration: 0.4,
-              ease,
-            }}
-            className="overflow-hidden"
-          >
-            <div className="border-t border-black/10 px-6 pb-8 md:px-10">
-
-              <p className="py-6 text-sm leading-6 text-black/55">
-                {offer.description}
-              </p>
-
-              {offer.groups.map((group) => (
-                <div
-                  key={group.title}
-                  className="border-t border-black/10 py-5"
-                >
-                  <h4
-                    className={`${cormorant.className} text-2xl font-medium `}
-                  >
-                    {group.title}
-                  </h4>
-
-                  <div className="mt-4 grid gap-2">
-                    {group.items.map((item) => (
-                      <div
-                        key={item}
-                        className="flex gap-3 text-[13px] leading-5 text-black/50"
-                      >
-                        <Check
-                          size={13}
-                          className="mt-[3px] shrink-0 text-orange"
-                        />
-
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              <div className="border-t border-black/10 pt-5">
-                <p className="text-[9px] font-semibold uppercase tracking-[.13em] text-orange">
-                  The outcome
-                </p>
-
-                <p
-                  className={`${cormorant.className} mt-3 text-xl leading-7 text-black/70`}
-                >
-                  {offer.outcome}
-                </p>
-              </div>
-
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    </motion.article>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            DIGITAL CARD                                    */
+/*                              SCOPE MODAL                                   */
 /* -------------------------------------------------------------------------- */
 
-function DigitalCard({
+function ScopeModal({
+  offer,
+  onClose,
+}: {
+  offer: (typeof transformations)[number];
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`scope-${offer.number}`}
+      onMouseDown={(event) => {
+        if (event.currentTarget === event.target) {
+          onClose();
+        }
+      }}
+    >
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 28,
+          scale: 0.985,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
+        exit={{
+          opacity: 0,
+          y: 20,
+          scale: 0.985,
+        }}
+        transition={{
+          duration: 0.35,
+          ease,
+        }}
+        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#f2eee7] text-[#111111] shadow-2xl"
+      >
+        <div className="flex items-start justify-between gap-8 border-b border-black/15 px-6 py-6 md:px-10 md:py-8">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
+              Brand transformation / {offer.number}
+            </p>
+
+            <h2
+              id={`scope-${offer.number}`}
+              className={`${archivo.className} mt-3 text-[42px] font-black uppercase leading-none md:text-[60px]`}
+            >
+              {offer.name}
+            </h2>
+
+            <p className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-orange md:text-[30px]`}>
+              {offer.price}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close full scope"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/20 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
+          <p className="max-w-2xl text-[15px] leading-7 text-black/60 md:text-[17px]">
+            {offer.description}
+          </p>
+
+          <div className="mt-8 grid gap-x-10 md:grid-cols-2">
+            {offer.groups.map((group) => (
+              <section
+                key={group.title}
+                className="border-t border-black/15 py-6"
+              >
+                <h3 className={`${archivo.className} text-[20px] font-black uppercase`}>
+                  {group.title}
+                </h3>
+
+                <div className="mt-4 grid gap-2.5">
+                  {group.items.map((item) => (
+                    <div
+                      key={item}
+                      className="flex gap-3 text-[13px] leading-5 text-black/55 md:text-[14px]"
+                    >
+                      <Check
+                        size={14}
+                        className="mt-[3px] shrink-0 text-orange"
+                      />
+
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          <div className="mt-3 border-t border-black/15 pt-7">
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
+              The outcome
+            </p>
+
+            <p className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-black/75 md:text-[32px] md:leading-10`}>
+              {offer.outcome}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 border-t border-black/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <p className="text-[11px] leading-5 text-black/40">
+            Final scope and investment are confirmed after discovery.
+          </p>
+
+          <Link
+            href="/start-a-project"
+            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
+          >
+            Start a project
+
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                          DIGITAL OFFER CARD                                */
+/* -------------------------------------------------------------------------- */
+
+function DigitalOfferCard({
   service,
   index,
+  onOpen,
 }: {
   service: (typeof digital)[number];
   index: number;
+  onOpen: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
     <motion.article
-      initial={{
-        opacity: 0,
-        y: 22,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-        amount: 0.15,
-      }}
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
       transition={{
-        duration: 0.6,
+        duration: 0.55,
         delay: (index % 2) * 0.06,
         ease,
       }}
-      className={`flex min-h-[390px] flex-col border-b border-black/15 px-6 py-12 md:px-10 md:py-14 ${
-        index % 2 === 0
-          ? 'md:border-r'
-          : ''
+      className={`border-b border-black/15 ${
+        index % 2 === 0 ? 'md:border-r' : ''
       }`}
     >
-
-      <div className="flex items-start justify-between gap-6">
-        <p className="text-[9px] font-medium uppercase tracking-[.12em] text-black/35">
-          Digital / {service.number}
-        </p>
-
-        <p className="shrink-0 text-lg font-black tracking-[-.03em] text-orange md:text-xl">
-          {service.price}
-        </p>
-      </div>
-
-      <h3
-        className={`${cormorant.className} mt-10 max-w-[650px] text-[clamp(3rem,4.5vw,5rem)] font-medium leading-[.9] tracking-[-.04em]`}
+      <button
+        type="button"
+        onClick={onOpen}
+        className="group flex min-h-[350px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-black/[0.035] md:px-10 md:py-12"
       >
-        {service.title}
-      </h3>
+        <div className="flex items-start justify-between gap-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
+            Digital / {service.number}
+          </p>
 
-      <p className="mt-7 max-w-xl text-sm leading-7 text-black/55 md:text-[15px]">
-        {service.description}
-      </p>
+          <ArrowUpRight
+            size={19}
+            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+          />
+        </div>
 
-      <div className="mt-auto pt-10">
+        <div className="mt-10 flex flex-wrap items-start justify-between gap-5">
+          <h3 className={`${archivo.className} max-w-[560px] text-[36px] font-black uppercase leading-[.95] md:text-[44px] lg:text-[50px]`}>
+            {service.title}
+          </h3>
 
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="group inline-flex items-center gap-4 text-[9px] font-bold uppercase tracking-[.13em]"
-        >
-          What&apos;s included
+          <p className={`${cormorant.className} shrink-0 text-[24px] font-semibold italic text-orange md:text-[27px]`}>
+            {service.price}
+          </p>
+        </div>
 
-          <motion.span
-            animate={{
-              rotate: open ? 45 : 0,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-            className="text-orange"
-          >
-            <Plus size={17} />
-          </motion.span>
-        </button>
+        <p className="mt-7 max-w-xl text-[14px] leading-6 text-black/55 md:text-[15px]">
+          {service.description}
+        </p>
 
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.div
-              initial={{
-                height: 0,
-                opacity: 0,
-              }}
-              animate={{
-                height: 'auto',
-                opacity: 1,
-              }}
-              exit={{
-                height: 0,
-                opacity: 0,
-              }}
-              transition={{
-                duration: 0.4,
-                ease,
-              }}
-              className="overflow-hidden"
-            >
-              <div className="mt-7 grid gap-3 border-t border-black/10 pt-6 sm:grid-cols-2">
-
-                {service.items.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-start gap-3 text-[13px] leading-5 text-black/50"
-                  >
-                    <Check
-                      size={13}
-                      className="mt-[3px] shrink-0 text-orange"
-                    />
-
-                    <span>{item}</span>
-                  </div>
-                ))}
-
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-      </div>
+        <div className="mt-auto pt-9">
+          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase">
+            View full scope
+            <ArrowUpRight
+              size={14}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </span>
+        </div>
+      </button>
     </motion.article>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                         DIGITAL SCOPE MODAL                                */
+/* -------------------------------------------------------------------------- */
+
+function DigitalScopeModal({
+  service,
+  onClose,
+}: {
+  service: (typeof digital)[number];
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`digital-scope-${service.number}`}
+      onMouseDown={(event) => {
+        if (event.currentTarget === event.target) {
+          onClose();
+        }
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.985 }}
+        transition={{ duration: 0.35, ease }}
+        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#f2eee7] text-[#111111] shadow-2xl"
+      >
+        <div className="flex items-start justify-between gap-8 border-b border-black/15 px-6 py-6 md:px-10 md:py-8">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
+              Digital service / {service.number}
+            </p>
+
+            <h2
+              id={`digital-scope-${service.number}`}
+              className={`${archivo.className} mt-3 max-w-[720px] text-[38px] font-black uppercase leading-[.95] md:text-[54px]`}
+            >
+              {service.title}
+            </h2>
+
+            <p className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-orange md:text-[30px]`}>
+              {service.price}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close digital scope"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/20 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
+          <p className="max-w-2xl text-[15px] leading-7 text-black/60 md:text-[17px]">
+            {service.description}
+          </p>
+
+          <section className="mt-8 border-t border-black/15 py-6">
+            <h3 className={`${archivo.className} text-[20px] font-black uppercase`}>
+              What&apos;s included
+            </h3>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {service.items.map((item) => (
+                <div
+                  key={item}
+                  className="flex gap-3 text-[13px] leading-5 text-black/55 md:text-[14px]"
+                >
+                  <Check
+                    size={14}
+                    className="mt-[3px] shrink-0 text-orange"
+                  />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-3 border-t border-black/15 pt-7">
+            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
+              Best for
+            </p>
+
+            <p className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-black/75 md:text-[32px] md:leading-10`}>
+              {service.number === '01' &&
+                'Businesses that need clarity before investing in a redesign.'}
+              {service.number === '02' &&
+                'Businesses ready to turn an audit into a focused, prioritized plan.'}
+              {service.number === '03' &&
+                'Brands that need a polished, manageable website on a trusted platform.'}
+              {service.number === '04' &&
+                'Brands that need custom interaction, development and greater control.'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 border-t border-black/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
+          <p className="text-[11px] leading-5 text-black/40">
+            Final scope and investment are confirmed after discovery.
+          </p>
+
+          <Link
+            href="/start-a-project"
+            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
+          >
+            Start a project
+
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
