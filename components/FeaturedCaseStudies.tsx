@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import Image from "next/image";
 
 type CaseStudy = {
   slug: string;
@@ -17,7 +18,12 @@ type CaseStudy = {
   services: string[];
   eyebrow: string;
   caption: string;
-  image?: string;
+  image: string;
+  logo: string;
+  overlay: string;
+  hoverOverlay: string;
+  imagePosition?: string;
+  logoClassName?: string;
   gradient: string;
   overview: string;
   challenge: string;
@@ -34,7 +40,15 @@ const caseStudies: CaseStudy[] = [
     eyebrow: 'Fragrance / Heritage / Reinvention',
     caption:
       'A heritage-inspired fragrance house shaped around memory, atmosphere, and lineage.',
-    image: '/images/case-studies/east-end.jpg',
+    image: '/images/doorknob.jpg',
+    logo: '/images/TEEC_main_logo.png',
+    overlay:
+      'linear-gradient(180deg, rgba(8,10,8,0.42) 0%, rgba(8,10,8,0.26) 42%, rgba(8,10,8,0.82) 100%)',
+    hoverOverlay:
+      'linear-gradient(180deg, rgba(8,10,8,0.24) 0%, rgba(8,10,8,0.14) 42%, rgba(8,10,8,0.74) 100%)',
+    imagePosition: 'center',
+    logoClassName:
+      'max-h-[170px] max-w-[90%] brightness-150 contrast-125 saturate-125 drop-shadow-[0_0_22px_rgba(255,210,95,0.22)]',
     gradient:
       'linear-gradient(135deg, #241710 0%, #7a3c1e 45%, #d28c4d 100%)',
     overview:
@@ -47,24 +61,32 @@ const caseStudies: CaseStudy[] = [
       'The result is a brand world that feels collected rather than manufactured—capable of expanding across fragrance, bath, home, and ritual products.',
   },
   {
-    slug: 'brianna-wohner',
-    title: 'Brianna Wohner',
+    slug: 'modern-goddess-coaching',
+    title: 'Modern Goddess Coaching',
     category: 'Personal Brand',
     services: ['Positioning', 'Identity', 'Digital'],
     eyebrow: 'Personal Brand / Editorial / Direction',
     caption:
-      'A sharper, more editorial identity designed to make the work feel established and unmistakable.',
-    image: '/images/case-studies/brianna-wohner.jpg',
+      'A sharper, more energetic identity designed to make the work feel established and memorable.',
+    image: '/images/fruit.jpeg',
+    logo: '/images/MGC_white_logo.png',
+    overlay:
+      'linear-gradient(180deg, rgba(22,14,11,0.46) 0%, rgba(22,14,11,0.28) 38%, rgba(22,14,11,0.86) 100%)',
+    hoverOverlay:
+      'linear-gradient(180deg, rgba(22,14,11,0.30) 0%, rgba(22,14,11,0.16) 38%, rgba(22,14,11,0.78) 100%)',
+    imagePosition: 'center',
+    logoClassName:
+      'max-h-[165px] max-w-[88%] brightness-125 contrast-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.20)]',
     gradient:
       'linear-gradient(135deg, #211f1d 0%, #5b4b45 48%, #c8b19f 100%)',
     overview:
-      'Brianna Wohner needed a personal brand that could hold expertise, personality, and a more elevated professional presence.',
+      'Modern Goddess Coaching needed a personal brand that could hold expertise, personality, and a more elevated professional presence.',
     challenge:
       'The existing presentation felt fragmented and did not communicate the confidence or sophistication of the work behind it.',
     direction:
       'We clarified the positioning and created an editorial identity with deliberate typography, restrained color, and a stronger visual hierarchy.',
     outcome:
-      'The finished system gives Brianna a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
+      'The finished system gives Modern Goddess Coaching a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
   },
   {
     slug: 'legacy-at-home',
@@ -73,8 +95,16 @@ const caseStudies: CaseStudy[] = [
     services: ['Strategy', 'Identity', 'Web'],
     eyebrow: 'Care / Trust / Repositioning',
     caption:
-      'A warmer, clearer system built to communicate dignity, familiarity, and dependable care.',
-    image: '/images/case-studies/legacy-at-home.jpg',
+      'A warmer, clearer system built to communicate dignity, comfort, familiarity, and dependable home care.',
+    image: '/images/hero.jpg',
+    logo: '/images/LAHC_white_logo.png',
+    overlay:
+      'linear-gradient(180deg, rgba(21,34,27,0.50) 0%, rgba(21,34,27,0.34) 42%, rgba(15,25,19,0.90) 100%)',
+    hoverOverlay:
+      'linear-gradient(180deg, rgba(21,34,27,0.32) 0%, rgba(21,34,27,0.22) 42%, rgba(15,25,19,0.84) 100%)',
+    imagePosition: 'center',
+    logoClassName:
+      'max-h-[150px] max-w-[84%] brightness-115 contrast-110 drop-shadow-[0_0_18px_rgba(255,255,255,0.12)]',
     gradient:
       'linear-gradient(135deg, #223326 0%, #71884e 46%, #d6c778 100%)',
     overview:
@@ -94,7 +124,15 @@ const caseStudies: CaseStudy[] = [
     eyebrow: 'Wellness / Ritual / Atmosphere',
     caption:
       'A grounded visual world shaped by stillness, ritual, and the textures of the Great Lakes.',
-    image: '/images/case-studies/the-stillpoint.jpg',
+    image: '/images/pier.jpg',
+    logo: '/images/TSP_logo_white.png',
+    overlay:
+      'linear-gradient(180deg, rgba(8,35,28,0.52) 0%, rgba(10,48,38,0.38) 44%, rgba(5,25,20,0.84) 100%)',
+    hoverOverlay:
+      'linear-gradient(180deg, rgba(8,35,28,0.36) 0%, rgba(10,48,38,0.24) 44%, rgba(5,25,20,0.76) 100%)',
+    imagePosition: 'center',
+    logoClassName:
+      'max-h-[172px] max-w-[90%] brightness-150 contrast-115 drop-shadow-[0_0_24px_rgba(255,255,255,0.24)]',
     gradient:
       'linear-gradient(135deg, #0f1a17 0%, #2f4a35 48%, #8f5c36 100%)',
     overview:
@@ -117,6 +155,10 @@ const filters = [
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+// TEMPORARY LAUNCH FLAG
+// Change this to true when the full case studies are ready.
+const CASE_STUDIES_READY = false;
 
 function TypewriterEyebrow({
   text,
@@ -176,6 +218,8 @@ function CaseStudyCard({
   index: number;
   onOpen: () => void;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.article
       layout
@@ -196,44 +240,129 @@ function CaseStudyCard({
         delay: index * 0.06,
         ease,
       }}
-      className="group relative overflow-hidden border border-white/15 bg-[#151515]"
+      whileHover={{
+        y: -7,
+      }}
+      className="group relative overflow-hidden border border-white/15 bg-[#151515] shadow-[0_18px_45px_rgba(0,0,0,0.18)] transition-shadow duration-500 hover:border-white/30 hover:shadow-[0_28px_75px_rgba(0,0,0,0.42)]"
     >
       <button
         type="button"
         onClick={onOpen}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
         className="block w-full text-left"
         aria-label={`Open ${project.title} case study`}
       >
-        <div
-          className="relative aspect-[3/2] overflow-hidden"
-          style={{
-            backgroundImage: `${project.gradient}, url(${project.image})`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        >
-          <motion.div
-            className="absolute inset-0 bg-black/20"
-            whileHover={{
-              backgroundColor: 'rgba(0,0,0,0.05)',
-            }}
-            transition={{
-              duration: 0.35,
-            }}
-          />
-
+        <div className="relative aspect-[4/3] min-h-[360px] overflow-hidden md:min-h-[390px]">
+          {/* PHOTOGRAPH */}
           <motion.div
             className="absolute inset-0"
-            whileHover={{
-              scale: 1.035,
+            animate={{
+              scale: isHovered ? 1.075 : 1,
             }}
             transition={{
-              duration: 0.65,
+              duration: 0.9,
+              ease,
+            }}
+          >
+            <Image
+              src={project.image}
+              alt=""
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+              style={{
+                objectPosition: project.imagePosition ?? 'center',
+              }}
+              priority={index < 2}
+            />
+          </motion.div>
+
+          {/* PROJECT-SPECIFIC COLOR OVERLAY */}
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              background: isHovered
+                ? project.hoverOverlay
+                : project.overlay,
+            }}
+            transition={{
+              duration: 0.55,
               ease,
             }}
           />
 
-          <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
+          {/* SUBTLE TEXTURE / LIGHT MOVEMENT */}
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-[22%] -top-[45%] h-[105%] w-[58%] rotate-[18deg] bg-gradient-to-r from-transparent via-white/[0.09] to-transparent blur-2xl"
+            animate={{
+              x: isHovered ? '245%' : '-35%',
+              opacity: isHovered ? 1 : 0,
+            }}
+            transition={{
+              duration: 1.05,
+              ease,
+            }}
+          />
+
+          {/* CENTERED LOGO */}
+          <motion.div
+            className="absolute inset-0 z-10 flex items-center justify-center px-8 pb-16 md:px-12 md:pb-20"
+            initial={{
+              opacity: 0,
+              scale: 0.96,
+            }}
+            whileInView={{
+              opacity: 1,
+              scale: 1,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.55,
+            }}
+            animate={{
+              y: isHovered ? -7 : 0,
+              scale: isHovered ? 1.045 : 1,
+            }}
+            transition={{
+              duration: 0.5,
+              ease,
+            }}
+          >
+            <div className="relative flex h-[200px] w-full max-w-[520px] items-center justify-center md:h-[220px]">
+              <Image
+                src={project.logo}
+                alt={`${project.title} logo`}
+                width={620}
+                height={260}
+                className={`h-auto w-auto object-contain drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] ${
+                  project.logoClassName ?? 'max-h-[120px] max-w-[76%]'
+                }`}
+              />
+            </div>
+          </motion.div>
+
+          {/* BORDER REVEAL */}
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-3 z-20 border border-white/0"
+            animate={{
+              borderColor: isHovered
+                ? 'rgba(255,255,255,0.35)'
+                : 'rgba(255,255,255,0)',
+              inset: isHovered ? 12 : 16,
+            }}
+            transition={{
+              duration: 0.45,
+              ease,
+            }}
+          />
+
+          {/* LOWER INFORMATION PANEL */}
+          <div className="absolute inset-x-0 bottom-0 z-30 p-5 md:p-6">
             <motion.div
               initial={{
                 opacity: 0,
@@ -245,76 +374,191 @@ function CaseStudyCard({
               }}
               viewport={{
                 once: true,
-                amount: 0.75,
+                amount: 0.7,
+              }}
+              animate={{
+                y: isHovered ? -3 : 0,
               }}
               transition={{
-                duration: 0.55,
-                delay: 0.12,
+                duration: 0.5,
+                delay: 0.1,
                 ease,
               }}
             >
-              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[.18em] text-white/60">
-                {project.category}
-              </p>
-
               <div className="flex items-end justify-between gap-5">
-                <h3 className="max-w-[12ch] text-[28px] font-white uppercase leading-[.9] text-white md:text-[36px]">
-                  {project.title}
-                </h3>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-white/70">
+                    {project.category}
+                  </p>
+
+                  <motion.p
+                    className="mt-2 max-w-xl text-[13px] leading-5 text-white/78 md:text-[14px]"
+                    animate={{
+                      opacity: isHovered ? 1 : 0.82,
+                    }}
+                    transition={{
+                      duration: 0.35,
+                    }}
+                  >
+                    {project.caption}
+                  </motion.p>
+                </div>
 
                 <motion.span
-                  className="mb-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/40 text-white"
-                  whileHover={{
-                    backgroundColor: '#f15a24',
-                    borderColor: '#f15a24',
-                    color: '#111111',
-                    rotate: 6,
+                  className="mb-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/50 bg-black/15 text-white backdrop-blur-md"
+                  animate={{
+                    backgroundColor: isHovered
+                      ? '#f15a24'
+                      : 'rgba(0,0,0,0.15)',
+                    borderColor: isHovered
+                      ? '#f15a24'
+                      : 'rgba(255,255,255,0.50)',
+                    color: isHovered ? '#111111' : '#ffffff',
+                    rotate: isHovered ? 8 : 0,
+                    scale: isHovered ? 1.06 : 1,
                   }}
                   transition={{
-                    duration: 0.25,
+                    duration: 0.3,
                   }}
                 >
                   <ArrowUpRight size={18} />
                 </motion.span>
               </div>
 
-              <motion.p
-                className="mt-3 max-w-xl text-[13px] leading-5 text-white/70 md:text-[14px]"
-                initial={{
-                  opacity: 0,
-                  y: 12,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
+              <motion.div
+                className="mt-4 flex flex-wrap gap-2"
+                animate={{
+                  opacity: isHovered ? 1 : 0.76,
                 }}
                 transition={{
-                  duration: 0.45,
-                  delay: 0.22,
-                  ease,
+                  duration: 0.35,
                 }}
               >
-                {project.caption}
-              </motion.p>
-
-              <div className="mt-4 flex flex-wrap gap-2">
                 {project.services.map((service) => (
                   <span
                     key={service}
-                    className="rounded-full border border-white/25 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[.1em] text-white/65 transition-colors duration-300 group-hover:border-orange group-hover:text-orange"
+                    className="rounded-full border border-white/28 bg-black/10 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[.1em] text-white/75 backdrop-blur-sm transition-colors duration-300 group-hover:border-orange group-hover:text-orange"
                   >
                     {service}
                   </span>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </button>
     </motion.article>
+  );
+}
+
+function CaseStudyPreviewModal({
+  project,
+  onClose,
+}: {
+  project: CaseStudy;
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm md:p-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="case-study-preview-title"
+        initial={{ opacity: 0, y: 26, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 18, scale: 0.985 }}
+        transition={{ duration: 0.35, ease }}
+        className="relative w-full max-w-[760px] overflow-hidden border border-white/15 bg-ink text-bone shadow-2xl"
+      >
+        <div className="relative min-h-[260px] overflow-hidden border-b border-white/15 px-6 pb-8 pt-24 md:min-h-[330px] md:px-10 md:pb-10 md:pt-32">
+          <Image
+            src={project.image}
+            alt=""
+            fill
+            sizes="760px"
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: project.overlay,
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-5 top-5 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/35 bg-black/20 text-white backdrop-blur-sm transition hover:border-orange hover:bg-orange hover:text-black"
+            aria-label="Close case study preview"
+          >
+            <X size={17} />
+          </button>
+
+          <div className="relative z-10">
+            <p className="text-[10px] font-bold uppercase tracking-[.16em] text-orange">
+              Case study in development
+            </p>
+
+            <h2 id="case-study-preview-title" className="sr-only">
+              {project.title}
+            </h2>
+
+            <div className="relative mt-6 flex h-36 w-full items-center justify-center md:h-44">
+              <Image
+                src={project.logo}
+                alt={`${project.title} logo`}
+                width={620}
+                height={260}
+                className={`h-auto w-auto object-contain drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] ${
+                  project.logoClassName ?? 'max-h-[120px] max-w-[76%]'
+                }`}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="px-6 py-8 md:px-10 md:py-10">
+          <p className="max-w-2xl text-base leading-7 text-white/70 md:text-lg md:leading-8">
+            {project.caption}
+          </p>
+
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/50 md:text-base">
+            This transformation is currently being documented. A detailed
+            walkthrough of the strategy, design process, and final outcomes
+            will be published soon.
+          </p>
+
+          <div className="mt-7 flex flex-wrap gap-2">
+            {project.services.map((service) => (
+              <span
+                key={service}
+                className="rounded-full border border-white/20 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.08em] text-white/60"
+              >
+                {service}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-9 flex justify-end border-t border-white/15 pt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-full bg-orange px-6 py-3 text-[10px] font-bold uppercase text-black transition hover:bg-bone"
+            >
+              Return to projects
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -450,21 +694,23 @@ function CaseStudyModal({
           </section>
 
           {/* HERO VISUAL */}
-          <section className="px-5 md:px-10 lg:px-14">
-            <div
-              className="mx-auto aspect-[16/8] max-w-[1280px] overflow-hidden border border-black/10"
-              style={{
-                backgroundImage: `${project.gradient}, url(${project.image})`,
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-              }}
-            />
-          </section>
+          <section className="px-5 py-40 md:px-10 lg:px-14">
+          <div className="mx-auto max-w-[1280px] overflow-hidden border border-black/10">
+  <Image
+    src="/images/TEEC_main logo.png"
+    alt="The East End Co."
+    width={1280}
+    height={640}
+    priority
+    className="h-auto w-full object-cover opacity-100 brightness-150 contrast-125 saturate-110 drop-shadow-[0_10px_40px_rgba(0,0,0,0.75)]"
+  />
 
+  </div>
+</section>
           {/* STORY */}
           <LongCaseSection
             eyebrow="The business we met"
-            title="A strong business whose identity no longer reflected its reality."
+            // title="A strong business whose identity no longer reflected its reality."
             copy={project.overview}
             mediaLabel="Before / existing brand"
           />
@@ -805,11 +1051,7 @@ export default function FeaturedCaseStudies() {
               </h2>
             </div>
 
-            <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
-              A closer look at businesses that outgrew where they
-              started and needed a brand capable of carrying what came
-              next.
-            </p>
+            
           </motion.div>
 
           <div className="flex flex-wrap gap-2 py-8">
@@ -852,17 +1094,24 @@ export default function FeaturedCaseStudies() {
       </section>
 
       <AnimatePresence>
-        {selectedProject && (
-          <CaseStudyModal
-            key={selectedProject.slug}
-            project={selectedProject}
-            projectIndex={selectedIndex}
-            totalProjects={caseStudies.length}
-            onClose={() => setSelectedProject(null)}
-            onPrevious={showPrevious}
-            onNext={showNext}
-          />
-        )}
+        {selectedProject &&
+          (CASE_STUDIES_READY ? (
+            <CaseStudyModal
+              key={selectedProject.slug}
+              project={selectedProject}
+              projectIndex={selectedIndex}
+              totalProjects={caseStudies.length}
+              onClose={() => setSelectedProject(null)}
+              onPrevious={showPrevious}
+              onNext={showNext}
+            />
+          ) : (
+            <CaseStudyPreviewModal
+              key={`${selectedProject.slug}-preview`}
+              project={selectedProject}
+              onClose={() => setSelectedProject(null)}
+            />
+          ))}
       </AnimatePresence>
     </>
   );
