@@ -32,6 +32,15 @@ const cormorant = Cormorant_Garamond({
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const OPEN_PROJECT_INQUIRY_EVENT = 'open-project-inquiry';
+
+function openProjectInquiry() {
+  window.dispatchEvent(
+    new CustomEvent(OPEN_PROJECT_INQUIRY_EVENT)
+  );
+}
+
+
 /* -------------------------------------------------------------------------- */
 /*                                   DATA                                     */
 /* -------------------------------------------------------------------------- */
@@ -467,12 +476,13 @@ export default function PricingPage() {
               Stewardship
             </a>
 
-            <Link
-              href="/start-a-project"
+            <button
+              type="button"
+              onClick={openProjectInquiry}
               className="rounded-full bg-black px-6 py-3 text-white transition-colors duration-300 hover:bg-orange hover:text-black"
             >
               Start a project
-            </Link>
+            </button>
           </nav>
         </div>
       </header>
@@ -652,8 +662,9 @@ export default function PricingPage() {
               going. We will help determine the scope.
             </p> */}
 
-            <Link
-              href="/start-a-project"
+            <button
+              type="button"
+              onClick={openProjectInquiry}
               className="group mt-10 inline-flex items-center gap-5 rounded-full bg-black px-8 py-5 text-[10px] font-bold uppercase tracking-[.15em] text-white transition-all duration-300 hover:bg-[#f2eee7] hover:text-black"
             >
               Tell Us What You Need
@@ -662,7 +673,7 @@ export default function PricingPage() {
                 size={17}
                 className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
               />
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -909,8 +920,9 @@ function ScopeModal({
            
           </p>
 
-          <Link
-            href="/start-a-project"
+          <button
+              type="button"
+              onClick={openProjectInquiry}
             className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-white px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-black hover:text-white"
           >
             Start a project
@@ -919,7 +931,7 @@ function ScopeModal({
               size={16}
               className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
             />
-          </Link>
+          </button>
         </div>
       </motion.div>
     </motion.div>
@@ -1100,8 +1112,9 @@ function DigitalScopeModal({
             Final scope and investment are confirmed after discovery.
           </p>
 
-          <Link
-            href="/start-a-project"
+          <button
+              type="button"
+              onClick={openProjectInquiry}
             className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
           >
             Start a project
@@ -1110,7 +1123,7 @@ function DigitalScopeModal({
               size={16}
               className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
             />
-          </Link>
+          </button>
         </div>
       </motion.div>
     </motion.div>
@@ -1297,8 +1310,9 @@ function StewardshipScopeModal({
             Hours reset monthly. Larger redesigns and development projects are scoped separately.
           </p>
 
-          <Link
-            href="/start-a-project"
+          <button
+              type="button"
+              onClick={openProjectInquiry}
             className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-orange px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-[#f2eee7]"
           >
             Start a project
@@ -1307,7 +1321,7 @@ function StewardshipScopeModal({
               size={16}
               className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
             />
-          </Link>
+          </button>
         </div>
       </motion.div>
     </motion.div>

@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function TypewriterEyebrow({
   text,
@@ -71,16 +72,25 @@ const rotations = [
     word: 'REBRAND',
     a: '#F15A24',
     b: '#251813',
+    image: '/images/rebrand.png',
+    imageAlt: 'Fingerprint seal representing rebrand',
+    glow: 'rgba(241, 90, 36, 0.34)',
   },
   {
     word: 'REINVENT',
     a: '#6D775F',
     b: '#F0A04B',
+    image: '/images/reinvent.png',
+    imageAlt: 'Gear seal representing reinvent',
+    glow: 'rgba(240, 160, 75, 0.28)',
   },
   {
     word: 'RELAUNCH',
     a: '#C7B9A5',
     b: '#1A2831',
+    image: '/images/relaunch.png',
+    imageAlt: 'Rocket seal representing relaunch',
+    glow: 'rgba(199, 185, 165, 0.32)',
   },
 ];
 
@@ -147,7 +157,7 @@ const processSteps = [
 // TEMPORARY LAUNCH FLAG
 // Change this to true when the full questionnaire is ready.
 const QUESTIONNAIRE_READY = false;
-const CONTACT_EMAIL = 'hello@lexandhue.com';
+const CONTACT_EMAIL = 'info@lexandhue.com';
 
 
 
@@ -236,7 +246,7 @@ export default function BrandPage() {
               }}
               className="mb-10 max-w-sm text-[11px] uppercase tracking-[.18em] text-white/50"
             >
-              Businesses ready for a rebrand, reinvention and relaunch 
+          
             </motion.p>
 
             <motion.h1
@@ -371,98 +381,69 @@ export default function BrandPage() {
               y: heroY,
               scale: heroScale,
             }}
-            className="relative mx-auto h-[48vh] min-h-[420px] w-full max-w-[580px] overflow-hidden rounded-[1.5rem] lg:h-[70vh]"
+            className="relative mx-auto h-[48vh] min-h-[420px] w-full max-w-[580px] lg:h-[70vh]"
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={rotation}
-                initial={{
-                  opacity: 0,
-                  scale: 1.035,
-                  x: 24,
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  x: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.985,
-                  x: -18,
-                }}
-                transition={{
-                  duration: 0.75,
-                  ease: [
-                    0.22,
-                    1,
-                    0.36,
-                    1,
-                  ],
-                }}
-                className="absolute inset-0"
-              >
-                <div
-                  className="absolute inset-0"
+            <div
+              className="absolute inset-0 flex items-center justify-center p-8 md:p-12"
+              style={{
+                perspective: '1200px',
+              }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={current.word}
+                  initial={{
+                    opacity: 0,
+                    rotateY: -90,
+                    scale: 0.88,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    rotateY: 0,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    rotateY: 90,
+                    scale: 0.88,
+                  }}
+                  transition={{
+                    duration: 0.68,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="relative flex h-[78%] w-[78%] max-h-[450px] max-w-[450px] items-center justify-center"
                   style={{
-                    background: `linear-gradient(145deg, ${current.a}, ${current.b})`,
+                    transformStyle: 'preserve-3d',
                   }}
-                />
+                >
+                  <motion.div
+                    aria-hidden="true"
+                    className="absolute h-[68%] w-[68%] rounded-full blur-[58px]"
+                    animate={{
+                      opacity: [0.34, 0.56, 0.34],
+                      scale: [0.95, 1.06, 0.95],
+                    }}
+                    transition={{
+                      duration: 3.4,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    style={{
+                      background: current.glow,
+                    }}
+                  />
 
-                {/* QUIETER SHAPES */}
-                <motion.div
-                  animate={{
-                    rotate: [
-                      0,
-                      8,
-                      -5,
-                      0,
-                    ],
-                    x: [
-                      0,
-                      12,
-                      -5,
-                      0,
-                    ],
-                    y: [
-                      0,
-                      -10,
-                      8,
-                      0,
-                    ],
-                  }}
-                  transition={{
-                    duration: 13,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  className="absolute left-[13%] top-[14%] h-36 w-36 rounded-full border border-white/35 backdrop-blur-sm md:h-44 md:w-44"
-                />
-
-                <motion.div
-                  animate={{
-                    rotate: [
-                      10,
-                      -6,
-                      8,
-                      10,
-                    ],
-                    x: [
-                      0,
-                      -16,
-                      7,
-                      0,
-                    ],
-                  }}
-                  transition={{
-                    duration: 16,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  className="absolute bottom-[10%] right-[8%] h-[46%] w-[52%] rounded-[50%_50%_42%_58%/55%_41%_59%_45%] bg-white/15 backdrop-blur-md"
-                />
-              </motion.div>
-            </AnimatePresence>
+                  <Image
+                    src={current.image}
+                    alt={current.imageAlt}
+                    width={900}
+                    height={900}
+                    priority
+                    className="relative z-10 h-auto w-full object-contain opacity-[0.82] brightness-[0.94] contrast-[0.88] drop-shadow-[0_18px_38px_rgba(0,0,0,0.42)]"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -710,7 +691,7 @@ export default function BrandPage() {
             repeat: Infinity,
             ease: 'linear',
           }}
-          className="absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full border border-black/20"
+          
         />
 
         <div className="relative z-10 grid gap-12 lg:grid-cols-[.75fr_.25fr] lg:items-end">

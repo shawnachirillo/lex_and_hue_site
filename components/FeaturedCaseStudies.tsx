@@ -156,6 +156,15 @@ const filters = [
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const OPEN_PROJECT_INQUIRY_EVENT = 'open-project-inquiry';
+
+function openProjectInquiry() {
+  window.dispatchEvent(
+    new CustomEvent(OPEN_PROJECT_INQUIRY_EVENT)
+  );
+}
+
+
 // TEMPORARY LAUNCH FLAG
 // Change this to true when the full case studies are ready.
 const CASE_STUDIES_READY = false;
@@ -671,9 +680,12 @@ function CaseStudyModal({
                   </motion.p>
                 </div>
 
-                <Link
-                  href="/start-a-project"
-                  onClick={onClose}
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    openProjectInquiry();
+                  }}
                   className="group inline-flex w-fit items-center gap-4 rounded-full bg-orange px-7 py-4 text-[11px] font-bold uppercase text-black transition hover:bg-black hover:text-white"
                 >
                   Start a project
@@ -681,7 +693,7 @@ function CaseStudyModal({
                     size={17}
                     className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
                   />
-                </Link>
+                </button>
               </div>
 
               <div className="mt-12 grid gap-px bg-black/45 backdrop-blur-sm md:grid-cols-4">
@@ -801,9 +813,12 @@ function CaseStudyModal({
                 Ready to start the project?
               </h3>
 
-              <Link
-                href="/start-a-project"
-                onClick={onClose}
+              <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    openProjectInquiry();
+                  }}
                 className="group inline-flex w-fit items-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition hover:bg-orange hover:text-black"
               >
                 Start project
@@ -811,7 +826,7 @@ function CaseStudyModal({
                   size={17}
                   className="transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
                 />
-              </Link>
+              </button>
             </div>
           </section>
         </div>
@@ -874,7 +889,7 @@ function LongCaseSection({
   dark = false,
 }: {
   eyebrow: string;
-  title: string;
+  title?: string;
   copy: string;
   mediaLabel: string;
   dark?: boolean;
@@ -901,12 +916,14 @@ function LongCaseSection({
             viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.55, ease }}
           >
-            <h3 className="max-w-[16ch] text-[36px] font-black uppercase leading-[.9] md:text-[52px]">
-              {title}
-            </h3>
+            {title && (
+              <h3 className="max-w-[16ch] text-[36px] font-black uppercase leading-[.9] md:text-[52px]">
+                {title}
+              </h3>
+            )}
 
             <p
-              className={`mt-7 max-w-3xl text-base leading-8 md:text-lg ${
+              className={`${title ? 'mt-7' : 'mt-0'} max-w-3xl text-base leading-8 md:text-lg ${
                 dark ? 'text-white/60' : 'text-black/60'
               }`}
             >
