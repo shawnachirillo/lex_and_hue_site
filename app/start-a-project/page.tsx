@@ -1,17 +1,16 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import StartProjectModal from '@/components/StartProjectModal';
+import { useEffect } from 'react';
 
 export default function StartAProjectPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    router.replace('/');
+  }, [router]);
+
   return (
-    <main className="min-h-screen bg-ink">
-      <StartProjectModal
-        open
-        onClose={() => router.push('/')}
-      />
-    </main>
+    <main className="min-h-screen bg-ink" />
   );
 }
