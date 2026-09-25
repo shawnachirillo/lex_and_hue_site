@@ -1,9 +1,5 @@
-import FeaturedCaseStudies from '@/components/FeaturedCaseStudies';
+import { redirect } from 'next/navigation';
 
 export default function CaseStudiesPage() {
-  return (
-    <main className="min-h-screen bg-ink">
-      <FeaturedCaseStudies />
-    </main>
-  );
+  redirect('/#work');
 }
