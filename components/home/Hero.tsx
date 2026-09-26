@@ -53,36 +53,33 @@ export default function Hero({
       id="top"
       className="relative overflow-hidden bg-ink px-5 pb-20 pt-32 text-bone md:px-10 md:pb-24 md:pt-40 lg:pb-28 lg:pt-44"
     >
-      {/* BACKGROUND IMAGE */}
-      <div className="pointer-events-none absolute inset-0">
-        <Image
-          src="/images/LH_hero.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-[0.52]"
-          style={{
-            objectPosition: 'center center',
-          }}
-        />
+     {/* BACKGROUND IMAGE */}
+<div className="pointer-events-none absolute inset-0">
+  <Image
+    src="/images/LH_hero.png"
+    alt=""
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover opacity-[0.52]"
+    style={{
+      objectPosition: 'center center',
+    }}
+  />
 
-        {/* Overall darkening */}
-        <div className="absolute inset-0 bg-black/55" />
+  {/* Subdue the image */}
+  <div className="absolute inset-0 bg-black/55" />
 
-        {/* Protect typography while allowing image through on right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-      </div>
-
-      {/* HERO CONTENT */}
+  {/* Extra protection behind headline */}
+  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
+</div>
+      {/* CONTENT */}
       <div className="relative z-10 mx-auto max-w-[1500px]">
         <motion.div
           initial={{
-            opacity: 0,
             y: 24,
           }}
           animate={{
-            opacity: 1,
             y: 0,
           }}
           transition={{
@@ -97,16 +94,16 @@ export default function Hero({
             style={neueHaasDisplay}
           >
             <span className="block text-[52px] uppercase md:text-[72px] lg:text-[88px]">
-              We design
-            </span>
+  We design
+</span>
 
-            <span className="block text-[52px] uppercase md:text-[72px] lg:text-[88px]">
-              how your
-            </span>
+<span className="block text-[52px] uppercase md:text-[72px] lg:text-[88px]">
+  how your
+</span>
 
-            <span className="font-editorial block text-[68px] font-normal italic leading-[0.88] text-bone md:text-[94px] lg:text-[116px]">
-              business
-            </span>
+<span className="font-editorial block text-[68px] font-normal italic leading-[0.88] text-bone md:text-[94px] lg:text-[116px]">
+  business
+</span>
           </h1>
 
           {/* ROTATING WORD */}
