@@ -306,7 +306,7 @@ export default function SelectedWork() {
           className="mt-14 md:mt-16 lg:mt-20"
         >
           <h2
-            className="text-[38px] uppercase leading-[0.92] text-bone md:text-[46px] lg:text-[52px]"
+            className="text-[38px] uppercase leading-[0.92] text-bone md:text-[66px] lg:text-[82px]"
             style={{
               fontFamily:
                 '"neue-haas-grotesk-display", sans-serif',

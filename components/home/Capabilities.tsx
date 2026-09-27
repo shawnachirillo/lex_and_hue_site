@@ -78,7 +78,7 @@ export default function Capabilities() {
                       }`}
                     >
                       <span
-                        className="block whitespace-nowrap text-[68px] uppercase leading-[0.94] xl:text-[70px] 2xl:text-[78px]"
+                        className="block whitespace-nowrap text-[68px] uppercase leading-[0.94] xl:text-[86px] 2xl:text-[78px]"
                         style={condensedBlack}
                       >
                         {displayName(capability)}
