@@ -1,110 +1,345 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 
-import { capabilities } from '@/content/capabilities';
+import {
+  capabilities,
+  type Capability,
+  type CapabilityId,
+} from '@/content/capabilities';
+
+const condensedBlack = {
+  fontFamily: '"neue-haas-grotesk-display", sans-serif',
+  fontWeight: 900,
+} as const;
+
+function displayName(capability: Capability) {
+  return capability.id === 'systems'
+    ? 'SYSTEM'
+    : capability.name.toUpperCase();
+}
 
 export default function Capabilities() {
+  const [activeId, setActiveId] =
+    useState<CapabilityId | null>(null);
+
   return (
     <section
       id="capabilities"
-      className="bg-bone px-5 py-20 text-ink md:px-10 md:py-28"
+      className="relative overflow-hidden bg-bone px-5 py-12 text-ink md:px-10 md:py-14 lg:px-10 lg:py-16 xl:px-12"
     >
       <div className="mx-auto max-w-[1500px]">
-        {/* INTRO */}
-        <div className="grid gap-8 border-b border-black/15 pb-12 lg:grid-cols-[.35fr_.65fr] lg:pb-16">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{
-              duration: 0.6,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="text-[11px] font-semibold uppercase tracking-[.28em]"
-          >
-            What we do
-          </motion.p>
+        {/* SECTION LABEL */}
+        <motion.p
+  initial={{ opacity: 0, y: 10 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.5,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="text-[11px] font-bold uppercase text-black/85"
+  style={{ fontFamily: '"Courier New", Courier, monospace' }}
+>
+  WHAT WE DO
+</motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{
-              duration: 0.75,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <h2 className="max-w-[900px] text-[42px] font-black uppercase leading-[.92] md:text-[60px] lg:text-[76px]">
-              Brand.
-              <br />
-              Experience.
-              <br />
-              <span className="text-orange">
-                Systems.
-              </span>
-            </h2>
+        {/* =====================================================
+            DESKTOP
+        ===================================================== */}
+        <div
+          className="relative mt-10 hidden min-h-[210px] lg:block"
+          onMouseLeave={() => setActiveId(null)}
+        >
+          
+          <div className="absolute left-[6%] top-0 flex w-[96%] max-w-[1280px] items-start">
+           
+            <div className="w-[43%] shrink-0">
+              <div className="flex flex-col items-end">
+                {capabilities.map((capability) => {
+                  const isActive =
+                    activeId === capability.id;
 
-            <p className="mt-8 max-w-[680px] text-[17px] leading-7 text-black/60 md:text-[19px] md:leading-8">
-              Design and technology working together to shape how your
-              business is understood, experienced, and operated.
-            </p>
-          </motion.div>
+                  return (
+                    <button
+                      key={capability.id}
+                      type="button"
+                      onMouseEnter={() =>
+                        setActiveId(capability.id)
+                      }
+                      onFocus={() =>
+                        setActiveId(capability.id)
+                      }
+                      className={`block w-full text-right transition-colors duration-200 ${
+                        isActive
+                          ? 'text-orange'
+                          : 'text-ink hover:text-orange'
+                      }`}
+                    >
+                      <span
+                        className="block whitespace-nowrap text-[68px] uppercase leading-[0.94] xl:text-[70px] 2xl:text-[78px]"
+                        style={condensedBlack}
+                      >
+                        {displayName(capability)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ===============================================
+                FIXED INFO REGION
+            =============================================== */}
+            <div className="relative ml-7 min-h-[230px] min-w-0 flex-1 xl:ml-9">
+              <AnimatePresence mode="wait">
+                {activeId && (
+                  <ActiveCapabilityInfo
+                    key={activeId}
+                    activeId={activeId}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
 
-        {/* CAPABILITIES */}
-        <div>
-          {capabilities.map((capability, index) => (
-            <motion.article
-              key={capability.id}
-              id={`capability-${capability.id}`}
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.25,
-              }}
-              transition={{
-                duration: 0.65,
-                delay: index * 0.06,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="group grid gap-7 border-b border-black/15 py-10 md:py-12 lg:grid-cols-[80px_.7fr_1fr] lg:items-start lg:gap-10"
-            >
-              <span className="text-[10px] font-semibold text-black/35">
-                0{index + 1}
-              </span>
+        {/* =====================================================
+            TABLET / MOBILE
+        ===================================================== */}
+        <div className="mt-8 lg:hidden">
+          <div className="w-full max-w-[720px]">
+            {capabilities.map((capability) => {
+              const isActive =
+                activeId === capability.id;
 
-              <div>
-                <h3 className="text-[38px] font-black uppercase leading-none transition-colors duration-300 group-hover:text-orange md:text-[48px] lg:text-[58px]">
-                  {capability.name}
-                </h3>
-
-                <p className="mt-3 font-serif text-[24px] italic leading-tight text-orange md:text-[28px]">
-                  {capability.statement}
-                </p>
-              </div>
-
-              <ul className="grid gap-0 border-t border-black/15">
-                {capability.examples.map((example) => (
-                  <li
-                    key={example}
-                    className="border-b border-black/10 py-3 text-[12px] font-semibold uppercase tracking-[.08em] text-black/60 transition-colors duration-300 group-hover:text-black"
+              return (
+                <div
+                  key={capability.id}
+                  className="w-full"
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveId(
+                        isActive
+                          ? null
+                          : capability.id
+                      )
+                    }
+                    aria-expanded={isActive}
+                    className={`block w-full transition-colors duration-200 ${
+                      isActive
+                        ? 'text-orange'
+                        : 'text-ink'
+                    }`}
                   >
-                    {example}
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          ))}
+                    <span
+                      className="block whitespace-nowrap text-left text-[42px] uppercase leading-[0.95] sm:text-[52px] md:text-[62px]"
+                      style={condensedBlack}
+                    >
+                      {displayName(capability)}
+                    </span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.div
+                        initial={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          height: 'auto',
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pb-7 pt-3">
+                          <CapabilityInfo
+                            capability={capability}
+                            mobile
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* =========================================================
+   DESKTOP ACTIVE INFO
+
+   Each capability gets the EXACT SAME information structure.
+   Only its vertical row changes.
+========================================================= */
+
+function ActiveCapabilityInfo({
+  activeId,
+}: {
+  activeId: CapabilityId;
+}) {
+  const capability = capabilities.find(
+    (item) => item.id === activeId
+  );
+
+  if (!capability) {
+    return null;
+  }
+
+  /*
+    Matches the three permanent title rows.
+
+    BRAND
+    EXPERIENCE
+    SYSTEM
+
+    The information starts at the same X position for every row.
+  */
+  const rowTop: Record<CapabilityId, number> = {
+    brand: 0,
+    experience: 66,
+    systems: 132,
+  };
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        x: -8,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      exit={{
+        opacity: 0,
+        x: 5,
+      }}
+      transition={{
+        duration: 0.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="absolute left-0 w-full"
+      style={{
+        top: rowTop[activeId],
+      }}
+    >
+      <CapabilityInfo capability={capability} />
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   SHARED INFORMATION STRUCTURE
+
+   IMPORTANT:
+   BRAND / EXPERIENCE / SYSTEM all use this exact component.
+
+   Desktop:
+   statement | 3 services
+             | 2 services
+
+   So all three active states have identical geometry.
+========================================================= */
+
+function CapabilityInfo({
+  capability,
+  mobile = false,
+}: {
+  capability: Capability;
+  mobile?: boolean;
+}) {
+  if (mobile) {
+    return (
+      <div>
+        <p className="font-editorial text-[20px] font-normal italic leading-[1.05] sm:text-[22px]">
+          {capability.statement}
+        </p>
+
+        <div className="mt-4 grid grid-cols-2 gap-x-5 sm:grid-cols-3">
+          {capability.examples.map(
+            (example, index) => (
+              <ServiceItem
+                key={example}
+                example={example}
+                index={index}
+              />
+            )
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex w-full min-w-0 items-start">
+      {/* STATEMENT — SAME WIDTH FOR EVERY CAPABILITY */}
+      <div className="w-[180px] shrink-0 xl:w-[205px]">
+        <p className="font-editorial text-[17px] font-normal italic leading-[1.05] xl:text-[19px]">
+          {capability.statement}
+        </p>
+      </div>
+
+      {/* SERVICES — SAME GRID FOR EVERY CAPABILITY */}
+      <div className="ml-5 grid min-w-0 flex-1 grid-cols-3 gap-x-4 xl:ml-7 xl:gap-x-5">
+        {capability.examples.map(
+          (example, index) => (
+            <ServiceItem
+              key={example}
+              example={example}
+              index={index}
+            />
+          )
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   SERVICE ITEM
+
+   Same Illustrator treatment everywhere:
+   thin top line
+   orange number
+   tiny black service name
+========================================================= */
+
+function ServiceItem({
+  example,
+  index,
+}: {
+  example: string;
+  index: number;
+}) {
+  return (
+    <div className="min-w-0 border-t border-black/15 py-2">
+      <div className="flex min-w-0 items-start gap-2">
+        <span className="shrink-0 font-mono text-[8px] font-bold leading-[1.2] text-orange">
+          0{index + 1}
+        </span>
+
+        <span className="min-w-0 font-mono text-[8px] font-bold uppercase leading-[1.2] xl:text-[9px]">
+          {example}
+        </span>
+      </div>
+    </div>
   );
 }
