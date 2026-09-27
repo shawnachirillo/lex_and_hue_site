@@ -68,7 +68,6 @@ export default function SelectedWork() {
   const [direction, setDirection] = useState(1);
   const [hoveredSlug, setHoveredSlug] =
     useState<string | null>(null);
-
   const [touchStart, setTouchStart] =
     useState<number | null>(null);
 
@@ -255,7 +254,9 @@ export default function SelectedWork() {
               opacity: 1,
               y: 0,
             }}
-            viewport={{ once: true }}
+            viewport={{
+              once: true,
+            }}
             transition={{
               duration: 0.5,
               ease: [0.22, 1, 0.36, 1],
@@ -285,15 +286,58 @@ export default function SelectedWork() {
           </div>
         </div>
 
+        {/* EDITORIAL STATEMENT */}
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 18,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.65,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mt-14 md:mt-16 lg:mt-20"
+        >
+          <h2
+            className="text-[38px] uppercase leading-[0.92] text-bone md:text-[46px] lg:text-[52px]"
+            style={{
+              fontFamily:
+                '"neue-haas-grotesk-display", sans-serif',
+              fontWeight: 700,
+            }}
+          >
+            How we
+            <br />
+
+            <span
+              className="font-editorial normal-case text-orange"
+              style={{
+                fontWeight: 400,
+                fontStyle: 'italic',
+              }}
+            >
+              shaped
+            </span>{' '}
+            the work.
+          </h2>
+        </motion.div>
+
         {/* =====================================================
             DESKTOP / TABLET CAROUSEL
         ===================================================== */}
         <div
-          className="relative mt-16 hidden min-h-[500px] items-center md:flex md:mt-20 lg:mt-24 lg:min-h-[560px]"
+          className="relative mt-10 hidden min-h-[500px] items-center md:flex lg:mt-12 lg:min-h-[560px]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* PREVIOUS BUTTON */}
+          {/* PREVIOUS */}
           <button
             type="button"
             onClick={goPrevious}
@@ -303,7 +347,7 @@ export default function SelectedWork() {
             <DoubleChevron direction="left" />
           </button>
 
-          {/* THREE PROJECT COMPOSITION */}
+          {/* PROJECTS */}
           <div className="mx-auto flex w-[calc(100%-110px)] max-w-[1240px] items-center justify-center gap-5 lg:gap-7">
             <AnimatePresence
               initial={false}
@@ -393,7 +437,7 @@ export default function SelectedWork() {
             </AnimatePresence>
           </div>
 
-          {/* NEXT BUTTON */}
+          {/* NEXT */}
           <button
             type="button"
             onClick={goNext}
@@ -404,7 +448,7 @@ export default function SelectedWork() {
           </button>
         </div>
 
-        {/* ACTIVE PROJECT INFO */}
+        {/* ACTIVE PROJECT INFO — BOTTOM */}
         <div className="hidden md:block">
           <AnimatePresence mode="wait">
             <motion.div
@@ -469,7 +513,7 @@ export default function SelectedWork() {
             MOBILE
         ===================================================== */}
         <div
-          className="mt-12 md:hidden"
+          className="mt-10 md:hidden"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -508,6 +552,7 @@ export default function SelectedWork() {
                 ],
               }}
             >
+              {/* PROJECT IMAGE */}
               <Link
                 href={`/work/${activeProject.slug}`}
                 className="relative block aspect-square overflow-hidden border border-white/55 bg-black"
@@ -545,7 +590,8 @@ export default function SelectedWork() {
                 )}
               </Link>
 
-              <div className="mt-6">
+              {/* PROJECT INFO */}
+              <div className="mt-6 text-center">
                 <p
                   className="mb-2 text-[10px] font-bold uppercase text-orange"
                   style={{
@@ -722,7 +768,7 @@ function ProjectCard({
       {/* BORDER */}
       <div className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-white/30" />
 
-      {/* CURSOR */}
+      {/* VIEW PROJECT CURSOR */}
       <AnimatePresence>
         {isHovered && (
           <motion.div

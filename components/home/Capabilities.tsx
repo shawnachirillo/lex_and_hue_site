@@ -136,7 +136,7 @@ export default function Capabilities() {
                     }`}
                   >
                     <span
-                      className="block whitespace-nowrap text-left text-[42px] uppercase leading-[0.95] sm:text-[52px] md:text-[62px]"
+                      className="block whitespace-nowrap text-left text-[42px] uppercase leading-[0.95] sm:text-[62px] md:text-[62px]"
                       style={condensedBlack}
                     >
                       {displayName(capability)}
