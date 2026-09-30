@@ -6,11 +6,14 @@ import {
   AnimatePresence,
   motion,
   useReducedMotion,
+  useScroll,
+  useTransform,
 } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 import AnimatedEyebrow from '@/components/ui/AnimatedEyebrow';
 import { transformations } from '@/content/transformations';
+import { useRef } from 'react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -35,14 +38,40 @@ const courier = {
 ========================================================= */
 
 export default function Transformations() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+const { scrollYProgress } = useScroll({
+  target: sectionRef,
+  offset: ['start end', 'end start'],
+});
+
+const backgroundY = useTransform(
+  scrollYProgress,
+  [0, 1],
+  ['-8%', '8%']
+);
   const reduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const active = transformations[activeIndex];
 
   return (
-    <section className="relative overflow-hidden bg-[#413d36] text-black">
-     <div className="mx-auto max-w-[1500px] px-5 pb-5 pt-20 md:px-10 md:pb-8 md:pt-28 lg:px-12 lg:pb-14 lg:pt-32">
+    <section
+    ref={sectionRef}
+    className="relative overflow-hidden bg-[#413d36] text-black"
+  >
+    {/* PARALLAX BACKGROUND */}
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none absolute -inset-y-[12%] left-0 right-0 bg-cover bg-center bg-no-repeat opacity-10"
+      style={{
+        backgroundImage: "url('/images/transformation.png')",
+        y: reduceMotion ? 0 : backgroundY,
+      }}
+    />
+  
+    {/* CONTENT */}
+    <div className="relative z-10 mx-auto max-w-[1500px] px-5 pb-10 pt-20 md:px-10 md:pb-12 md:pt-28 lg:px-12 lg:pb-14 lg:pt-32">
 
         {/* =================================================
             ANIMATED EYEBROW
