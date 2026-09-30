@@ -551,7 +551,7 @@ function ServiceItem({
         </span>
 
         <span
-          className={`min-w-0 text-[8px] font-bold uppercase leading-[1.2] xl:text-[9px] ${
+          className={`min-w-0 text-[11px] font-bold uppercase leading-[1.2] xl:text-[12px] ${
             inverted
               ? 'text-bone'
               : 'text-ink'

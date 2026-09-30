@@ -1,439 +1,527 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUpRight, Check } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Archivo, Cormorant_Garamond } from 'next/font/google';
+import {
+  AnimatePresence,
+  motion,
+} from 'framer-motion';
+import {
+  ArrowUpRight,
+  Check,
+} from 'lucide-react';
 
 import { digital } from '@/content/digital';
 import { stewardship } from '@/content/stewardship';
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-});
+import { transformations } from '@/content/transformations';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const OPEN_PROJECT_INQUIRY_EVENT = 'open-project-inquiry';
+const OPEN_PROJECT_INQUIRY_EVENT =
+  'open-project-inquiry';
 
 function openProjectInquiry() {
-  window.dispatchEvent(new CustomEvent(OPEN_PROJECT_INQUIRY_EVENT));
+  window.dispatchEvent(
+    new CustomEvent(
+      OPEN_PROJECT_INQUIRY_EVENT
+    )
+  );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   DATA                                     */
-/* -------------------------------------------------------------------------- */
+const display = {
+  fontFamily:
+    '"neue-haas-grotesk-display", sans-serif',
+  fontWeight: 700,
+} as const;
 
-const transformations = [
+const courier = {
+  fontFamily:
+    '"Courier New", Courier, monospace',
+} as const;
+
+type FocusedService = {
+  title: string;
+  price?: string;
+  description: string;
+  items: readonly string[];
+  bestFor: string;
+};
+
+type CapabilityId =
+  | 'brand'
+  | 'web'
+  | 'product'
+  | 'systems';
+
+  const brandServices: readonly FocusedService[] = [
+    {
+      title: 'Brand Identity',
+      price: 'from $2,000',
+      description:
+        'A focused identity engagement for businesses that need a stronger visual foundation without a larger transformation.',
+      items: [
+        'Visual direction',
+        'Primary logo',
+        'Secondary logo / marks',
+        'Color system',
+        'Typography system',
+        'Core graphic elements',
+        'Basic usage guidance',
+      ],
+      bestFor:
+        'Businesses that need a distinct, cohesive identity without repositioning the entire company.',
+    },
+    {
+      title: 'Brand Direction',
+      price: 'from $1,000',
+      description:
+        'Focused creative direction for an existing brand that needs greater consistency, clarity or visual range.',
+      items: [
+        'Existing identity review',
+        'Art direction',
+        'Typography direction',
+        'Color refinement',
+        'Image direction',
+        'Digital brand expression',
+      ],
+      bestFor:
+        'Established brands with usable foundations that need a clearer visual system.',
+    },
+  ];
+  const productServices: readonly FocusedService[] = [
+    {
+      title: 'Digital Product',
+      price: 'Custom quote',
+      description:
+        'Custom user-facing software designed around a specific product, service or customer experience.',
+      items: [
+        'Product discovery',
+        'UX architecture',
+        'Interface design',
+        'Responsive experience',
+        'Full-stack development',
+        'Database integration',
+        'Authentication where required',
+      ],
+      bestFor:
+        'Businesses building a portal, dashboard, membership experience, booking product or web application.',
+    },
+    {
+      title: 'MVP',
+      price: 'Custom quote',
+      description:
+        'A focused first version of a digital product built to validate the idea and establish a foundation for growth.',
+      items: [
+        'Feature prioritization',
+        'User flows',
+        'UX / UI',
+        'Core application development',
+        'Database architecture',
+        'Deployment',
+        'Launch support',
+      ],
+      bestFor:
+        'Founders and businesses that need to get a real product into use without building every future feature at once.',
+    },
+  ];
+  const systemsServices: readonly FocusedService[] = [
+    {
+      title: 'Custom System',
+      price: 'Custom quote',
+      description:
+        'Purpose-built software for an operational problem that off-the-shelf tools do not solve well.',
+      items: [
+        'Workflow discovery',
+        'System architecture',
+        'Internal tool design',
+        'Custom development',
+        'Database design',
+        'Integrations',
+        'Role-based access where required',
+      ],
+      bestFor:
+        'Businesses relying on disconnected tools, manual processes or workflows that have outgrown their current setup.',
+    },
+    {
+      title: 'Automation + Integration',
+      price: 'Custom quote',
+      description:
+        'Focused systems work that connects tools, removes repetitive work and improves how information moves through the business.',
+      items: [
+        'Workflow audit',
+        'Process mapping',
+        'API integrations',
+        'Automation',
+        'Data flows',
+        'AI-enabled functionality where useful',
+      ],
+      bestFor:
+        'Businesses that do not need an entirely new platform but do need their existing technology to work together.',
+    },
+  ];
+
+const capabilities = [
   {
-    name: 'Rebrand',
-    price: 'from $3,500',
-    description:
-      'For an established business that has evolved, but its existing identity no longer reflects its quality.',
-    outcome:
-      'Your business finally looks and feels like the business you have grown into.',
-    groups: [
-      {
-        title: 'Discovery',
-        items: [
-          'Pre-project brand questionnaire',
-          'Current brand audit',
-          '60–90 minute discovery session',
-          'Customer experience review',
-          'Competitive / market review',
-        ],
-      },
-      {
-        title: 'Strategy',
-        items: [
-          'Current vs. desired perception',
-          'Audience clarification',
-          'Brand positioning',
-          'Differentiators',
-          'Core brand message',
-          'Brand personality',
-        ],
-      },
-      {
-        title: 'Atmosphere',
-        items: [
-          'Emotional direction',
-          'Visual world / atmosphere board',
-          'Creative direction',
-          'Typography direction',
-          'Color direction',
-          'Imagery / art direction',
-          'Texture, motion and style references',
-        ],
-      },
-      {
-        title: 'Identity',
-        items: [
-          'Primary logo',
-          'Secondary logo / marks',
-          'Color system',
-          'Typography system',
-          'Graphic elements',
-          'Image direction',
-          'Basic motion direction where appropriate',
-        ],
-      },
-      {
-        title: 'Brand System',
-        items: [
-          'Brand guidelines',
-          'Final logo files',
-          'Font and color specifications',
-          'Usage examples',
-          'Core templates relevant to the business',
-        ],
-      },
-    ],
+    id: 'brand',
+    label: 'Brand',
   },
   {
-    name: 'Reinvent',
-    price: 'from $6,500',
-    description:
-      'For businesses changing not only how they look, but how they are positioned and experienced.',
-    outcome:
-      'We reinvent not only how the brand looks, but how people experience it.',
-    groups: [
-      {
-        title: 'Everything in Rebrand',
-        items: [
-          'Discovery and audit',
-          'Brand strategy',
-          'Atmosphere',
-          'Identity system',
-          'Brand guidelines',
-        ],
-      },
-      {
-        title: 'Positioning + Messaging',
-        items: [
-          'Deeper positioning strategy',
-          'Messaging hierarchy',
-          'Brand story',
-          'Value proposition',
-          'Key messages',
-          'Voice and tone direction',
-          'Headline / tagline exploration where appropriate',
-        ],
-      },
-      {
-        title: 'Experience Strategy',
-        items: [
-          'Customer touchpoint mapping',
-          'Experience gap analysis',
-          'Priority interaction strategy',
-          'Recommendations for the moments that matter most',
-        ],
-      },
-      {
-        title: 'Digital Experience',
-        items: [
-          'Website strategy',
-          'Sitemap',
-          'UX direction',
-          'Custom website design',
-          'Development',
-          'Responsive / mobile design',
-          'Interaction and motion design',
-          'Basic SEO structure',
-          'CMS setup',
-          'Analytics setup',
-        ],
-      },
-      {
-        title: 'Key Touchpoints',
-        items: [
-          '2–4 selected priority touchpoints',
-          'Packaging',
-          'Menus',
-          'Signage',
-          'Social system',
-          'Email',
-          'Proposals',
-          'Presentation decks',
-          'Print or digital collateral',
-        ],
-      },
-    ],
+    id: 'web',
+    label: 'Web',
   },
   {
-    name: 'Relaunch',
-    price: 'from $10,000',
-    description:
-      'For a business entering a meaningful new chapter and needing to introduce that change intentionally.',
-    outcome:
-      'You do not simply reveal a new identity. You introduce who the business has become.',
-    groups: [
-      {
-        title: 'Transformation',
-        items: [
-          'Relevant Rebrand deliverables',
-          'Relevant Reinvent deliverables',
-          'Brand and experience transformation based on scope',
-        ],
-      },
-      {
-        title: 'Relaunch Strategy',
-        items: [
-          'Launch goals',
-          'Audience priorities',
-          'Rollout plan',
-          'Internal / external considerations',
-          'Messaging sequence',
-          'Channel strategy',
-          'Launch timeline',
-        ],
-      },
-      {
-        title: 'Launch Creative',
-        items: [
-          'Relaunch campaign concept',
-          'Campaign art direction',
-          'Photography direction',
-          'Social launch campaign',
-          'Email announcement',
-          'Website launch experience',
-          'Advertising creative',
-          'Motion / video direction',
-        ],
-      },
-      {
-        title: 'The Reveal',
-        items: [
-          'Where we started',
-          'How we have grown',
-          'Who we have become',
-          'Where we are going',
-          'Narrative direction for introducing the change',
-        ],
-      },
-      {
-        title: 'Stewardship',
-        items: [
-          '30 days of post-launch support',
-          'Implementation guidance',
-          'Brand consistency review',
-          'Launch refinements',
-        ],
-      },
-    ],
+    id: 'product',
+    label: 'Product',
+  },
+  {
+    id: 'systems',
+    label: 'Systems',
   },
 ] as const;
 
-/* -------------------------------------------------------------------------- */
-/*                                   PAGE                                     */
-/* -------------------------------------------------------------------------- */
-
 export default function PricingPage() {
-  const [selectedOffer, setSelectedOffer] = useState<
-    (typeof transformations)[number] | null
-  >(null);
+  const [selectedOffer, setSelectedOffer] =
+    useState<
+      (typeof transformations)[number] | null
+    >(null);
 
-  const [selectedDigital, setSelectedDigital] = useState<
-    (typeof digital)[number] | null
-  >(null);
-
-  const [selectedStewardship, setSelectedStewardship] = useState<
+  const [
+    selectedStewardship,
+    setSelectedStewardship,
+  ] = useState<
     (typeof stewardship)[number] | null
   >(null);
 
+  const [
+    selectedFocused,
+    setSelectedFocused,
+  ] = useState<FocusedService | null>(null);
+
+  const [
+    activeCapability,
+    setActiveCapability,
+  ] = useState<CapabilityId>('web');
+
+  const focusedServices =
+    activeCapability === 'brand'
+      ? brandServices
+      : activeCapability === 'web'
+        ? digital
+        : activeCapability === 'product'
+          ? productServices
+          : systemsServices;
+
   return (
-    <main
-      className={`${archivo.className} overflow-hidden bg-[#f2eee7] text-[#111111]`}
-    >
-      {/* BRAND TRANSFORMATION INTRO */}
+    <main className="overflow-hidden bg-bone text-ink">
+      {/* =========================================
+          TRANSFORMATIONS
+      ========================================= */}
+
       <section
         id="transformation"
-        className="border-b border-black/25 bg-orange text-bone"
+        className="bg-[#252422] text-bone"
       >
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
-          <p className="text-[12px] font-medium uppercase tracking-[.13em] text-black/65">
+        <div className="mx-auto max-w-[1500px] px-5 pb-10 pt-12 md:px-10 md:pb-12 md:pt-16 lg:px-12">
+          <p
+            className="text-[12px] font-bold uppercase text-orange"
+            style={courier}
+          >
             TRANSFORMATION
           </p>
 
-          <h2
-            className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}
-          >
-            When your business needs
-            <span
-              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-black`}
-            >
-              a transformation.
-            </span>
-          </h2>
+          <h1
+  className="mt-5 max-w-[850px] text-[44px] uppercase leading-[0.9] sm:text-[54px] md:text-[64px] lg:text-[72px]"
+  style={display}
+>
+  Brand
+  <span className="font-editorial ml-[0.15em] font-normal italic normal-case text-orange">
+    Transformation.
+  </span>
+</h1>
 
-          <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-bone/75 md:text-base">
-            These are not logo packages. They are progressively deeper
-            engagements built around how much of the business needs to evolve.
-          </p>
+<p
+  className="mt-6 max-w-[580px] text-[14px] leading-6 text-bone/65 md:text-[15px]"
+  style={courier}
+>
+  Rebrand, reinvent or relaunch an established
+  business as it enters its next chapter.
+</p>
+        </div>
+
+        <div className="mx-auto max-w-[1500px] border-t border-bone/15">
+          <div className="grid md:grid-cols-3">
+            {transformations.map(
+              (offer, index) => (
+                <TransformationCard
+                  key={offer.name}
+                  offer={offer}
+                  index={index}
+                  onOpen={() =>
+                    setSelectedOffer(offer)
+                  }
+                />
+              )
+            )}
+          </div>
         </div>
       </section>
 
-      {/* TRANSFORMATION OFFERS */}
-      <section className="border-b border-black/25 bg-orange text-bone">
-        <div className="mx-auto max-w-[1600px]">
-          <div className="grid border-t border-black/20 md:grid-cols-3">
-            {transformations.map((offer, index) => (
-              <TransformationCard
-                key={offer.name}
-                offer={offer}
-                index={index}
-                onOpen={() => setSelectedOffer(offer)}
-              />
-            ))}
-          </div>
+      {/* =========================================
+          FOCUSED SERVICES
+      ========================================= */}
 
-          <div className="px-6 pb-12 pt-10 md:px-12 lg:px-16">
-            <div className="border-t border-black/20" />
-          </div>
-        </div>
-      </section>
-
-      {/* EXPERIENCE INTRO */}
-      <section id="digital" className="border-b border-black/15">
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
-          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-black/45">
-            Experience
+      <section
+        id="focused-services"
+        className="bg-bone"
+      >
+        <div className="mx-auto max-w-[1500px] px-5 pb-8 pt-12 md:px-10 md:pt-16 lg:px-12">
+          <p
+            className="text-[12px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            FOCUSED SERVICES
           </p>
 
           <h2
-            className={`${archivo.className} mt-7 max-w-[950px] text-[48px] font-black uppercase leading-[.88] sm:text-[58px] md:text-[72px] lg:text-[88px]`}
+            className="mt-5 max-w-[780px] text-[42px] uppercase leading-[0.9] sm:text-[52px] md:text-[62px] lg:text-[68px]"
+            style={display}
           >
-            When the website only
-            <span
-              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
-            >
+            When one part
+            <span className="font-editorial block font-normal italic normal-case text-orange">
               needs the work.
             </span>
           </h2>
 
-          <p className="mt-8 max-w-[600px] text-[15px] leading-7 text-black/50 md:text-base">
-            Standalone digital experiences for businesses whose brand still
-            works, but whose website no longer does.
+          <p
+            className="mt-6 max-w-[580px] text-[14px] leading-6 text-black/55 md:text-[15px]"
+            style={courier}
+          >
+            Focused engagements for businesses
+            that do not need a full
+            transformation.
           </p>
         </div>
-      </section>
 
-      {/* EXPERIENCE OFFERS */}
-      <section className="border-b border-black/15">
-        <div className="mx-auto grid max-w-[1600px] md:grid-cols-2">
-          {digital.map((service, index) => (
-            <DigitalOfferCard
-              key={service.title}
-              service={service}
-              index={index}
-              onOpen={() => setSelectedDigital(service)}
-            />
-          ))}
+        {/* CAPABILITY SELECTOR */}
+
+        <div className="mx-auto max-w-[1500px] px-5 pt-5 md:px-10 lg:px-12">
+          <div className="no-scrollbar flex overflow-x-auto border-y border-black/15">
+            {capabilities.map(
+              (capability) => {
+                const active =
+                  activeCapability ===
+                  capability.id;
+
+                return (
+                  <button
+                    key={capability.id}
+                    type="button"
+                    onClick={() =>
+                      setActiveCapability(
+                        capability.id
+                      )
+                    }
+                    className={`relative shrink-0 px-5 py-5 text-left transition-colors duration-300 sm:flex-1 md:px-6 ${
+                      active
+                        ? 'text-orange'
+                        : 'text-black/45 hover:text-black'
+                    }`}
+                  >
+                    <span
+                      className="text-[22px] uppercase md:text-[26px] lg:text-[30px]"
+                      style={display}
+                    >
+                      {capability.label}
+                    </span>
+
+                    <motion.span
+                      className="absolute inset-x-0 bottom-0 h-[2px] bg-orange"
+                      initial={false}
+                      animate={{
+                        scaleX: active
+                          ? 1
+                          : 0,
+                      }}
+                      transition={{
+                        duration: 0.4,
+                        ease,
+                      }}
+                    />
+                  </button>
+                );
+              }
+            )}
+          </div>
+        </div>
+
+        {/* ACTIVE CAPABILITY */}
+
+        <div className="mx-auto max-w-[1500px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCapability}
+              initial={{
+                opacity: 0,
+                y: 12,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -8,
+              }}
+              transition={{
+                duration: 0.35,
+                ease,
+              }}
+              className="grid md:grid-cols-2"
+            >
+              {focusedServices.map(
+                (service, index) => (
+                  <FocusedServiceCard
+                    key={service.title}
+                    service={service}
+                    index={index}
+                    capability={
+                      activeCapability
+                    }
+                    onOpen={() =>
+                      setSelectedFocused(
+                        service
+                      )
+                    }
+                  />
+                )
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      <section className="border-b border-black/15 px-6 py-7 md:px-10">
-        <div className="mx-auto max-w-[1500px]" />
-      </section>
+      {/* =========================================
+          STEWARDSHIP
+      ========================================= */}
 
-      {/* STEWARDSHIP */}
-      <section id="stewardship" className="bg-[#111111] text-[#f2eee7]">
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20 lg:px-16">
-          <p className="text-[10px] font-medium uppercase tracking-[.13em] text-white/40">
-            Ongoing support
+      <section
+        id="stewardship"
+        className="bg-black text-bone"
+      >
+        <div className="mx-auto max-w-[1500px] px-5 pb-9 pt-12 md:px-10 md:pt-16 lg:px-12">
+          <p
+            className="text-[12px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            ONGOING SUPPORT
           </p>
 
           <h2
-            className={`${archivo.className} mt-7 max-w-[900px] text-[48px] font-black uppercase leading-[.88] text-[#f2eee7] sm:text-[58px] md:text-[72px] lg:text-[88px]`}
+            className="mt-5 max-w-[760px] text-[42px] uppercase leading-[0.9] sm:text-[52px] md:text-[62px] lg:text-[68px]"
+            style={display}
           >
             Site
-            <span
-              className={`${cormorant.className} block font-medium italic normal-case leading-[.76] text-orange`}
-            >
+            <span className="font-editorial ml-[0.15em] font-normal italic normal-case text-orange">
               Stewardship.
             </span>
           </h2>
 
-          <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-white/55 md:text-base">
-            Ongoing updates, refinements and redesign support after launch.
-            Choose the level of partnership your site actually needs.
+          <p
+            className="mt-6 max-w-[580px] text-[14px] leading-6 text-white/55 md:text-[15px]"
+            style={courier}
+          >
+            Ongoing updates, refinements and
+            redesign support after launch.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-[1600px] border-t border-white/15 md:grid-cols-3">
-          {stewardship.map((plan, index) => (
-            <StewardshipCard
-              key={plan.title}
-              plan={plan}
-              index={index}
-              onOpen={() => setSelectedStewardship(plan)}
-            />
-          ))}
-        </div>
-
-        <div className="mx-auto max-w-[1600px] border-t border-white/15 px-6 py-7 md:px-10" />
-      </section>
-
-      {/* CTA */}
-      <section className="bg-orange text-black">
-        <div className="mx-auto grid max-w-[1600px] gap-12 px-6 py-24 md:px-12 lg:grid-cols-[1fr_.4fr] lg:items-end lg:px-16 lg:py-28">
-          <div>
-            <h2 className="mt-7 max-w-[1000px] text-[clamp(4rem,8vw,8rem)] font-black uppercase leading-[.8]">
-              Not sure where you fit?
-              <span
-                className={`${cormorant.className} ml-[.15em] inline-block font-medium italic normal-case text-bone`}
-              >
-                Contact Us
-              </span>
-            </h2>
-          </div>
-
-          <div>
-            <button
-              type="button"
-              onClick={openProjectInquiry}
-              className="group mt-10 inline-flex items-center gap-5 rounded-full bg-black px-8 py-5 text-[10px] font-bold uppercase tracking-[.15em] text-white transition-all duration-300 hover:bg-[#f2eee7] hover:text-black"
-            >
-              Tell Us What You Need
-              <ArrowUpRight
-                size={17}
-                className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+        <div className="mx-auto grid max-w-[1500px] border-t border-white/15 md:grid-cols-3">
+          {stewardship.map(
+            (plan, index) => (
+              <StewardshipCard
+                key={plan.title}
+                plan={plan}
+                index={index}
+                onOpen={() =>
+                  setSelectedStewardship(
+                    plan
+                  )
+                }
               />
-            </button>
-          </div>
+            )
+          )}
         </div>
       </section>
+
+      {/* =========================================
+          CTA
+      ========================================= */}
+
+      <section className="bg-orange text-black">
+        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-14 md:px-10 md:py-16 lg:grid-cols-[1fr_auto] lg:items-end lg:px-12">
+          <h2
+            className="max-w-[850px] text-[44px] uppercase leading-[0.88] sm:text-[54px] md:text-[64px] lg:text-[72px]"
+            style={display}
+          >
+            Not sure where
+            <span className="font-editorial block font-normal italic normal-case text-bone">
+              you fit?
+            </span>
+          </h2>
+
+          <button
+            type="button"
+            onClick={openProjectInquiry}
+            className="group inline-flex w-fit items-center gap-4 rounded-full bg-black px-7 py-4 text-bone transition-colors duration-300 hover:bg-bone hover:text-black"
+            style={courier}
+          >
+            <span className="text-[11px] font-bold uppercase">
+              Tell us what you need
+            </span>
+
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+            />
+          </button>
+        </div>
+      </section>
+
+      {/* =========================================
+          MODALS
+      ========================================= */}
 
       <AnimatePresence>
         {selectedOffer && (
-          <ScopeModal
+          <TransformationModal
             offer={selectedOffer}
-            onClose={() => setSelectedOffer(null)}
+            onClose={() =>
+              setSelectedOffer(null)
+            }
           />
         )}
       </AnimatePresence>
 
       <AnimatePresence>
-        {selectedDigital && (
-          <DigitalScopeModal
-            service={selectedDigital}
-            onClose={() => setSelectedDigital(null)}
+        {selectedFocused && (
+          <FocusedServiceModal
+            service={selectedFocused}
+            capability={
+              activeCapability
+            }
+            onClose={() =>
+              setSelectedFocused(null)
+            }
           />
         )}
       </AnimatePresence>
 
       <AnimatePresence>
         {selectedStewardship && (
-          <StewardshipScopeModal
+          <StewardshipModal
             plan={selectedStewardship}
-            onClose={() => setSelectedStewardship(null)}
+            onClose={() =>
+              setSelectedStewardship(null)
+            }
           />
         )}
       </AnimatePresence>
@@ -441,9 +529,9 @@ export default function PricingPage() {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                         TRANSFORMATION CARD                                */
-/* -------------------------------------------------------------------------- */
+/* =========================================
+   TRANSFORMATION CARD
+========================================= */
 
 function TransformationCard({
   offer,
@@ -456,71 +544,235 @@ function TransformationCard({
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
       transition={{
-        duration: 0.55,
-        delay: index * 0.06,
+        duration: 0.5,
+        delay: index * 0.05,
         ease,
       }}
-      className={`border-b border-black/25 md:border-b-0 ${
-        index !== transformations.length - 1
-          ? 'md:border-r md:border-black/25'
+      className={`border-b border-bone/15 md:border-b-0 ${
+        index !==
+        transformations.length - 1
+          ? 'md:border-r md:border-bone/15'
           : ''
       }`}
     >
       <button
         type="button"
         onClick={onOpen}
-        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-white/10 md:px-9 md:py-12"
+        className="group flex min-h-[250px] w-full flex-col px-5 py-7 text-left transition-colors duration-300 hover:bg-black/10 md:px-7 md:py-8"
       >
-        <div className="flex items-start justify-between gap-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/65">
-            Brand transformation
-          </p>
-
-          <ArrowUpRight
-            size={19}
-            className="shrink-0 text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-          />
-        </div>
-
+      
         <h3
-          className={`${archivo.className} mt-10 text-[42px] font-black uppercase leading-none text-black md:text-[48px] lg:text-[56px]`}
+          className="mt-7 text-[34px] uppercase leading-none text-bone md:text-[40px] lg:text-[44px]"
+          style={display}
         >
           {offer.name}
         </h3>
 
-        <p
-          className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-black md:text-[28px]`}
-        >
+        <p className="font-editorial mt-2 text-[23px] italic text-orange">
           {offer.price}
         </p>
 
-        <p className="mt-7 max-w-md text-[14px] leading-6 text-white/80 md:text-[15px]">
+        <p
+          className="mt-5 max-w-sm text-[12px] leading-5 text-bone/60 md:text-[13px]"
+          style={courier}
+        >
           {offer.description}
         </p>
 
-        <div className="mt-auto pt-9">
-          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-white">
-            View full scope
-            <ArrowUpRight
-              size={14}
-              className="text-black transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </span>
-        </div>
+        <span
+          className="mt-auto pt-6 text-[10px] font-bold uppercase text-bone"
+          style={courier}
+        >
+          View full scope →
+        </span>
       </button>
     </motion.article>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                         TRANSFORMATION MODAL                               */
-/* -------------------------------------------------------------------------- */
+/* =========================================
+   FOCUSED SERVICE CARD
+========================================= */
 
-function ScopeModal({
+function FocusedServiceCard({
+  service,
+  index,
+  capability,
+  onOpen,
+}: {
+  service: FocusedService;
+  index: number;
+  capability: CapabilityId;
+  onOpen: () => void;
+}) {
+  return (
+    <motion.article
+      initial={{
+        opacity: 0,
+        y: 12,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.4,
+        delay: index * 0.04,
+        ease,
+      }}
+      className={`border-b border-black/15 ${
+        index % 2 === 0
+          ? 'md:border-r'
+          : ''
+      }`}
+    >
+      <button
+        type="button"
+        onClick={onOpen}
+        className="group flex min-h-[235px] w-full flex-col px-5 py-7 text-left transition-colors duration-300 hover:bg-black/[0.035] md:px-8 md:py-8"
+      >
+        <div className="flex items-start justify-between gap-5">
+          <p
+            className="text-[10px] font-bold uppercase text-black/40"
+            style={courier}
+          >
+            {capability}
+          </p>
+
+          <ArrowUpRight
+            size={17}
+            className="text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+          />
+        </div>
+
+        <div className="mt-7 flex items-start justify-between gap-6">
+          <h3
+            className="max-w-[500px] text-[30px] uppercase leading-[0.95] md:text-[36px]"
+            style={display}
+          >
+            {service.title}
+          </h3>
+
+          {service.price && (
+            <p className="font-editorial shrink-0 text-[21px] italic text-orange">
+              {service.price}
+            </p>
+          )}
+        </div>
+
+        <p
+          className="mt-5 max-w-xl text-[12px] leading-5 text-black/55 md:text-[13px]"
+          style={courier}
+        >
+          {service.description}
+        </p>
+
+        <span
+          className="mt-auto pt-6 text-[10px] font-bold uppercase"
+          style={courier}
+        >
+          View scope →
+        </span>
+      </button>
+    </motion.article>
+  );
+}
+
+/* =========================================
+   BASE MODAL
+========================================= */
+
+function ModalShell({
+  children,
+  onClose,
+  dark = false,
+}: {
+  children: React.ReactNode;
+  onClose: () => void;
+  dark?: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/65 p-3 backdrop-blur-sm md:p-5"
+      onMouseDown={(event) => {
+        if (
+          event.currentTarget ===
+          event.target
+        ) {
+          onClose();
+        }
+      }}
+    >
+      <motion.div
+        initial={{
+          opacity: 0,
+          x: 35,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        exit={{
+          opacity: 0,
+          x: 35,
+        }}
+        transition={{
+          duration: 0.35,
+          ease,
+        }}
+        className={`ml-auto flex h-full w-full max-w-[820px] flex-col overflow-hidden shadow-2xl ${
+          dark
+            ? 'bg-black text-bone'
+            : 'bg-bone text-ink'
+        }`}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function CloseButton({
+  onClose,
+  dark = false,
+}: {
+  onClose: () => void;
+  dark?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClose}
+      aria-label="Close"
+      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-[22px] transition-colors duration-300 ${
+        dark
+          ? 'border-white/20 hover:border-orange hover:text-orange'
+          : 'border-black/20 hover:border-orange hover:text-orange'
+      }`}
+    >
+      ×
+    </button>
+  );
+}
+
+/* =========================================
+   TRANSFORMATION MODAL
+========================================= */
+
+function TransformationModal({
   offer,
   onClose,
 }: {
@@ -528,333 +780,194 @@ function ScopeModal({
   onClose: () => void;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={`scope-${offer.name.toLowerCase()}`}
-      onMouseDown={(event) => {
-        if (event.currentTarget === event.target) {
-          onClose();
-        }
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 28, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.985 }}
-        transition={{ duration: 0.35, ease }}
-        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-orange text-white shadow-2xl"
-      >
-        <div className="flex items-start justify-between gap-8 border-b border-black/25 px-6 py-6 md:px-10 md:py-8">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/50">
-              Brand transformation
-            </p>
-
-            <h2
-              id={`scope-${offer.name.toLowerCase()}`}
-              className={`${archivo.className} mt-3 text-[42px] font-black uppercase leading-none text-black md:text-[60px]`}
-            >
-              {offer.name}
-            </h2>
-
-            <p
-              className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-black md:text-[30px]`}
-            >
-              {offer.price}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close full scope"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/30 text-[24px] text-black transition-colors duration-300 hover:bg-black hover:text-white"
+    <ModalShell onClose={onClose}>
+      <div className="flex items-start justify-between border-b border-black/15 px-6 py-6 md:px-9">
+        <div>
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
           >
-            ×
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
-          <p className="max-w-2xl text-[15px] leading-7 text-white/80 md:text-[17px]">
-            {offer.description}
+            TRANSFORMATION
           </p>
 
-          <div className="mt-8 grid gap-x-10 md:grid-cols-2">
-            {offer.groups.map((group) => (
-              <section
-                key={group.title}
-                className="border-t border-black/25 py-6"
-              >
-                <h3
-                  className={`${archivo.className} text-[20px] font-black uppercase text-black`}
-                >
-                  {group.title}
-                </h3>
+          <h2
+            className="mt-3 text-[38px] uppercase leading-none md:text-[48px]"
+            style={display}
+          >
+            {offer.name}
+          </h2>
 
-                <div className="mt-4 grid gap-2.5">
-                  {group.items.map((item) => (
+          <p className="font-editorial mt-2 text-[25px] italic text-orange">
+            {offer.price}
+          </p>
+        </div>
+
+        <CloseButton
+          onClose={onClose}
+        />
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-6 py-7 md:px-9">
+        <p
+          className="max-w-2xl text-[14px] leading-6 text-black/60"
+          style={courier}
+        >
+          {offer.description}
+        </p>
+
+        <div className="mt-7 grid gap-x-9 md:grid-cols-2">
+          {offer.groups.map((group) => (
+            <section
+              key={group.title}
+              className="border-t border-black/15 py-5"
+            >
+              <h3
+                className="text-[18px] uppercase"
+                style={display}
+              >
+                {group.title}
+              </h3>
+
+              <div className="mt-4 grid gap-2">
+                {group.items.map(
+                  (item) => (
                     <div
                       key={item}
-                      className="flex gap-3 text-[13px] leading-5 text-white/75 md:text-[14px]"
+                      className="flex gap-3 text-[12px] leading-5 text-black/55"
+                      style={courier}
                     >
                       <Check
-                        size={14}
-                        className="mt-[3px] shrink-0 text-black"
+                        size={13}
+                        className="mt-[3px] shrink-0 text-orange"
                       />
                       <span>{item}</span>
                     </div>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-
-          <div className="mt-3 border-t border-black/25 pt-7">
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black">
-              The outcome
-            </p>
-
-            <p
-              className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-white/90 md:text-[32px] md:leading-10`}
-            >
-              {offer.outcome}
-            </p>
-          </div>
+                  )
+                )}
+              </div>
+            </section>
+          ))}
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-black/25 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
-          <div />
-
-          <button
-            type="button"
-            onClick={openProjectInquiry}
-            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-white px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-black hover:text-white"
+        <div className="border-t border-black/15 pt-6">
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
           >
-            Start a project
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </button>
+            THE OUTCOME
+          </p>
+
+          <p className="font-editorial mt-3 max-w-2xl text-[25px] italic leading-8">
+            {offer.outcome}
+          </p>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+
+      <ModalCTA />
+    </ModalShell>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                          EXPERIENCE OFFER CARD                             */
-/* -------------------------------------------------------------------------- */
+/* =========================================
+   FOCUSED SERVICE MODAL
+========================================= */
 
-function DigitalOfferCard({
+function FocusedServiceModal({
   service,
-  index,
-  onOpen,
+  capability,
+  onClose,
 }: {
-  service: (typeof digital)[number];
-  index: number;
-  onOpen: () => void;
+  service: FocusedService;
+  capability: CapabilityId;
+  onClose: () => void;
 }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{
-        duration: 0.55,
-        delay: (index % 2) * 0.06,
-        ease,
-      }}
-      className={`border-b border-black/15 ${
-        index % 2 === 0 ? 'md:border-r' : ''
-      }`}
-    >
-      <button
-        type="button"
-        onClick={onOpen}
-        className="group flex min-h-[350px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-black/[0.035] md:px-10 md:py-12"
-      >
-        <div className="flex items-start justify-between gap-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-            Digital service
+    <ModalShell onClose={onClose}>
+      <div className="flex items-start justify-between border-b border-black/15 px-6 py-6 md:px-9">
+        <div>
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            {capability}
           </p>
 
-          <ArrowUpRight
-            size={19}
-            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-          />
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-start justify-between gap-5">
-          <h3
-            className={`${archivo.className} max-w-[560px] text-[36px] font-black uppercase leading-[.95] md:text-[44px] lg:text-[50px]`}
+          <h2
+            className="mt-3 max-w-[620px] text-[36px] uppercase leading-[0.95] md:text-[46px]"
+            style={display}
           >
             {service.title}
-          </h3>
+          </h2>
 
-          <p
-            className={`${cormorant.className} shrink-0 text-[24px] font-semibold italic text-orange md:text-[27px]`}
-          >
-            {service.price}
-          </p>
+          {service.price && (
+            <p className="font-editorial mt-2 text-[24px] italic text-orange">
+              {service.price}
+            </p>
+          )}
         </div>
 
-        <p className="mt-7 max-w-xl text-[14px] leading-6 text-black/55 md:text-[15px]">
+        <CloseButton
+          onClose={onClose}
+        />
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-6 py-7 md:px-9">
+        <p
+          className="max-w-2xl text-[14px] leading-6 text-black/60"
+          style={courier}
+        >
           {service.description}
         </p>
 
-        <div className="mt-auto pt-9">
-          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase">
-            View full scope
-            <ArrowUpRight
-              size={14}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </span>
-        </div>
-      </button>
-    </motion.article>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                          EXPERIENCE SCOPE MODAL                            */
-/* -------------------------------------------------------------------------- */
-
-function DigitalScopeModal({
-  service,
-  onClose,
-}: {
-  service: (typeof digital)[number];
-  onClose: () => void;
-}) {
-  const modalId = `digital-scope-${service.title
-    .toLowerCase()
-    .replace(/\s+/g, '-')}`;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/60 p-3 backdrop-blur-sm md:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={modalId}
-      onMouseDown={(event) => {
-        if (event.currentTarget === event.target) {
-          onClose();
-        }
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 28, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.985 }}
-        transition={{ duration: 0.35, ease }}
-        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#f2eee7] text-[#111111] shadow-2xl"
-      >
-        <div className="flex items-start justify-between gap-8 border-b border-black/15 px-6 py-6 md:px-10 md:py-8">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-black/35">
-              Digital service
-            </p>
-
-            <h2
-              id={modalId}
-              className={`${archivo.className} mt-3 max-w-[720px] text-[38px] font-black uppercase leading-[.95] md:text-[54px]`}
-            >
-              {service.title}
-            </h2>
-
-            <p
-              className={`${cormorant.className} mt-3 text-[26px] font-semibold italic text-orange md:text-[30px]`}
-            >
-              {service.price}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close digital scope"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/20 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
+        <section className="mt-7 border-t border-black/15 py-6">
+          <h3
+            className="text-[18px] uppercase"
+            style={display}
           >
-            ×
-          </button>
-        </div>
+            What&apos;s included
+          </h3>
 
-        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
-          <p className="max-w-2xl text-[15px] leading-7 text-black/60 md:text-[17px]">
-            {service.description}
-          </p>
-
-          <section className="mt-8 border-t border-black/15 py-6">
-            <h3
-              className={`${archivo.className} text-[20px] font-black uppercase`}
-            >
-              What&apos;s included
-            </h3>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {service.items.map((item) => (
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {service.items.map(
+              (item) => (
                 <div
                   key={item}
-                  className="flex gap-3 text-[13px] leading-5 text-black/55 md:text-[14px]"
+                  className="flex gap-3 text-[12px] leading-5 text-black/55"
+                  style={courier}
                 >
                   <Check
-                    size={14}
+                    size={13}
                     className="mt-[3px] shrink-0 text-orange"
                   />
                   <span>{item}</span>
                 </div>
-              ))}
-            </div>
-          </section>
-
-          <div className="mt-3 border-t border-black/15 pt-7">
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
-              Best for
-            </p>
-
-            <p
-              className={`${cormorant.className} mt-3 max-w-2xl text-[26px] leading-8 text-black/75 md:text-[32px] md:leading-10`}
-            >
-              {service.bestFor}
-            </p>
+              )
+            )}
           </div>
-        </div>
+        </section>
 
-        <div className="flex flex-col gap-4 border-t border-black/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
-          <p className="text-[11px] leading-5 text-black/40">
-            Final scope and investment are confirmed after discovery.
+        <div className="border-t border-black/15 pt-6">
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            BEST FOR
           </p>
 
-          <button
-            type="button"
-            onClick={openProjectInquiry}
-            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-black px-7 py-4 text-[11px] font-bold uppercase text-white transition-colors duration-300 hover:bg-orange hover:text-black"
-          >
-            Start a project
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </button>
+          <p className="font-editorial mt-3 max-w-2xl text-[24px] italic leading-8 text-black/80">
+            {service.bestFor}
+          </p>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+
+      <ModalCTA />
+    </ModalShell>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                           STEWARDSHIP CARD                                 */
-/* -------------------------------------------------------------------------- */
+/* =========================================
+   STEWARDSHIP
+========================================= */
 
 function StewardshipCard({
   plan,
@@ -867,16 +980,26 @@ function StewardshipCard({
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
+      initial={{
+        opacity: 0,
+        y: 16,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
       transition={{
-        duration: 0.55,
-        delay: index * 0.06,
+        duration: 0.5,
+        delay: index * 0.05,
         ease,
       }}
       className={`border-b border-white/15 md:border-b-0 ${
-        index !== stewardship.length - 1
+        index !==
+        stewardship.length - 1
           ? 'md:border-r md:border-white/15'
           : ''
       }`}
@@ -884,191 +1007,168 @@ function StewardshipCard({
       <button
         type="button"
         onClick={onOpen}
-        className="group flex min-h-[360px] w-full flex-col px-6 py-10 text-left transition-colors duration-300 hover:bg-white/[0.04] md:px-9 md:py-12"
+        className="group flex min-h-[245px] w-full flex-col px-5 py-7 text-left transition-colors duration-300 hover:bg-white/[0.04] md:px-7 md:py-8"
       >
-        <div className="flex items-start justify-between gap-6">
-          <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-white/35">
-            Stewardship
-          </p>
-
-          <ArrowUpRight
-            size={19}
-            className="shrink-0 text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-          />
-        </div>
+        
 
         <h3
-          className={`${archivo.className} mt-10 text-[38px] font-black uppercase leading-none text-[#f2eee7] md:text-[46px] lg:text-[52px]`}
+          className="mt-7 text-[32px] uppercase leading-none md:text-[38px]"
+          style={display}
         >
           {plan.title}
         </h3>
 
-        <p
-          className={`${cormorant.className} mt-3 text-[25px] font-semibold italic text-orange md:text-[28px]`}
-        >
+        <p className="font-editorial mt-2 text-[23px] italic text-orange">
           {plan.price}
         </p>
 
-        <p className="mt-7 max-w-md text-[14px] leading-6 text-white/55 md:text-[15px]">
+        <p
+          className="mt-5 max-w-sm text-[12px] leading-5 text-white/55 md:text-[13px]"
+          style={courier}
+        >
           {plan.description}
         </p>
 
-        {plan.detail ? (
-          <p
-            className={`${cormorant.className} mt-5 text-[20px] italic text-white/65`}
-          >
-            {plan.detail}
-          </p>
-        ) : null}
-
-        <div className="mt-auto pt-9">
-          <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase text-[#f2eee7]">
-            View full scope
-            <ArrowUpRight
-              size={14}
-              className="text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </span>
-        </div>
+        <span
+          className="mt-auto pt-6 text-[10px] font-bold uppercase"
+          style={courier}
+        >
+          View scope →
+        </span>
       </button>
     </motion.article>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                      STEWARDSHIP SCOPE MODAL                               */
-/* -------------------------------------------------------------------------- */
-
-function StewardshipScopeModal({
+function StewardshipModal({
   plan,
   onClose,
 }: {
   plan: (typeof stewardship)[number];
   onClose: () => void;
 }) {
-  const modalId = `stewardship-scope-${plan.title
-    .toLowerCase()
-    .replace(/\s+/g, '-')}`;
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/70 p-3 backdrop-blur-sm md:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={modalId}
-      onMouseDown={(event) => {
-        if (event.currentTarget === event.target) {
-          onClose();
-        }
-      }}
+    <ModalShell
+      onClose={onClose}
+      dark
     >
-      <motion.div
-        initial={{ opacity: 0, y: 28, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.985 }}
-        transition={{ duration: 0.35, ease }}
-        className="ml-auto flex h-full w-full max-w-[920px] flex-col overflow-hidden bg-[#111111] text-[#f2eee7] shadow-2xl"
+      <div className="flex items-start justify-between border-b border-white/15 px-6 py-6 md:px-9">
+        <div>
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            STEWARDSHIP
+          </p>
+
+          <h2
+            className="mt-3 text-[38px] uppercase leading-none md:text-[48px]"
+            style={display}
+          >
+            {plan.title}
+          </h2>
+
+          <p className="font-editorial mt-2 text-[25px] italic text-orange">
+            {plan.price}
+          </p>
+        </div>
+
+        <CloseButton
+          onClose={onClose}
+          dark
+        />
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-6 py-7 md:px-9">
+        <p
+          className="max-w-2xl text-[14px] leading-6 text-white/60"
+          style={courier}
+        >
+          {plan.description}
+        </p>
+
+        {plan.detail ? (
+          <p className="font-editorial mt-4 text-[22px] italic text-white/70">
+            {plan.detail}
+          </p>
+        ) : null}
+
+        <section className="mt-7 border-t border-white/15 py-6">
+          <h3
+            className="text-[18px] uppercase"
+            style={display}
+          >
+            What&apos;s included
+          </h3>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {plan.items.map((item) => (
+              <div
+                key={item}
+                className="flex gap-3 text-[12px] leading-5 text-white/55"
+                style={courier}
+              >
+                <Check
+                  size={13}
+                  className="mt-[3px] shrink-0 text-orange"
+                />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="border-t border-white/15 pt-6">
+          <p
+            className="text-[10px] font-bold uppercase text-orange"
+            style={courier}
+          >
+            BEST FOR
+          </p>
+
+          <p className="font-editorial mt-3 max-w-2xl text-[24px] italic leading-8 text-white/75">
+            {plan.bestFor}
+          </p>
+        </div>
+      </div>
+
+      <ModalCTA dark />
+    </ModalShell>
+  );
+}
+
+function ModalCTA({
+  dark = false,
+}: {
+  dark?: boolean;
+}) {
+  return (
+    <div
+      className={`flex justify-end border-t px-6 py-5 md:px-9 ${
+        dark
+          ? 'border-white/15'
+          : 'border-black/15'
+      }`}
+    >
+      <button
+        type="button"
+        onClick={openProjectInquiry}
+        className={`group inline-flex items-center gap-4 rounded-full px-6 py-3.5 transition-colors duration-300 ${
+          dark
+            ? 'bg-orange text-black hover:bg-bone'
+            : 'bg-black text-bone hover:bg-orange hover:text-black'
+        }`}
+        style={courier}
       >
-        <div className="flex items-start justify-between gap-8 border-b border-white/15 px-6 py-6 md:px-10 md:py-8">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-white/35">
-              Stewardship
-            </p>
+        <span className="text-[10px] font-bold uppercase">
+          Start a project
+        </span>
 
-            <h2
-              id={modalId}
-              className={`${archivo.className} mt-3 text-[40px] font-black uppercase leading-none md:text-[58px]`}
-            >
-              {plan.title}
-            </h2>
-
-            <p
-              className={`${cormorant.className} mt-3 text-[27px] font-semibold italic text-orange md:text-[31px]`}
-            >
-              {plan.price}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close stewardship scope"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 text-[24px] transition-colors duration-300 hover:border-orange hover:text-orange"
-          >
-            ×
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-6 py-7 md:px-10 md:py-9">
-          <p className="max-w-2xl text-[15px] leading-7 text-white/60 md:text-[17px]">
-            {plan.description}
-          </p>
-
-          {plan.detail ? (
-            <p
-              className={`${cormorant.className} mt-4 text-[23px] italic text-white/70`}
-            >
-              {plan.detail}
-            </p>
-          ) : null}
-
-          <section className="mt-8 border-t border-white/15 py-6">
-            <h3
-              className={`${archivo.className} text-[20px] font-black uppercase`}
-            >
-              What&apos;s included
-            </h3>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {plan.items.map((item) => (
-                <div
-                  key={item}
-                  className="flex gap-3 text-[13px] leading-5 text-white/55 md:text-[14px]"
-                >
-                  <Check
-                    size={14}
-                    className="mt-[3px] shrink-0 text-orange"
-                  />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <div className="mt-3 border-t border-white/15 pt-7">
-            <p className="text-[10px] font-semibold uppercase tracking-[.14em] text-orange">
-              Best for
-            </p>
-
-            <p
-              className={`${cormorant.className} mt-3 max-w-2xl text-[27px] leading-9 text-white/75 md:text-[32px] md:leading-10`}
-            >
-              {plan.bestFor}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4 border-t border-white/15 px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
-          <p className="text-[11px] leading-5 text-white/35">
-            Larger redesigns and development projects are scoped separately.
-          </p>
-
-          <button
-            type="button"
-            onClick={openProjectInquiry}
-            className="group inline-flex shrink-0 items-center justify-center gap-4 rounded-full bg-orange px-7 py-4 text-[11px] font-bold uppercase text-black transition-colors duration-300 hover:bg-[#f2eee7]"
-          >
-            Start a project
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
+        <ArrowUpRight
+          size={15}
+          className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+        />
+      </button>
+    </div>
   );
 }

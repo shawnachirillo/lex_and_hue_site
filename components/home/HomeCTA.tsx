@@ -34,7 +34,7 @@ export default function HomeCTA({
             duration: 0.75,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="border-t border-black/20 pt-8"
+          
         >
           {/* TYPEWRITER EYEBROW */}
 
@@ -84,16 +84,18 @@ export default function HomeCTA({
             <button
               type="button"
               onClick={onStartProject}
-              className="group flex h-[150px] w-[150px] shrink-0 items-center justify-center rounded-full border border-black transition-all duration-300 hover:bg-black hover:text-orange md:h-[180px] md:w-[180px]"
+              className="group inline-flex items-center gap-4 rounded-full border border-black bg-orange px-7 py-4 text-[12px] font-bold uppercase text-black transition-all duration-300 hover:bg-black hover:text-white"
+              style={{
+                fontFamily:
+                  '"Courier New", Courier, monospace',
+              }}
             >
-              <span className="flex items-center gap-2 text-[11px] font-bold uppercase">
-                Start
+              Start a project
 
-                <ArrowUpRight
-                  size={16}
-                  className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                />
-              </span>
+              <ArrowUpRight
+                size={17}
+                className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+              />
             </button>
           </div>
         </motion.div>
