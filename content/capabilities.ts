@@ -1,9 +1,12 @@
-export type CapabilityId = 'brand' | 'experience' | 'systems';
+export type CapabilityId =
+  | 'brand'
+  | 'web'
+  | 'product'
+  | 'systems';
 
 export type Capability = {
   id: CapabilityId;
   name: string;
-  heroWord: string;
   statement: string;
   examples: readonly string[];
 };
@@ -12,40 +15,50 @@ export const capabilities: readonly Capability[] = [
   {
     id: 'brand',
     name: 'Brand',
-    heroWord: 'LOOKS.',
-    statement: "How you're understood.",
+    statement: 'How you’re understood.',
     examples: [
-      'Brand strategy',
-      'Visual identity',
-      'Positioning',
-      'Brand evolution',
-      'Launch + rollout',
+      'Brand Identity',
+      'Visual Systems',
+      'Art Direction',
+      'Digital Brand Expression',
     ],
   },
+
   {
-    id: 'experience',
-    name: 'Experience',
-    heroWord: 'FEELS.',
-    statement: 'How people experience you.',
+    id: 'web',
+    name: 'Web',
+    statement: 'How you show up online.',
     examples: [
-      'Websites',
-      'Digital experiences',
-      'Customer journeys',
-      'UX + interaction design',
-      'Digital touchpoints',
+      'Brand Websites',
+      'Website Redesign',
+      'UX / UI',
+      'Custom Development',
+      'CMS',
     ],
   },
+
+  {
+    id: 'product',
+    name: 'Product',
+    statement: 'What people use.',
+    examples: [
+      'Web Applications',
+      'Client Portals',
+      'Dashboards',
+      'Platforms + MVPs',
+    ],
+  },
+
   {
     id: 'systems',
     name: 'Systems',
-    heroWord: 'OPERATES.',
-    statement: 'How your business operates.',
+    statement: 'How the business works.',
     examples: [
-      'Custom tools',
-      'Client portals',
-      'Workflow systems',
+      'Internal Tools',
+      'Workflow Software',
+      'Integrations',
       'Automation',
-      'AI-powered systems',
+      'Data + AI',
     ],
   },
 ] as const;

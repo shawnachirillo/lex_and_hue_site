@@ -37,11 +37,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
 function displayName(
   capability: Capability
 ) {
-  return capability.id === 'systems'
-    ? 'SYSTEM'
-    : capability.name.toUpperCase();
+  return capability.name.toUpperCase();
 }
-
 export default function Capabilities() {
   const [activeId, setActiveId] =
     useState<CapabilityId | null>(null);
