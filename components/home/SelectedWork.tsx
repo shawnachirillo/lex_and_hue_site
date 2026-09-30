@@ -2,12 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+
 import {
   AnimatePresence,
   motion,
-  useMotionValue,
-  useSpring,
+  useReducedMotion,
+  useScroll,
+  useTransform,
 } from 'framer-motion';
+
 import {
   useEffect,
   useMemo,
@@ -15,48 +18,47 @@ import {
   useState,
 } from 'react';
 
+import AnimatedEyebrow from '@/components/ui/AnimatedEyebrow';
 import { work } from '@/content/work';
 
+/* =========================================================
+   PROJECT LOGOS
+========================================================= */
+
 const projectLogos: Record<string, string> = {
-  'the-east-end-company': '/images/TEEC_main_logo.png',
-  'modern-goddess-coaching': '/images/MGC_white_logo.png',
-  'legacy-at-home': '/images/LAHC_white_logo.png',
-  'the-stillpoint': '/images/TSP_logo_white.png',
+  'the-east-end-company':
+    '/images/TEEC_main_logo.png',
+
+  'modern-goddess-coaching':
+    '/images/MGC_white_logo.png',
+
+  'legacy-at-home':
+    '/images/LAHC_white_logo.png',
+
+  'the-stillpoint':
+    '/images/TSP_logo_white.png',
 };
 
-function DoubleChevron({
-  direction,
-}: {
-  direction: 'left' | 'right';
-}) {
-  return (
-    <svg
-      viewBox="0 0 54 54"
-      aria-hidden="true"
-      className={`h-6 w-6 md:h-7 md:w-7 ${
-        direction === 'left' ? 'rotate-180' : ''
-      }`}
-    >
-      <path
-        d="M8 11 L25 27 L8 43"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="7"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
+/* =========================================================
+   STYLES
+========================================================= */
 
-      <path
-        d="M27 11 L44 27 L27 43"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="7"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-    </svg>
-  );
-}
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const neueHaas = {
+  fontFamily:
+    '"neue-haas-grotesk-display", sans-serif',
+  fontWeight: 700,
+} as const;
+
+const courier = {
+  fontFamily:
+    '"Courier New", Courier, monospace',
+} as const;
+
+/* =========================================================
+   SELECTED WORK
+========================================================= */
 
 export default function SelectedWork() {
   const featuredWork = useMemo(
@@ -64,31 +66,30 @@ export default function SelectedWork() {
     []
   );
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [hoveredSlug, setHoveredSlug] =
-    useState<string | null>(null);
+  const [activeIndex, setActiveIndex] =
+    useState(0);
+
+  const [direction, setDirection] =
+    useState(1);
+
+  const [previewOpen, setPreviewOpen] =
+    useState(false);
+
+  const [mobilePreviewOpen, setMobilePreviewOpen] =
+    useState(false);
+
   const [touchStart, setTouchStart] =
     useState<number | null>(null);
 
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef =
+    useRef<HTMLElement>(null);
 
-  const cursorX = useMotionValue(0);
-  const cursorY = useMotionValue(0);
-
-  const smoothCursorX = useSpring(cursorX, {
-    stiffness: 500,
-    damping: 38,
-    mass: 0.3,
-  });
-
-  const smoothCursorY = useSpring(cursorY, {
-    stiffness: 500,
-    damping: 38,
-    mass: 0.3,
-  });
+  const reduceMotion = useReducedMotion();
 
   const count = featuredWork.length;
+
+  const activeProject =
+    featuredWork[activeIndex];
 
   const previousIndex =
     count > 0
@@ -100,30 +101,46 @@ export default function SelectedWork() {
       ? (activeIndex + 1) % count
       : 0;
 
-  const activeProject =
-    featuredWork[activeIndex];
+  const previousProject =
+    featuredWork[previousIndex];
 
-  const visibleProjects =
-    count > 0
-      ? [
-          {
-            project: featuredWork[previousIndex],
-            position: 'previous' as const,
-          },
-          {
-            project: featuredWork[activeIndex],
-            position: 'active' as const,
-          },
-          {
-            project: featuredWork[nextIndex],
-            position: 'next' as const,
-          },
-        ]
-      : [];
+  const nextProject =
+    featuredWork[nextIndex];
+
+  /* =====================================================
+     SCROLL MOTION
+  ===================================================== */
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const statementY = useTransform(
+    scrollYProgress,
+    [0, 0.32],
+    reduceMotion
+      ? [0, 0]
+      : [28, 0]
+  );
+
+  const stageY = useTransform(
+    scrollYProgress,
+    [0.08, 0.42],
+    reduceMotion
+      ? [0, 0]
+      : [48, 0]
+  );
+
+  /* =====================================================
+     PROJECT NAVIGATION
+  ===================================================== */
 
   const goPrevious = () => {
     if (!count) return;
 
+    setPreviewOpen(false);
+    setMobilePreviewOpen(false);
     setDirection(-1);
 
     setActiveIndex((current) =>
@@ -136,6 +153,8 @@ export default function SelectedWork() {
   const goNext = () => {
     if (!count) return;
 
+    setPreviewOpen(false);
+    setMobilePreviewOpen(false);
     setDirection(1);
 
     setActiveIndex((current) =>
@@ -145,20 +164,9 @@ export default function SelectedWork() {
     );
   };
 
-  const handlePointerMove = (
-    event: React.PointerEvent<HTMLAnchorElement>
-  ) => {
-    const bounds =
-      event.currentTarget.getBoundingClientRect();
-
-    cursorX.set(
-      event.clientX - bounds.left
-    );
-
-    cursorY.set(
-      event.clientY - bounds.top
-    );
-  };
+  /* =====================================================
+     SWIPE
+  ===================================================== */
 
   const handleTouchStart = (
     event: React.TouchEvent
@@ -195,6 +203,10 @@ export default function SelectedWork() {
     setTouchStart(null);
   };
 
+  /* =====================================================
+     KEYBOARD
+  ===================================================== */
+
   useEffect(() => {
     const handleKeyDown = (
       event: KeyboardEvent
@@ -204,11 +216,11 @@ export default function SelectedWork() {
       const bounds =
         sectionRef.current.getBoundingClientRect();
 
-      const isVisible =
+      const visible =
         bounds.top < window.innerHeight &&
         bounds.bottom > 0;
 
-      if (!isVisible) return;
+      if (!visible) return;
 
       if (event.key === 'ArrowLeft') {
         goPrevious();
@@ -232,7 +244,12 @@ export default function SelectedWork() {
     };
   }, [count]);
 
-  if (!activeProject || !count) {
+  if (
+    !activeProject ||
+    !previousProject ||
+    !nextProject ||
+    !count
+  ) {
     return null;
   }
 
@@ -242,295 +259,261 @@ export default function SelectedWork() {
       id="work"
       className="relative overflow-hidden bg-black text-bone"
     >
-      <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-20 lg:px-12 lg:py-24">
-        {/* HEADER */}
+      {/* =================================================
+          INTRO
+      ================================================= */}
+
+      <div className="mx-auto max-w-[1500px] px-5 pt-16 md:px-10 md:pt-20 lg:px-12 lg:pt-24">
         <div className="flex items-start justify-between">
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: 10,
-            }}
+          <AnimatedEyebrow
+            phrases={[
+              'SELECTED WORK',
+              'SELECTED PROJECTS',
+              'RECENT WORK',
+              'CASE STUDIES',
+            ]}
+            loop
+            inverted
+          />
+
+          <div
+            className="hidden text-[10px] font-bold text-white/40 md:block"
+            style={courier}
+          >
+            {String(
+              activeIndex + 1
+            ).padStart(2, '0')}
+            {' / '}
+            {String(count).padStart(
+              2,
+              '0'
+            )}
+          </div>
+        </div>
+
+        {/* CAPTION */}
+
+        <motion.div
+          style={{
+            y: statementY,
+          }}
+          className="mt-14 md:mt-16 lg:mt-20"
+        >
+          <motion.h2
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    y: 30,
+                  }
+            }
             whileInView={{
               opacity: 1,
               y: 0,
             }}
             viewport={{
               once: true,
+              amount: 0.4,
             }}
             transition={{
-              duration: 0.5,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 0.9,
+              ease,
             }}
-            className="text-[11px] font-bold uppercase text-white/80"
-            style={{
-              fontFamily:
-                '"Courier New", Courier, monospace',
-            }}
-          >
-            Selected work
-          </motion.p>
-
-          <div
-            className="hidden text-[10px] font-bold text-white/35 md:block"
-            style={{
-              fontFamily:
-                '"Courier New", Courier, monospace',
-            }}
-          >
-            {String(activeIndex + 1).padStart(
-              2,
-              '0'
-            )}
-            {' / '}
-            {String(count).padStart(2, '0')}
-          </div>
-        </div>
-
-        {/* EDITORIAL STATEMENT */}
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 18,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.65,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="mt-14 md:mt-16 lg:mt-20"
-        >
-          <h2
-            className="text-[38px] uppercase leading-[0.92] text-bone md:text-[66px] lg:text-[82px]"
-            style={{
-              fontFamily:
-                '"neue-haas-grotesk-display", sans-serif',
-              fontWeight: 700,
-            }}
+            className="text-[48px] uppercase leading-[0.88] text-bone md:text-[72px] lg:text-[86px]"
+            style={neueHaas}
           >
             How we
-            <br />
+          </motion.h2>
 
-            <span
-              className="font-editorial normal-case text-orange"
-              style={{
-                fontWeight: 400,
-                fontStyle: 'italic',
-              }}
-            >
-              shaped
-            </span>{' '}
-            the work.
-          </h2>
-        </motion.div>
-
-        {/* =====================================================
-            DESKTOP / TABLET CAROUSEL
-        ===================================================== */}
-        <div
-          className="relative mt-10 hidden min-h-[500px] items-center md:flex lg:mt-12 lg:min-h-[560px]"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* PREVIOUS */}
-          <button
-            type="button"
-            onClick={goPrevious}
-            aria-label="Previous project"
-            className="absolute left-0 z-30 flex h-14 w-10 items-center justify-center text-white/40 transition-colors duration-300 hover:text-orange"
-          >
-            <DoubleChevron direction="left" />
-          </button>
-
-          {/* PROJECTS */}
-          <div className="mx-auto flex w-[calc(100%-110px)] max-w-[1240px] items-center justify-center gap-5 lg:gap-7">
-            <AnimatePresence
-              initial={false}
-              mode="popLayout"
-              custom={direction}
-            >
-              {visibleProjects.map(
-                ({ project, position }) => {
-                  const isActive =
-                    position === 'active';
-
-                  const isHovered =
-                    hoveredSlug === project.slug;
-
-                  const logo =
-                    projectLogos[project.slug];
-
-                  return (
-                    <motion.article
-                      layout
-                      key={`${project.slug}-${position}`}
-                      custom={direction}
-                      initial={{
-                        opacity: 0,
-                        x:
-                          direction > 0
-                            ? 35
-                            : -35,
-                      }}
-                      animate={{
-                        opacity: isActive
-                          ? 1
-                          : 0.62,
-                        x: 0,
-                        scale: isActive
-                          ? 1.3
-                          : 1,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x:
-                          direction > 0
-                            ? -35
-                            : 35,
-                      }}
-                      transition={{
-                        duration: 0.55,
-                        ease: [
-                          0.22,
-                          1,
-                          0.36,
-                          1,
-                        ],
-                      }}
-                      className={`relative shrink-0 ${
-                        isActive
-                          ? 'z-20'
-                          : 'z-10'
-                      }`}
-                      style={{
-                        width: '29%',
-                      }}
-                    >
-                      <ProjectCard
-                        project={project}
-                        logo={logo}
-                        isActive={isActive}
-                        isHovered={isHovered}
-                        onPointerMove={
-                          handlePointerMove
-                        }
-                        onMouseEnter={() =>
-                          setHoveredSlug(
-                            project.slug
-                          )
-                        }
-                        onMouseLeave={() =>
-                          setHoveredSlug(null)
-                        }
-                        cursorX={smoothCursorX}
-                        cursorY={smoothCursorY}
-                      />
-                    </motion.article>
-                  );
-                }
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* NEXT */}
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label="Next project"
-            className="absolute right-0 z-30 flex h-14 w-10 items-center justify-center text-white/40 transition-colors duration-300 hover:text-orange"
-          >
-            <DoubleChevron direction="right" />
-          </button>
-        </div>
-
-        {/* ACTIVE PROJECT INFO — BOTTOM */}
-        <div className="hidden md:block">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProject.slug}
-              initial={{
-                opacity: 0,
-                y: 8,
-              }}
-              animate={{
+          <div className="flex flex-wrap items-baseline">
+            <motion.span
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      x: -30,
+                    }
+              }
+              whileInView={{
                 opacity: 1,
-                y: 0,
+                x: 0,
               }}
-              exit={{
-                opacity: 0,
-                y: -6,
+              viewport={{
+                once: true,
               }}
               transition={{
-                duration: 0.3,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
+                duration: 1,
+                delay: 0.12,
+                ease,
               }}
-              className="mx-auto mt-1 text-center"
+              className="mr-[14px] font-editorial text-[48px] italic leading-[0.88] text-orange md:mr-[20px] md:text-[72px] lg:text-[86px]"
             >
-              <p
-                className="mb-2 text-[10px] font-bold uppercase text-orange"
-                style={{
-                  fontFamily:
-                    '"Courier New", Courier, monospace',
-                }}
-              >
-                {activeProject.type}
-              </p>
+              shaped
+            </motion.span>
 
-              <Link
-                href={`/work/${activeProject.slug}`}
-                className="group inline-flex items-baseline gap-3"
-              >
-                <h3
-                  className="text-[28px] uppercase leading-none text-bone transition-colors duration-300 group-hover:text-orange lg:text-[34px]"
-                  style={{
-                    fontFamily:
-                      '"neue-haas-grotesk-display", sans-serif',
-                    fontWeight: 700,
-                  }}
-                >
-                  {activeProject.title}
-                </h3>
+            <motion.span
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      x: 35,
+                    }
+              }
+              whileInView={{
+                opacity: 1,
+                x: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 1,
+                delay: 0.2,
+                ease,
+              }}
+              className="text-[48px] uppercase leading-[0.88] text-bone md:text-[72px] lg:text-[86px]"
+              style={neueHaas}
+            >
+              the work.
+            </motion.span>
+          </div>
+        </motion.div>
+      </div>
 
-                <span className="text-[20px] text-orange transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
-                  ↗
-                </span>
-              </Link>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      {/* =================================================
+          DESKTOP PROJECT STAGE
+      ================================================= */}
 
-        {/* =====================================================
-            MOBILE
-        ===================================================== */}
-        <div
-          className="mt-10 md:hidden"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+      <motion.div
+        style={{
+          y: stageY,
+        }}
+        className="mx-auto mt-16 hidden max-w-[1500px] px-10 md:block lg:mt-20 lg:px-12"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <AnimatePresence
+          initial={false}
+          mode="wait"
+          custom={direction}
         >
+          <motion.div
+            key={activeProject.slug}
+            custom={direction}
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    x:
+                      direction > 0
+                        ? 55
+                        : -55,
+                  }
+            }
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            exit={
+              reduceMotion
+                ? {
+                    opacity: 0,
+                  }
+                : {
+                    opacity: 0,
+                    x:
+                      direction > 0
+                        ? -40
+                        : 40,
+                  }
+            }
+            transition={{
+              duration: 0.85,
+              ease,
+            }}
+          >
+            <DesktopProjectStage
+              project={activeProject}
+              logo={
+                projectLogos[
+                  activeProject.slug
+                ]
+              }
+              previewOpen={previewOpen}
+              setPreviewOpen={
+                setPreviewOpen
+              }
+              reduceMotion={reduceMotion}
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* DESKTOP NAVIGATION */}
+
+        <div className="border-t border-white/15">
+          <div className="flex items-center justify-between py-4">
+            <button
+              type="button"
+              onClick={goPrevious}
+              className="group cursor-pointer text-left"
+            >
+              <span
+                className="block text-[10px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                style={courier}
+              >
+                ← Previous project
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={goNext}
+              className="group cursor-pointer text-right"
+            >
+              <span
+                className="block text-[10px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                style={courier}
+              >
+                Next project →
+              </span>
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* =================================================
+          MOBILE PROJECT
+      ================================================= */}
+
+      <div
+        className="mt-12 md:hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="px-5">
           <AnimatePresence
+            initial={false}
             mode="wait"
             custom={direction}
           >
             <motion.div
               key={activeProject.slug}
               custom={direction}
-              initial={{
-                opacity: 0,
-                x:
-                  direction > 0
-                    ? 35
-                    : -35,
-              }}
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      x:
+                        direction > 0
+                          ? 35
+                          : -35,
+                    }
+              }
               animate={{
                 opacity: 1,
                 x: 0,
@@ -539,274 +522,1112 @@ export default function SelectedWork() {
                 opacity: 0,
                 x:
                   direction > 0
-                    ? -35
-                    : 35,
+                    ? -25
+                    : 25,
               }}
               transition={{
-                duration: 0.4,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
+                duration: 0.6,
+                ease,
               }}
             >
-              {/* PROJECT IMAGE */}
-              <Link
-                href={`/work/${activeProject.slug}`}
-                className="relative block aspect-square overflow-hidden border border-white/55 bg-black"
-              >
-                <Image
-                  src={activeProject.image}
-                  alt=""
-                  fill
-                  sizes="calc(100vw - 40px)"
-                  className="object-cover"
-                />
-
-                <div className="absolute inset-0 bg-black/45" />
-
-                {projectLogos[
-                  activeProject.slug
-                ] && (
-                  <div className="absolute inset-0 flex items-center justify-center p-[16%]">
-                    <div className="relative h-[42%] w-[78%]">
-                      <Image
-                        src={
-                          projectLogos[
-                            activeProject.slug
-                          ]
-                        }
-                        alt={
-                          activeProject.title
-                        }
-                        fill
-                        sizes="70vw"
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                )}
-              </Link>
-
-              {/* PROJECT INFO */}
-              <div className="mt-6 text-center">
-                <p
-                  className="mb-2 text-[10px] font-bold uppercase text-orange"
-                  style={{
-                    fontFamily:
-                      '"Courier New", Courier, monospace',
-                  }}
-                >
-                  {activeProject.type}
-                </p>
-
-                <Link
-                  href={`/work/${activeProject.slug}`}
-                  className="inline-flex items-baseline gap-2"
-                >
-                  <h3
-                    className="text-[28px] uppercase leading-none"
-                    style={{
-                      fontFamily:
-                        '"neue-haas-grotesk-display", sans-serif',
-                      fontWeight: 700,
-                    }}
-                  >
-                    {activeProject.title}
-                  </h3>
-
-                  <span className="text-orange">
-                    ↗
-                  </span>
-                </Link>
-              </div>
+              <MobileProject
+                project={activeProject}
+                logo={
+                  projectLogos[
+                    activeProject.slug
+                  ]
+                }
+                previewOpen={
+                  mobilePreviewOpen
+                }
+                setPreviewOpen={
+                  setMobilePreviewOpen
+                }
+                reduceMotion={reduceMotion}
+              />
             </motion.div>
           </AnimatePresence>
 
-          {/* MOBILE NAV */}
-          <div className="mt-7 flex items-center justify-between border-t border-white/15 pt-5">
-            <button
-              type="button"
-              onClick={goPrevious}
-              aria-label="Previous project"
-              className="text-white/50 transition-colors hover:text-orange"
-            >
-              <DoubleChevron direction="left" />
-            </button>
+          {/* MOBILE NAVIGATION */}
 
-            <span
-              className="text-[10px] font-bold text-white/40"
-              style={{
-                fontFamily:
-                  '"Courier New", Courier, monospace',
-              }}
-            >
-              {String(
-                activeIndex + 1
-              ).padStart(2, '0')}
-              {' / '}
-              {String(count).padStart(2, '0')}
-            </span>
+          <div className="border-t border-white/15">
+            <div className="flex items-center justify-between py-4">
+              <button
+                type="button"
+                onClick={goPrevious}
+                className="text-left"
+              >
+                <span
+                  className="block text-[9px] font-bold uppercase text-white/35"
+                  style={courier}
+                >
+                  ← Previous
+                </span>
+              </button>
 
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Next project"
-              className="text-white/50 transition-colors hover:text-orange"
-            >
-              <DoubleChevron direction="right" />
-            </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="text-right"
+              >
+                <span
+                  className="block text-[9px] font-bold uppercase text-white/35"
+                  style={courier}
+                >
+                  Next →
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="h-5 md:h-8" />
     </section>
   );
 }
 
 /* =========================================================
-   PROJECT CARD
+   DESKTOP PROJECT STAGE
 ========================================================= */
 
-type ProjectCardProps = {
-  project: (typeof work)[number];
-  logo?: string;
-  isActive: boolean;
-  isHovered: boolean;
-  onPointerMove: (
-    event: React.PointerEvent<HTMLAnchorElement>
-  ) => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  cursorX: ReturnType<typeof useSpring>;
-  cursorY: ReturnType<typeof useSpring>;
-};
-
-function ProjectCard({
+function DesktopProjectStage({
   project,
   logo,
-  isActive,
-  isHovered,
-  onPointerMove,
-  onMouseEnter,
-  onMouseLeave,
-  cursorX,
-  cursorY,
-}: ProjectCardProps) {
+  previewOpen,
+  setPreviewOpen,
+  reduceMotion,
+}: {
+  project: (typeof work)[number];
+  logo?: string;
+  previewOpen: boolean;
+  setPreviewOpen: (value: boolean) => void;
+  reduceMotion: boolean | null;
+}) {
+  const [openSection, setOpenSection] =
+    useState<string | null>(null);
+
+  const toggleSection = (section: string) => {
+    setOpenSection((current) =>
+      current === section ? null : section
+    );
+  };
+
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      aria-label={`View ${project.title}`}
-      onPointerMove={onPointerMove}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className="group relative block aspect-square overflow-hidden border border-white/55 bg-black"
+    <motion.div
+      className="relative h-[560px] overflow-hidden lg:h-[650px]"
+      onHoverStart={() =>
+        setPreviewOpen(true)
+      }
+      onHoverEnd={() =>
+        setPreviewOpen(false)
+      }
     >
-      {/* IMAGE */}
+      {/* IMAGE PANEL */}
+
       <motion.div
-        className="absolute inset-0"
-        animate={{
-          scale: isHovered
-            ? 1.025
-            : 1,
-        }}
-        transition={{
-          duration: 0.65,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        initial={false}
+        animate={
+          previewOpen
+            ? {
+                left: '0%',
+                width: '61%',
+                top: '7%',
+                bottom: '7%',
+              }
+            : {
+                left: '0%',
+                width: '100%',
+                top: '0%',
+                bottom: '0%',
+              }
+        }
+        transition={
+          reduceMotion
+            ? {
+                duration: 0,
+              }
+            : {
+                duration: 0.95,
+                ease,
+              }
+        }
+        className="absolute overflow-hidden bg-[#111]"
       >
-        <Image
-          src={project.image}
-          alt=""
-          fill
-          sizes="30vw"
-          className="object-cover"
-        />
-      </motion.div>
-
-      {/* OVERLAY */}
-      <motion.div
-        className="absolute inset-0 bg-black"
-        animate={{
-          opacity: isHovered
-            ? 0.25
-            : isActive
-              ? 0.42
-              : 0.62,
-        }}
-        transition={{
-          duration: 0.35,
-        }}
-      />
-
-      {/* LOGO */}
-      {logo && (
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center p-[14%]"
-          animate={{
-            opacity: isActive
-              ? 1
-              : 0.72,
-          }}
-          transition={{
-            duration: 0.35,
-          }}
+        <Link
+          href={`/work/${project.slug}`}
+          aria-label={`View ${project.title} case study`}
+          className="absolute inset-0 block cursor-pointer"
         >
-          <div className="relative h-[42%] w-[78%]">
-            <Image
-              src={logo}
-              alt={project.title}
-              fill
-              sizes="25vw"
-              className="object-contain"
-            />
-          </div>
-        </motion.div>
-      )}
-
-      {/* BORDER */}
-      <div className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-300 group-hover:border-white/30" />
-
-      {/* VIEW PROJECT CURSOR */}
-      <AnimatePresence>
-        {isHovered && (
           <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.75,
-            }}
+            className="absolute inset-0"
+            initial={false}
             animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.75,
+              scale:
+                previewOpen &&
+                !reduceMotion
+                  ? 1.025
+                  : 1,
             }}
             transition={{
-              duration: 0.18,
-            }}
-            className="pointer-events-none absolute left-0 top-0 z-30 hidden lg:block"
-            style={{
-              x: cursorX,
-              y: cursorY,
+              duration: 1.15,
+              ease,
             }}
           >
-            <div
-              className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-orange px-5 py-4 text-center text-[10px] font-bold uppercase leading-[1.15] text-black"
-              style={{
-                fontFamily:
-                  '"Courier New", Courier, monospace',
+            <Image
+              src={project.image}
+              alt=""
+              fill
+              priority={false}
+              sizes="(min-width: 1024px) 1400px, 90vw"
+              className="object-cover"
+            />
+          </motion.div>
+
+          <motion.div
+            className="absolute inset-0 bg-black"
+            initial={false}
+            animate={{
+              opacity: previewOpen
+                ? 0.4
+                : 0.3,
+            }}
+            transition={{
+              duration: 0.8,
+              ease,
+            }}
+          />
+
+          {!reduceMotion && (
+            <motion.div
+              aria-hidden="true"
+              initial={{
+                scaleX: 1,
               }}
+              whileInView={{
+                scaleX: 0,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.25,
+              }}
+              transition={{
+                duration: 1.15,
+                delay: 0.15,
+                ease,
+              }}
+              className="pointer-events-none absolute inset-0 z-30 origin-right bg-black"
+            />
+          )}
+
+          {logo && (
+            <motion.div
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      scale: 0.96,
+                    }
+              }
+              whileInView={{
+                opacity: 1,
+                scale: 1,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.9,
+                delay: 0.55,
+                ease,
+              }}
+              className="absolute inset-0 z-10 flex items-center justify-center px-[15%]"
             >
-              View
-              <br />
-              project ↗
+              <motion.div
+                initial={false}
+                animate={{
+                  scale:
+                    previewOpen &&
+                    !reduceMotion
+                      ? 0.9
+                      : 1,
+                }}
+                transition={{
+                  duration: 0.95,
+                  ease,
+                }}
+                className="relative h-[38%] w-[74%]"
+              >
+                <Image
+                  src={logo}
+                  alt={project.title}
+                  fill
+                  sizes="60vw"
+                  className="object-contain"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: previewOpen
+                ? 0
+                : 0.55,
+            }}
+            transition={{
+              duration: 0.35,
+            }}
+            className="absolute left-6 top-6 z-20"
+          >
+            <span
+              className="text-[9px] font-bold uppercase text-white"
+              style={courier}
+            >
+              Project
+            </span>
+          </motion.div>
+        </Link>
+      </motion.div>
+
+      {/* DESKTOP PREVIEW PANEL */}
+
+      <motion.div
+        initial={false}
+        animate={{
+          opacity: previewOpen
+            ? 1
+            : 0,
+          x:
+            previewOpen ||
+            reduceMotion
+              ? 0
+              : 45,
+        }}
+        transition={{
+          opacity: {
+            duration: 0.55,
+            delay: previewOpen
+              ? 0.22
+              : 0,
+            ease,
+          },
+
+          x: {
+            duration: 0.85,
+            delay: previewOpen
+              ? 0.12
+              : 0,
+            ease,
+          },
+        }}
+        className={`absolute bottom-[7%] right-0 top-[7%] w-[34%] ${
+          previewOpen
+            ? 'pointer-events-auto'
+            : 'pointer-events-none'
+        }`}
+      >
+        <div className="flex h-full flex-col pl-8 lg:pl-12">
+          <motion.div
+            initial={false}
+            animate={{
+              y:
+                previewOpen ||
+                reduceMotion
+                  ? 0
+                  : 10,
+              opacity: previewOpen
+                ? 1
+                : 0,
+            }}
+            transition={{
+              duration: 0.55,
+              delay: previewOpen
+                ? 0.3
+                : 0,
+              ease,
+            }}
+          >
+            <p
+              className="text-[11px] font-bold uppercase text-orange"
+              style={courier}
+            >
+              {project.type}
+            </p>
+
+            <h3
+              className="mt-3 text-[28px] uppercase leading-[0.95] text-bone lg:text-[34px]"
+              style={neueHaas}
+            >
+              {project.title}
+            </h3>
+          </motion.div>
+
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: previewOpen
+                ? 1
+                : 0,
+            }}
+            transition={{
+              duration: 0.65,
+              delay: previewOpen
+                ? 0.38
+                : 0,
+              ease,
+            }}
+            className="mt-8 flex-1"
+          >
+            <PreviewRow
+              number="01"
+              label="Overview"
+              content={project.overview}
+              expanded={
+                openSection === 'overview'
+              }
+              onToggle={() =>
+                toggleSection('overview')
+              }
+              delay={0.4}
+              open={previewOpen}
+              reduceMotion={reduceMotion}
+            />
+
+            <PreviewRow
+              number="02"
+              label="The Challenge"
+              content={project.challenge}
+              expanded={
+                openSection === 'challenge'
+              }
+              onToggle={() =>
+                toggleSection('challenge')
+              }
+              delay={0.46}
+              open={previewOpen}
+              reduceMotion={reduceMotion}
+            />
+
+            <PreviewRow
+              number="03"
+              label="Direction"
+              content={project.direction}
+              expanded={
+                openSection === 'direction'
+              }
+              onToggle={() =>
+                toggleSection('direction')
+              }
+              delay={0.52}
+              open={previewOpen}
+              reduceMotion={reduceMotion}
+            />
+
+            <PreviewRow
+              number="04"
+              label="Outcome"
+              content={project.outcome}
+              expanded={
+                openSection === 'outcome'
+              }
+              onToggle={() =>
+                toggleSection('outcome')
+              }
+              delay={0.58}
+              open={previewOpen}
+              reduceMotion={reduceMotion}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: previewOpen
+                ? 1
+                : 0,
+              y:
+                previewOpen ||
+                reduceMotion
+                  ? 0
+                  : 12,
+            }}
+            transition={{
+              duration: 0.6,
+              delay: previewOpen
+                ? 0.58
+                : 0,
+              ease,
+            }}
+          >
+            <Link
+              href={`/work/${project.slug}`}
+              className="group flex items-center justify-between border-t border-white/25 py-5"
+            >
+              <span
+                className="text-[11px] font-bold uppercase text-bone transition-colors duration-500 group-hover:text-orange"
+                style={courier}
+              >
+                View case study
+              </span>
+
+              <span className="text-[19px] text-orange transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
+                ↗
+              </span>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   DESKTOP PREVIEW ROW
+========================================================= */
+
+function PreviewRow({
+  number,
+  label,
+  content,
+  expanded,
+  onToggle,
+  delay,
+  open,
+  reduceMotion,
+}: {
+  number: string;
+  label: string;
+  content: string;
+  expanded: boolean;
+  onToggle: () => void;
+  delay: number;
+  open: boolean;
+  reduceMotion: boolean | null;
+}) {
+  return (
+    <motion.div
+      initial={false}
+      animate={{
+        opacity: open ? 1 : 0,
+        y:
+          open || reduceMotion
+            ? 0
+            : 14,
+      }}
+      transition={{
+        duration: 0.6,
+        delay: open
+          ? delay
+          : 0,
+        ease,
+      }}
+      className="border-b border-white/25"
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className="group flex w-full cursor-pointer items-center justify-between py-4 text-left"
+      >
+        <div className="flex items-center gap-3">
+          <span
+            className="text-[9px] font-bold text-orange"
+            style={courier}
+          >
+            {number}
+          </span>
+
+          <span
+            className={`text-[12px] font-bold uppercase transition-colors duration-500 lg:text-[13px] ${
+              expanded
+                ? 'text-orange'
+                : 'text-bone group-hover:text-orange'
+            }`}
+            style={courier}
+          >
+            {label}
+          </span>
+        </div>
+
+        <motion.span
+          aria-hidden="true"
+          animate={{
+            rotate: expanded ? 45 : 0,
+          }}
+          transition={{
+            duration: reduceMotion
+              ? 0
+              : 0.4,
+            ease,
+          }}
+          className={`text-[17px] leading-none transition-colors duration-500 ${
+            expanded
+              ? 'text-orange'
+              : 'text-white/40 group-hover:text-orange'
+          }`}
+        >
+          +
+        </motion.span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    height: 0,
+                    opacity: 0,
+                  }
+            }
+            animate={{
+              height: 'auto',
+              opacity: 1,
+            }}
+            exit={
+              reduceMotion
+                ? {
+                    opacity: 0,
+                  }
+                : {
+                    height: 0,
+                    opacity: 0,
+                  }
+            }
+            transition={{
+              height: {
+                duration: reduceMotion
+                  ? 0
+                  : 0.55,
+                ease,
+              },
+              opacity: {
+                duration: reduceMotion
+                  ? 0
+                  : 0.4,
+                delay:
+                  expanded &&
+                  !reduceMotion
+                    ? 0.08
+                    : 0,
+              },
+            }}
+            className="overflow-hidden"
+          >
+            <motion.p
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      y: 8,
+                    }
+              }
+              animate={{
+                y: 0,
+              }}
+              exit={{
+                y: 4,
+              }}
+              transition={{
+                duration: reduceMotion
+                  ? 0
+                  : 0.45,
+                ease,
+              }}
+              className="max-w-[390px] pb-5 pr-6 text-[14px] leading-[1.55] text-white/70"
+              style={courier}
+            >
+              {content}
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   MOBILE PROJECT
+========================================================= */
+
+function MobileProject({
+  project,
+  logo,
+  previewOpen,
+  setPreviewOpen,
+  reduceMotion,
+}: {
+  project: (typeof work)[number];
+  logo?: string;
+  previewOpen: boolean;
+  setPreviewOpen: (value: boolean) => void;
+  reduceMotion: boolean | null;
+}) {
+  const [openSection, setOpenSection] =
+    useState<string | null>(null);
+
+  const toggleSection = (section: string) => {
+    setOpenSection((current) =>
+      current === section ? null : section
+    );
+  };
+
+  return (
+    <div className="overflow-hidden bg-black">
+      {/* IMAGE / TAP TARGET */}
+
+      <motion.button
+        type="button"
+        onClick={() =>
+          setPreviewOpen(!previewOpen)
+        }
+        aria-expanded={previewOpen}
+        aria-label={
+          previewOpen
+            ? `Close ${project.title} preview`
+            : `Preview ${project.title}`
+        }
+        className="relative block w-full overflow-hidden bg-[#111] text-left"
+        initial={false}
+        animate={{
+          height: previewOpen
+            ? 330
+            : 440,
+        }}
+        transition={
+          reduceMotion
+            ? {
+                duration: 0,
+              }
+            : {
+                duration: 0.8,
+                ease,
+              }
+        }
+      >
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={{
+            scale:
+              previewOpen &&
+              !reduceMotion
+                ? 1.025
+                : 1,
+          }}
+          transition={{
+            duration: 0.95,
+            ease,
+          }}
+        >
+          <Image
+            src={project.image}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </motion.div>
+
+        <motion.div
+          className="absolute inset-0 bg-black"
+          initial={false}
+          animate={{
+            opacity: previewOpen
+              ? 0.42
+              : 0.32,
+          }}
+          transition={{
+            duration: 0.65,
+            ease,
+          }}
+        />
+
+        {logo && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center px-[15%]"
+            initial={false}
+            animate={{
+              scale:
+                previewOpen &&
+                !reduceMotion
+                  ? 0.9
+                  : 1,
+              y:
+                previewOpen &&
+                !reduceMotion
+                  ? -4
+                  : 0,
+            }}
+            transition={{
+              duration: 0.8,
+              ease,
+            }}
+          >
+            <div className="relative h-[38%] w-[78%]">
+              <Image
+                src={logo}
+                alt={project.title}
+                fill
+                sizes="80vw"
+                className="object-contain"
+              />
+            </div>
+          </motion.div>
+        )}
+
+        <div className="absolute bottom-4 right-4 z-20">
+          <motion.span
+            initial={false}
+            animate={{
+              rotate: previewOpen
+                ? 45
+                : 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease,
+            }}
+            className="flex h-8 w-8 items-center justify-center border border-white/40 text-[20px] leading-none text-bone"
+            aria-hidden="true"
+          >
+            +
+          </motion.span>
+        </div>
+      </motion.button>
+
+      {/* MOBILE PREVIEW */}
+
+      <AnimatePresence initial={false}>
+        {previewOpen && (
+          <motion.div
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    height: 0,
+                    opacity: 0,
+                  }
+            }
+            animate={{
+              height: 'auto',
+              opacity: 1,
+            }}
+            exit={{
+              height: 0,
+              opacity: 0,
+            }}
+            transition={{
+              height: {
+                duration: 0.75,
+                ease,
+              },
+              opacity: {
+                duration: 0.5,
+                delay: 0.12,
+              },
+            }}
+            className="overflow-hidden"
+          >
+            <div className="px-1 pb-6 pt-6">
+              {/* PROJECT HEADER */}
+
+              <motion.div
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 14,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.2,
+                  ease,
+                }}
+              >
+                <p
+                  className="text-[10px] font-bold uppercase text-orange"
+                  style={courier}
+                >
+                  {project.type}
+                </p>
+
+                <h3
+                  className="mt-2 text-[28px] uppercase leading-[0.95] text-bone"
+                  style={neueHaas}
+                >
+                  {project.title}
+                </h3>
+              </motion.div>
+
+              {/* MOBILE ACCORDION */}
+
+              <div className="mt-6">
+                <MobilePreviewRow
+                  number="01"
+                  label="Overview"
+                  content={project.overview}
+                  expanded={
+                    openSection ===
+                    'overview'
+                  }
+                  onToggle={() =>
+                    toggleSection(
+                      'overview'
+                    )
+                  }
+                  delay={0.28}
+                  reduceMotion={
+                    reduceMotion
+                  }
+                />
+
+                <MobilePreviewRow
+                  number="02"
+                  label="The Challenge"
+                  content={project.challenge}
+                  expanded={
+                    openSection ===
+                    'challenge'
+                  }
+                  onToggle={() =>
+                    toggleSection(
+                      'challenge'
+                    )
+                  }
+                  delay={0.34}
+                  reduceMotion={
+                    reduceMotion
+                  }
+                />
+
+                <MobilePreviewRow
+                  number="03"
+                  label="Direction"
+                  content={project.direction}
+                  expanded={
+                    openSection ===
+                    'direction'
+                  }
+                  onToggle={() =>
+                    toggleSection(
+                      'direction'
+                    )
+                  }
+                  delay={0.4}
+                  reduceMotion={
+                    reduceMotion
+                  }
+                />
+
+                <MobilePreviewRow
+                  number="04"
+                  label="Outcome"
+                  content={project.outcome}
+                  expanded={
+                    openSection ===
+                    'outcome'
+                  }
+                  onToggle={() =>
+                    toggleSection(
+                      'outcome'
+                    )
+                  }
+                  delay={0.46}
+                  reduceMotion={
+                    reduceMotion
+                  }
+                />
+              </div>
+
+              {/* FULL CASE STUDY */}
+
+              <motion.div
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 12,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.5,
+                  ease,
+                }}
+              >
+                <Link
+                  href={`/work/${project.slug}`}
+                  className="mt-6 flex items-center justify-between border-t border-white/25 py-5"
+                >
+                  <span
+                    className="text-[11px] font-bold uppercase text-bone"
+                    style={courier}
+                  >
+                    View case study
+                  </span>
+
+                  <span className="text-[19px] text-orange">
+                    ↗
+                  </span>
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </Link>
+    </div>
+  );
+}
+
+/* =========================================================
+   MOBILE PREVIEW ROW
+========================================================= */
+
+function MobilePreviewRow({
+  number,
+  label,
+  content,
+  expanded,
+  onToggle,
+  delay,
+  reduceMotion,
+}: {
+  number: string;
+  label: string;
+  content: string;
+  expanded: boolean;
+  onToggle: () => void;
+  delay: number;
+  reduceMotion: boolean | null;
+}) {
+  return (
+    <motion.div
+      initial={
+        reduceMotion
+          ? false
+          : {
+              opacity: 0,
+              y: 10,
+            }
+      }
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.55,
+        delay,
+        ease,
+      }}
+      className="border-t border-white/20"
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className="flex w-full items-center justify-between py-4 text-left"
+      >
+        <div className="flex items-center gap-3">
+          <span
+            className="text-[9px] font-bold text-orange"
+            style={courier}
+          >
+            {number}
+          </span>
+
+          <span
+            className={`text-[11px] font-bold uppercase transition-colors duration-300 ${
+              expanded
+                ? 'text-orange'
+                : 'text-bone'
+            }`}
+            style={courier}
+          >
+            {label}
+          </span>
+        </div>
+
+        <motion.span
+          aria-hidden="true"
+          animate={{
+            rotate: expanded ? 45 : 0,
+          }}
+          transition={{
+            duration: reduceMotion
+              ? 0
+              : 0.35,
+            ease,
+          }}
+          className={`text-[17px] leading-none ${
+            expanded
+              ? 'text-orange'
+              : 'text-white/40'
+          }`}
+        >
+          +
+        </motion.span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    height: 0,
+                    opacity: 0,
+                  }
+            }
+            animate={{
+              height: 'auto',
+              opacity: 1,
+            }}
+            exit={{
+              height: 0,
+              opacity: 0,
+            }}
+            transition={{
+              height: {
+                duration: reduceMotion
+                  ? 0
+                  : 0.5,
+                ease,
+              },
+              opacity: {
+                duration: reduceMotion
+                  ? 0
+                  : 0.35,
+              },
+            }}
+            className="overflow-hidden"
+          >
+            <p
+              className="pb-5 pr-4 text-[13px] leading-[1.6] text-white/70"
+              style={courier}
+            >
+              {content}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
