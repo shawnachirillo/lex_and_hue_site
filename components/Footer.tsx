@@ -101,7 +101,7 @@ export default function Footer() {
                 href="/partners"
                 className="text-white/65 transition-colors hover:text-orange"
               >
-                Kairo
+                Kairo Kollective
               </Link>
 
               <Link

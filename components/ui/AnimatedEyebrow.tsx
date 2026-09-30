@@ -16,7 +16,9 @@ type AnimatedEyebrowProps = {
   typeSpeed?: number;
   deleteSpeed?: number;
   pauseDuration?: number;
+  cursorClassName?: string;
 };
+
 
 const courier = {
   fontFamily:
@@ -25,6 +27,7 @@ const courier = {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+
 export default function AnimatedEyebrow({
   phrases,
   loop = false,
@@ -32,6 +35,8 @@ export default function AnimatedEyebrow({
   typeSpeed = 75,
   deleteSpeed = 45,
   pauseDuration = 1500,
+  cursorClassName,
+
 }: AnimatedEyebrowProps) {
   const reduceMotion = useReducedMotion();
 
@@ -212,8 +217,10 @@ export default function AnimatedEyebrow({
         {displayedText}
 
         <motion.span
-          aria-hidden="true"
-          className="ml-[2px] inline-block h-[22px] w-[2px] translate-y-[3px] bg-orange"
+  aria-hidden="true"
+  className={`ml-[2px] inline-block h-[22px] w-[2px] translate-y-[3px] ${
+    cursorClassName ?? 'bg-orange'
+  }`}
           animate={
             reduceMotion
               ? {

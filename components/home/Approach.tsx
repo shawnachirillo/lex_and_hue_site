@@ -25,7 +25,7 @@ export default function Approach() {
       id="approach"
       className="relative overflow-hidden bg-bone text-ink"
     >
-      <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-10 md:py-14 lg:px-12 lg:py-16">
+     <div className="mx-auto max-w-[1500px] px-5 pb-12 pt-6 md:px-10 md:pb-14 md:pt-7 lg:px-12 lg:pb-16 lg:pt-8">
 
         {/* ANIMATED EYEBROW */}
 

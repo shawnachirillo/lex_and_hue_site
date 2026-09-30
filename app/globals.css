@@ -2,103 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* =========================================================
+   LEX & HUE — GLOBAL TOKENS
+   ========================================================= */
+
 :root {
+  /* COLORS */
   --ink: #111111;
   --bone: #f2eee7;
   --orange: #f15a24;
+
+  /* TYPOGRAPHY */
+  --font-display: "neue-haas-grotesk-display", Arial, sans-serif;
+  --font-body: "Courier New", Courier, monospace;
+  --font-editorial: var(--font-instrument-serif), Georgia, serif;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: var(--bone);
   color: var(--ink);
-  
-}
-::selection { background: var(--orange); color: white; }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  /* GLOBAL DEFAULT TYPE */
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--orange);
+  color: white;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY ROLES
+   ========================================================= */
+
+/*
+  DISPLAY
+  Neue Haas Grotesk Display
+  Large headlines, statements, capability names, etc.
+*/
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+
+/*
+  EDITORIAL
+  Instrument Serif Italic
+  Expressive words / phrases.
+*/
+
+.font-editorial {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+}
+
+
+/*
+  BODY / UTILITY
+  Courier New
+  Body copy, descriptions, labels, buttons, eyebrows.
+*/
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+
+/* =========================================================
+   EYEBROWS / KICKERS
+   ========================================================= */
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   LEGACY DISPLAY SIZE HELPERS
+   ========================================================= */
+
+/*
+  Keeping these because existing components may still
+  reference them. Typography family is handled separately.
+*/
 
 .display {
   font-size: clamp(4rem, 10vw, 10rem);
-  line-height: .84;
-  letter-spacing: -.07em;
+  line-height: 0.84;
 }
+
 .hero-statement {
   font-size: clamp(3.8rem, 8.2vw, 8.6rem);
-  line-height: .82;
-  letter-spacing: -.075em;
+  line-height: 0.82;
 }
+
 .hero-time,
 .hero-rotate {
   font-size: clamp(2.7rem, 6.3vw, 6.8rem);
-  line-height: .86;
-  letter-spacing: -.07em;
+  line-height: 0.86;
 }
 
-.hairline { border-color: rgba(17,17,17,.22); }
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+.font-sans-ui {
+  font-family: var(--font-display);
+}
+
+.hairline {
+  border-color: rgba(17, 17, 17, 0.22);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
-/* =========================
-   LEX & HUE TYPOGRAPHY
-   ========================= */
-
-   :root {
-    --font-sans: var(--font-archivo);
-    --font-sans: var(--font-archivo-bold);
-    --font-serif: var(--font-instrument-serif);
-  }
-  
-  /* DEFAULT SITE TYPE */
-  html,
-  body {
-    font-family: var(--font-sans), Arial, sans-serif;
-  }
-  
-  /* DISPLAY / HEADLINE TYPE */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-sans), Arial, sans-serif;
-  }
-  
-  /* EDITORIAL SERIF */
-  .font-editorial {
-    font-family: var(--font-serif), Georgia, serif !important;
-  }
-  
-  /* ALL EXISTING EYEBROWS / KICKERS */
-  .kicker {
-    font-family: var(--font-serif), Georgia, serif !important;
-    font-size: 1.35rem;
-    line-height: 1;
-    font-weight: 400;
-    letter-spacing: 0.8;
-    text-transform: none;
-    font-style: normal;
-  }
-  .eyebrow {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-
-  .font-sans-ui {
-    font-family: Arial, Helvetica, sans-serif;
-  }
