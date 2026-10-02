@@ -58,7 +58,7 @@ const backgroundY = useTransform(
   return (
     <section
     ref={sectionRef}
-    className="relative overflow-hidden bg-[#413d36] text-black"
+    className="relative overflow-hidden bg-[#252422] text-[#f8f4eb]"
   >
     {/* PARALLAX BACKGROUND */}
     <motion.div
@@ -119,61 +119,87 @@ const backgroundY = useTransform(
               ease,
             }}
           >
-            Not every business
+           Time to 
           </motion.span>
 
           <motion.span
-            className="block"
-            initial={
-              reduceMotion
-                ? false
-                : {
-                    opacity: 0,
-                    x: 45,
-                  }
-            }
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.5,
-            }}
-            transition={{
-              duration: 0.85,
-              delay: 0.1,
-              ease,
-            }}
-          >
-            needs the same{' '}
-            <motion.span
-              className="inline-block normal-case text-bone"
-              style={instrumentSerif}
-              initial={
-                reduceMotion
-                  ? false
-                  : {
-                      opacity: 0,
-                      y: 24,
-                    }
-              }
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.75,
-                delay: 0.3,
-                ease,
-              }}
-            >
-              shift.
-            </motion.span>
-          </motion.span>
+  className="block"
+  initial={
+    reduceMotion
+      ? false
+      : {
+          opacity: 0,
+          x: 45,
+        }
+  }
+  whileInView={{
+    opacity: 1,
+    x: 0,
+  }}
+  viewport={{
+    once: true,
+    amount: 0.5,
+  }}
+  transition={{
+    duration: 0.85,
+    delay: 0.1,
+    ease,
+  }}
+>
+  <span className="relative inline-block">
+    
+
+    <motion.span
+      aria-hidden="true"
+      className="absolute left-[-2%] top-[52%] h-[5px] w-[104%] origin-left bg-[#fd5100] md:h-[7px]"
+      initial={
+        reduceMotion
+          ? { scaleX: 1 }
+          : { scaleX: 0 }
+      }
+      whileInView={{
+        scaleX: 1,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.8,
+      }}
+      transition={{
+        duration: 0.8,
+        delay: 0.65,
+        ease,
+      }}
+    />
+  </span>{' '}
+  make the {' '}
+
+  <motion.span
+    className="inline-block normal-case text-[#fd5100]"
+    style={instrumentSerif}
+    initial={
+      reduceMotion
+        ? false
+        : {
+            opacity: 0,
+            y: 24,
+          }
+    }
+    whileInView={{
+      opacity: 1,
+      y: 0,
+    }}
+    viewport={{
+      once: true,
+    }}
+    transition={{
+      duration: 0.75,
+      delay: 0.3,
+      ease,
+    }}
+  >
+    shift.
+  </motion.span>
+</motion.span>
         </motion.h2>
 
         {/* =================================================
@@ -186,7 +212,7 @@ const backgroundY = useTransform(
 
             return (
               <button
-                key={transformation.id}
+              key={transformation.name}
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
@@ -203,7 +229,7 @@ const backgroundY = useTransform(
                     'text-[14px] uppercase transition-colors duration-500 md:text-[16px]',
                     isActive
                       ? 'text-bone'
-                      : 'text-black group-hover:text-bone',
+                      : 'text-[#fd5100] group-hover:text-bone',
                   ].join(' ')}
                   style={neueHaas}
                 >
@@ -232,7 +258,7 @@ const backgroundY = useTransform(
 
 <div className="relative min-h-[250px] md:min-h-[280px]">          <AnimatePresence mode="wait">
             <motion.div
-              key={active.id}
+              key={active.name}
               initial={
                 reduceMotion
                   ? false
@@ -299,7 +325,7 @@ const backgroundY = useTransform(
                   className="text-[18px] leading-[1.04] text-bone md:text-[28px] lg:text-[25px]"
                   style={neueHaas}
                 >
-                  {active.statement}
+                  {active.name}
                 </motion.p>
 
                 {/* INSTRUMENT SERIF SUPPORTING COPY */}
@@ -351,7 +377,7 @@ const backgroundY = useTransform(
                   className="mt-7"
                 >
                   <Link
-                    href={`/pricing#${active.id}`}
+                    href={`/pricing#${active.name}`}
                     className="group inline-flex items-center gap-3 text-orange"
                   >
                     <span className="text-[11px] font-bold uppercase">

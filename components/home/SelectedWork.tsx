@@ -462,7 +462,7 @@ export default function SelectedWork() {
               className="group cursor-pointer text-left"
             >
               <span
-                className="block text-[10px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                className="block text-[14px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
                 style={courier}
               >
                 ← Previous project
@@ -475,7 +475,7 @@ export default function SelectedWork() {
               className="group cursor-pointer text-right"
             >
               <span
-                className="block text-[10px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                className="block text-[14px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
                 style={courier}
               >
                 Next project →

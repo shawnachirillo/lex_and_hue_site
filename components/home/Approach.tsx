@@ -66,7 +66,7 @@ export default function Approach() {
                 duration: 1,
                 ease,
               }}
-              className="text-[86px] uppercase leading-[0.85] md:text-[106px] lg:text-[125px]"
+              className="text-[86px] text-[#fd5100] uppercase leading-[0.85] md:text-[106px] lg:text-[125px]"
               style={neueHaas}
             >
               WE

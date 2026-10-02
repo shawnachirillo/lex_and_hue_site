@@ -15,16 +15,14 @@ import {
 } from 'lucide-react';
 import {
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 
-import { capabilities } from '@/content/capabilities';
-
 type HeroProps = {
   onStartProject: () => void;
 };
+const heroWords = ['LOOKS', 'FEELS', 'OPERATES'];
 
 const neueHaasDisplay = {
   fontFamily:
@@ -96,18 +94,14 @@ export default function Hero({
     const timer = setInterval(() => {
       setRotation(
         (currentIndex) =>
-          (currentIndex + 1) %
-          capabilities.length
+          (currentIndex + 1) % heroWords.length
       );
     }, 3200);
 
     return () => clearInterval(timer);
   }, []);
 
-  const current = useMemo(
-    () => capabilities[rotation],
-    [rotation]
-  );
+
 
   return (
     <section
@@ -316,7 +310,7 @@ export default function Hero({
             >
               <AnimatePresence mode="wait">
                 <motion.span
-                  key={current.id}
+                  key={heroWords[rotation]}
                   initial={
                     reduceMotion
                       ? {
@@ -347,7 +341,7 @@ export default function Hero({
                   }}
                   className="absolute left-0 top-0"
                 >
-                  {current.heroWord}
+                  {heroWords[rotation]}
                 </motion.span>
               </AnimatePresence>
             </div>
