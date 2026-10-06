@@ -182,7 +182,7 @@ export default function Capabilities() {
           }}
         />
 
-        <div className="relative z-10 mx-auto flex h-[86px] w-full max-w-[1500px] items-center px-10 xl:px-12">
+        <div className="relative z-10 mx-auto flex h-[120px] w-full max-w-[1500px] items-center px-10 xl:px-12">
           {/* CAPABILITY TITLE */}
 
           <div className="flex w-[49%] shrink-0 justify-end">
@@ -406,7 +406,7 @@ export default function Capabilities() {
                           }}
                           className="overflow-hidden"
                         >
-                          <div className="bg-black px-5 py-6 text-bone sm:px-7 sm:py-7">
+                          <div className="bg-black px-5 py-9 md:py-10 text-bone sm:px-7 sm:py-7">
                             <CapabilityInfo
                               capability={
                                 capability
@@ -544,14 +544,14 @@ function ServiceItem({
     >
       <div className="flex min-w-0 items-start gap-2">
         <span
-          className="shrink-0 text-[8px] font-bold leading-[1.2] text-orange"
+          className="shrink-0 text-[8px] font-normal leading-[1.2] text-orange"
           style={courier}
         >
           0{index + 1}
         </span>
 
         <span
-          className={`min-w-0 text-[11px] font-bold uppercase leading-[1.2] xl:text-[12px] ${
+          className={`min-w-0 text-[11px] font-normal uppercase leading-[1.2] xl:text-[12px] ${
             inverted
               ? 'text-bone'
               : 'text-ink'

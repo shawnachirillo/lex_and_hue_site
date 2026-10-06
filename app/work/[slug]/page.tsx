@@ -14,6 +14,7 @@ import {
   type VisualAsset,
   type ProjectTheme,
 } from '@/content/work';
+import EastEndCaseStudy from '@/components/work/EastEndCaseStudy';
 
 type WorkPageProps = {
   params: Promise<{
@@ -67,6 +68,9 @@ export default async function WorkPage({
   }
 
   const project = work[projectIndex];
+  if (project.slug === 'the-east-end-company') {
+    return <EastEndCaseStudy />;
+  }
 
   const nextProject =
     work[(projectIndex + 1) % work.length];
