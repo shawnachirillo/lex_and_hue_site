@@ -6,7 +6,7 @@ export default function EastEndCaseStudy() {
       <Image
         src="/images/east-end-case-study.png"
         alt="The East End Co. brand identity case study"
-        width={2500}
+        width={1200}
         height={12000}
         priority
         sizes="100vw"

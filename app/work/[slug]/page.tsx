@@ -15,6 +15,8 @@ import {
   type ProjectTheme,
 } from '@/content/work';
 import EastEndCaseStudy from '@/components/work/EastEndCaseStudy';
+import TheGoddessResetCaseStudy from '@/components/work/TheGoddessResetCaseStudy';
+
 
 type WorkPageProps = {
   params: Promise<{
@@ -71,7 +73,10 @@ export default async function WorkPage({
   if (project.slug === 'the-east-end-company') {
     return <EastEndCaseStudy />;
   }
-
+  if (project.slug === 'modern-goddess-coaching') {
+    return <TheGoddessResetCaseStudy />;
+  }
+  
   const nextProject =
     work[(projectIndex + 1) % work.length];
 
