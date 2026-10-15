@@ -234,7 +234,7 @@ export const work: readonly WorkItem[] = [
     eyebrow:
       'Fragrance / Heritage / Reinvention',
 
-    image: '/images/doorknob.jpg',
+    image: '/images/TEEC_thumbnail.png',
 
     logo: '/images/TEEC_main_logo.png',
 
@@ -528,7 +528,7 @@ export const work: readonly WorkItem[] = [
 
     index: '02',
 
-    title: 'Modern Goddess Coaching',
+    title: 'The Goddess Reset',
 
     type: 'Personal Brand',
 
@@ -544,7 +544,7 @@ export const work: readonly WorkItem[] = [
     eyebrow:
       'Personal Brand / Editorial / Direction',
 
-    image: '/images/fruit.jpeg',
+    image: '/images/TGR_thumbnail.png',
 
     logo: '/images/MGC_white_logo.png',
 
@@ -552,7 +552,7 @@ export const work: readonly WorkItem[] = [
       'linear-gradient(135deg, #211f1d 0%, #5b4b45 48%, #c8b19f 100%)',
 
     overview:
-      'Modern Goddess Coaching needed a personal brand that could hold expertise, personality, and a more elevated professional presence.',
+      'The Goddess Reset needed a personal brand that could hold expertise, personality, and a more elevated professional presence.',
 
     challenge:
       'The existing presentation felt fragmented and did not communicate the confidence or sophistication of the work behind it.',
@@ -561,7 +561,7 @@ export const work: readonly WorkItem[] = [
       'We clarified the positioning and created an editorial identity with deliberate typography, restrained color, and a stronger visual hierarchy.',
 
     outcome:
-      'The finished system gives Modern Goddess Coaching a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
+      'The finished system gives The Goddess Reset a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
 
     featured: true,
 
@@ -581,8 +581,8 @@ export const work: readonly WorkItem[] = [
           kind: 'image',
 
           image: {
-            src: '/images/fruit.jpeg',
-            alt: 'Modern Goddess Coaching brand imagery',
+            src: '/images/TGR_thumbnail.png',
+            alt: 'The Goddess Reset brand imagery',
           },
 
           label: 'Brand Direction',
@@ -634,8 +634,8 @@ export const work: readonly WorkItem[] = [
           kind: 'image',
 
           image: {
-            src: '/images/MGC_white_logo.png',
-            alt: 'Modern Goddess Coaching logo',
+            src: '/images/TGR_logo_white.png',
+            alt: 'The Goddess Reset logo',
           },
 
           label: 'Primary Identity',
@@ -668,8 +668,8 @@ export const work: readonly WorkItem[] = [
           kind: 'image',
 
           image: {
-            src: '/images/fruit.jpeg',
-            alt: 'Modern Goddess visual direction',
+            src: '/images/TGR_thumbnail.png',
+            alt: 'The Goddess Reset visual direction',
           },
 
           label: 'Visual Direction',
@@ -704,7 +704,7 @@ export const work: readonly WorkItem[] = [
           label: 'Full Brand Moment',
 
           note:
-            'Create one oversized image that captures the complete Modern Goddess visual world.',
+            'Create one oversized image that captures the complete The Goddess Reset visual world.',
         },
 
         height: 'screen',
@@ -746,7 +746,7 @@ export const work: readonly WorkItem[] = [
         type: 'outcome',
 
         body:
-          'The finished system gives Modern Goddess Coaching a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
+          'The finished system gives The Goddess Reset a cohesive platform that feels personal without becoming casual and polished without becoming generic.',
       },
     ],
   },

@@ -27,10 +27,10 @@ import { work } from '@/content/work';
 
 const projectLogos: Record<string, string> = {
   'the-east-end-company':
-    '/images/TEEC_main_logo.png',
+   '/images/TEEC_logo_white.png',
 
   'modern-goddess-coaching':
-    '/images/MGC_white_logo.png',
+    '/images/TGR_logo_white.png',
 
   'legacy-at-home':
     '/images/LAHC_white_logo.png',
@@ -273,7 +273,7 @@ export default function SelectedWork() {
               'CASE STUDIES',
             ]}
             loop
-            inverted
+          
           />
 
           <div
@@ -391,7 +391,7 @@ export default function SelectedWork() {
         style={{
           y: stageY,
         }}
-        className="mx-auto mt-16 hidden max-w-[1500px] px-10 md:block lg:mt-20 lg:px-12"
+        className="mx-auto mt-16 hidden w-[82%] max-w-[1240px] md:block lg:mt-20"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -615,7 +615,7 @@ function DesktopProjectStage({
 
   return (
     <motion.div
-      className="relative h-[560px] overflow-hidden lg:h-[650px]"
+      className="relative h-[420px] overflow-hidden lg:h-[480px]"
       onHoverStart={() =>
         setPreviewOpen(true)
       }
@@ -637,7 +637,7 @@ function DesktopProjectStage({
               }
             : {
                 left: '0%',
-                width: '100%',
+                width: '72%',
                 top: '0%',
                 bottom: '0%',
               }
