@@ -380,7 +380,7 @@ const backgroundY = useTransform(
                     href={`/pricing#${active.name}`}
                     className="group inline-flex items-center gap-3 text-orange"
                   >
-                    <span className="text-[11px] font-bold uppercase">
+                    <span className="text-[14px] font- uppercase">
                        {active.name}
                     </span>
 
@@ -397,17 +397,17 @@ const backgroundY = useTransform(
           </AnimatePresence>
         </div>
 
-        {/* =================================================
-            PRICING LINK
-        ================================================= */}
+        {
+          
+        }
 
         <div className="flex justify-end border-t border-black/20 pt-7">
           <Link
             href="/pricing"
             className="group inline-flex items-center gap-3 text-orange"
           >
-            <span className="text-[11px] font-bold uppercase">
-              services + pricing
+            <span className="text-[14px] font-uppercase">
+              Services + Pricing
             </span>
 
             <ArrowUpRight

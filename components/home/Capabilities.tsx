@@ -114,7 +114,7 @@ export default function Capabilities() {
         />
       </div>
 
-      {/* MAIN CONTENT */}
+
 
       <motion.div
         className="relative z-10 mt-10"
@@ -122,9 +122,9 @@ export default function Capabilities() {
           y: contentY,
         }}
       >
-       {/* =====================================================
-    DESKTOP
-===================================================== */}
+       {
+
+       }
 
 <div
   className="relative hidden lg:block"
@@ -160,10 +160,9 @@ export default function Capabilities() {
         }}
         className="relative w-full"
       >
-        {/* BLACK ACTIVE FIELD
-            Absolute so activating a row does NOT
-            alter the surrounding layout.
-        */}
+        {
+
+        }
 
         <motion.div
           aria-hidden="true"
@@ -183,7 +182,9 @@ export default function Capabilities() {
         />
 
         <div className="relative z-10 mx-auto flex h-[120px] w-full max-w-[1500px] items-center px-10 xl:px-12">
-          {/* CAPABILITY TITLE */}
+          {
+            
+          }
 
           <div className="flex w-[49%] shrink-0 justify-end">
             <button

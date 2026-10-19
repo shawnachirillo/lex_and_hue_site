@@ -60,14 +60,14 @@ export default function HomeCTA({
                 <br />
                 changed.
                 <br />
-
+</h2>
+<h2>
                 <span
-                  className="text-bone"
+                  className="text-bone text-[102px]"
                   style={instrumentSerif}
                 >
-                  Let&apos;s make it
-                  <br />
-                  visible.
+                  Let&apos;s make it visible
+                 
                 </span>
               </h2>
 
@@ -84,7 +84,7 @@ export default function HomeCTA({
             <button
               type="button"
               onClick={onStartProject}
-              className="group inline-flex items-center gap-4 rounded-full border border-black bg-orange px-7 py-4 text-[12px] font-bold uppercase text-black transition-all duration-300 hover:bg-black hover:text-white"
+              className="group inline-flex items-center gap-4 rounded-full border border-black bg-orange px-7 py-4 text-[12px] font uppercase text-black transition-all duration-300 hover:bg-black hover:text-white"
               style={{
                 fontFamily:
                   '"Courier New", Courier, monospace',

@@ -21,75 +21,68 @@ import {
 import AnimatedEyebrow from '@/components/ui/AnimatedEyebrow';
 import { work } from '@/content/work';
 
-/* =========================================================
-   PROJECT LOGOS
-========================================================= */
-
 const projectLogos: Record<string, string> = {
-  'the-east-end-company':
-   '/images/TEEC_logo_white.png',
-
-  'modern-goddess-coaching':
-    '/images/TGR_logo_white.png',
-
-  'legacy-at-home':
-    '/images/LAHC_white_logo.png',
-
-  'the-stillpoint':
-    '/images/TSP_logo_white.png',
+  'the-east-end-company': '/images/TEEC_logo_white.png',
+  'modern-goddess-coaching': '/images/TGR_logo_white.png',
+  'printbundle': '/images/Printbundle_logo.png',
+  'che-bella-donna': '/images/CBD_white_logo.png',
+  'legacy-at-home': '/images/LAHC_white_logo.png',
+  'the-stillpoint': '/images/TSP_logo_white.png',
 };
 
-/* =========================================================
-   STYLES
-========================================================= */
+const selectedWorkOrder = [
+  'the-east-end-company',
+  'modern-goddess-coaching',
+  'printbundle',
+  'che-bella-donna',
+  'legacy-at-home',
+  'the-stillpoint',
+] as const;
 
+const comingSoonSlugs = new Set([
+  'printbundle',
+  'che-bella-donna',
+  'legacy-at-home',
+  'the-stillpoint',
+]);
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const neueHaas = {
-  fontFamily:
-    '"neue-haas-grotesk-display", sans-serif',
+  fontFamily: '"neue-haas-grotesk-display", sans-serif',
   fontWeight: 700,
 } as const;
 
 const courier = {
-  fontFamily:
-    '"Courier New", Courier, monospace',
+  fontFamily: '"Courier New", Courier, monospace',
 } as const;
 
-/* =========================================================
-   SELECTED WORK
-========================================================= */
-
 export default function SelectedWork() {
-  const featuredWork = useMemo(
-    () => work.filter((project) => project.featured),
-    []
-  );
+  const featuredWork = useMemo(() => {
+    const featured = work.filter((project) => project.featured);
+  
+    return selectedWorkOrder
+      .map((slug) =>
+        featured.find((project) => project.slug === slug)
+      )
+      .filter(
+        (
+          project
+        ): project is (typeof work)[number] =>
+          Boolean(project)
+      );
+  }, []);
 
-  const [activeIndex, setActiveIndex] =
-    useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
-  const [direction, setDirection] =
-    useState(1);
-
-  const [previewOpen, setPreviewOpen] =
-    useState(false);
-
-  const [mobilePreviewOpen, setMobilePreviewOpen] =
-    useState(false);
-
-  const [touchStart, setTouchStart] =
-    useState<number | null>(null);
-
-  const sectionRef =
-    useRef<HTMLElement>(null);
-
+  const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
 
   const count = featuredWork.length;
-
-  const activeProject =
-    featuredWork[activeIndex];
+  const activeProject = featuredWork[activeIndex];
 
   const previousIndex =
     count > 0
@@ -101,15 +94,8 @@ export default function SelectedWork() {
       ? (activeIndex + 1) % count
       : 0;
 
-  const previousProject =
-    featuredWork[previousIndex];
-
-  const nextProject =
-    featuredWork[nextIndex];
-
-  /* =====================================================
-     SCROLL MOTION
-  ===================================================== */
+  const previousProject = featuredWork[previousIndex];
+  const nextProject = featuredWork[nextIndex];
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -119,22 +105,14 @@ export default function SelectedWork() {
   const statementY = useTransform(
     scrollYProgress,
     [0, 0.32],
-    reduceMotion
-      ? [0, 0]
-      : [28, 0]
+    reduceMotion ? [0, 0] : [28, 0]
   );
 
   const stageY = useTransform(
     scrollYProgress,
     [0.08, 0.42],
-    reduceMotion
-      ? [0, 0]
-      : [48, 0]
+    reduceMotion ? [0, 0] : [48, 0]
   );
-
-  /* =====================================================
-     PROJECT NAVIGATION
-  ===================================================== */
 
   const goPrevious = () => {
     if (!count) return;
@@ -163,10 +141,6 @@ export default function SelectedWork() {
         : current + 1
     );
   };
-
-  /* =====================================================
-     SWIPE
-  ===================================================== */
 
   const handleTouchStart = (
     event: React.TouchEvent
@@ -202,10 +176,6 @@ export default function SelectedWork() {
 
     setTouchStart(null);
   };
-
-  /* =====================================================
-     KEYBOARD
-  ===================================================== */
 
   useEffect(() => {
     const handleKeyDown = (
@@ -259,10 +229,6 @@ export default function SelectedWork() {
       id="work"
       className="relative overflow-hidden bg-black text-bone"
     >
-      {/* =================================================
-          INTRO
-      ================================================= */}
-
       <div className="mx-auto max-w-[1500px] px-5 pt-16 md:px-10 md:pt-20 lg:px-12 lg:pt-24">
         <div className="flex items-start justify-between">
           <AnimatedEyebrow
@@ -273,11 +239,10 @@ export default function SelectedWork() {
               'CASE STUDIES',
             ]}
             loop
-          
           />
 
           <div
-            className="hidden text-[10px] font-bold text-white/40 md:block"
+            className="hidden text-[10px] font- text-white/40 md:block"
             style={courier}
           >
             {String(
@@ -290,8 +255,6 @@ export default function SelectedWork() {
             )}
           </div>
         </div>
-
-        {/* CAPTION */}
 
         <motion.div
           style={{
@@ -326,8 +289,7 @@ export default function SelectedWork() {
             How we
           </motion.h2>
 
-          <div className="flex flex-wrap items-baseline">
-            <motion.span
+<div className="flex h-full min-h-0 flex-col overflow-y-auto pl-8 pr-3 lg:pl-12">            <motion.span
               initial={
                 reduceMotion
                   ? false
@@ -382,10 +344,6 @@ export default function SelectedWork() {
           </div>
         </motion.div>
       </div>
-
-      {/* =================================================
-          DESKTOP PROJECT STAGE
-      ================================================= */}
 
       <motion.div
         style={{
@@ -452,8 +410,6 @@ export default function SelectedWork() {
           </motion.div>
         </AnimatePresence>
 
-        {/* DESKTOP NAVIGATION */}
-
         <div className="border-t border-white/15">
           <div className="flex items-center justify-between py-4">
             <button
@@ -462,7 +418,7 @@ export default function SelectedWork() {
               className="group cursor-pointer text-left"
             >
               <span
-                className="block text-[14px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                className="block text-[16px] font-uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
                 style={courier}
               >
                 ← Previous project
@@ -475,7 +431,7 @@ export default function SelectedWork() {
               className="group cursor-pointer text-right"
             >
               <span
-                className="block text-[14px] font-bold uppercase text-white/35 transition-colors duration-500 group-hover:text-orange"
+                className="block text-[16px] text-white/35 transition-colors duration-500 group-hover:text-orange"
                 style={courier}
               >
                 Next project →
@@ -484,10 +440,6 @@ export default function SelectedWork() {
           </div>
         </div>
       </motion.div>
-
-      {/* =================================================
-          MOBILE PROJECT
-      ================================================= */}
 
       <div
         className="mt-12 md:hidden"
@@ -548,8 +500,6 @@ export default function SelectedWork() {
             </motion.div>
           </AnimatePresence>
 
-          {/* MOBILE NAVIGATION */}
-
           <div className="border-t border-white/15">
             <div className="flex items-center justify-between py-4">
               <button
@@ -571,7 +521,7 @@ export default function SelectedWork() {
                 className="text-right"
               >
                 <span
-                  className="block text-[9px] font-bold uppercase text-white/35"
+                  className="block text-[9px] font- uppercase text-white/35"
                   style={courier}
                 >
                   Next →
@@ -586,10 +536,6 @@ export default function SelectedWork() {
     </section>
   );
 }
-
-/* =========================================================
-   DESKTOP PROJECT STAGE
-========================================================= */
 
 function DesktopProjectStage({
   project,
@@ -607,10 +553,25 @@ function DesktopProjectStage({
   const [openSection, setOpenSection] =
     useState<string | null>(null);
 
+  const [comingSoonOpen, setComingSoonOpen] =
+    useState(false);
+
+  const hasCaseStudy =
+    !comingSoonSlugs.has(project.slug);
+
   const toggleSection = (section: string) => {
     setOpenSection((current) =>
       current === section ? null : section
     );
+  };
+
+  const handleProjectClick = () => {
+    if (hasCaseStudy) {
+      window.location.href = `/work/${project.slug}`;
+      return;
+    }
+
+    setComingSoonOpen(true);
   };
 
   return (
@@ -623,8 +584,6 @@ function DesktopProjectStage({
         setPreviewOpen(false)
       }
     >
-      {/* IMAGE PANEL */}
-
       <motion.div
         initial={false}
         animate={
@@ -654,10 +613,15 @@ function DesktopProjectStage({
         }
         className="absolute overflow-hidden bg-[#111]"
       >
-        <Link
-          href={`/work/${project.slug}`}
-          aria-label={`View ${project.title} case study`}
-          className="absolute inset-0 block cursor-pointer"
+        <button
+          type="button"
+          onClick={handleProjectClick}
+          aria-label={
+            hasCaseStudy
+              ? `View ${project.title} case study`
+              : `${project.title} case study coming soon`
+          }
+          className="absolute inset-0 block w-full cursor-pointer text-left"
         >
           <motion.div
             className="absolute inset-0"
@@ -688,9 +652,15 @@ function DesktopProjectStage({
             className="absolute inset-0 bg-black"
             initial={false}
             animate={{
-              opacity: previewOpen
-                ? 0.4
-                : 0.3,
+              opacity:
+                project.slug ===
+                'che-bella-donna'
+                  ? previewOpen
+                    ? 0.62
+                    : 0.55
+                  : previewOpen
+                    ? 0.4
+                    : 0.3,
             }}
             transition={{
               duration: 0.8,
@@ -743,7 +713,7 @@ function DesktopProjectStage({
                 delay: 0.55,
                 ease,
               }}
-              className="absolute inset-0 z-10 flex items-center justify-center px-[15%]"
+              className="absolute inset-0 z-10 flex items-center justify-center px-[15%] pt-[8%]"
             >
               <motion.div
                 initial={false}
@@ -758,7 +728,13 @@ function DesktopProjectStage({
                   duration: 0.95,
                   ease,
                 }}
-                className="relative h-[38%] w-[74%]"
+                className={`relative -left-[6%] ${
+                  project.slug === 'che-bella-donna'
+                    ? 'h-[49%] w-[96%]'
+                    : project.slug === 'printbundle'
+                      ? 'h-[52%] w-[100%]'
+                      : 'h-[38%] w-[74%]'
+                }`}
               >
                 <Image
                   src={logo}
@@ -784,16 +760,14 @@ function DesktopProjectStage({
             className="absolute left-6 top-6 z-20"
           >
             <span
-              className="text-[9px] font-bold uppercase text-white"
+              className="text-[9px] font- uppercase text-white"
               style={courier}
             >
               Project
             </span>
           </motion.div>
-        </Link>
+        </button>
       </motion.div>
-
-      {/* DESKTOP PREVIEW PANEL */}
 
       <motion.div
         initial={false}
@@ -815,7 +789,6 @@ function DesktopProjectStage({
               : 0,
             ease,
           },
-
           x: {
             duration: 0.85,
             delay: previewOpen
@@ -852,7 +825,7 @@ function DesktopProjectStage({
             }}
           >
             <p
-              className="text-[11px] font-bold uppercase text-orange"
+              className="text-[11px] font- uppercase text-orange"
               style={courier}
             >
               {project.type}
@@ -883,7 +856,6 @@ function DesktopProjectStage({
             className="mt-8 flex-1"
           >
             <PreviewRow
-              number="01"
               label="Overview"
               content={project.overview}
               expanded={
@@ -898,7 +870,6 @@ function DesktopProjectStage({
             />
 
             <PreviewRow
-              number="02"
               label="The Challenge"
               content={project.challenge}
               expanded={
@@ -913,7 +884,6 @@ function DesktopProjectStage({
             />
 
             <PreviewRow
-              number="03"
               label="Direction"
               content={project.direction}
               expanded={
@@ -928,7 +898,6 @@ function DesktopProjectStage({
             />
 
             <PreviewRow
-              number="04"
               label="Outcome"
               content={project.outcome}
               expanded={
@@ -963,34 +932,59 @@ function DesktopProjectStage({
               ease,
             }}
           >
-            <Link
-              href={`/work/${project.slug}`}
-              className="group flex items-center justify-between border-t border-white/25 py-5"
-            >
-              <span
-                className="text-[11px] font-bold uppercase text-bone transition-colors duration-500 group-hover:text-orange"
-                style={courier}
+            {hasCaseStudy ? (
+              <Link
+                href={`/work/${project.slug}`}
+                className="group flex items-center justify-between border-t border-white/25 py-5"
               >
-                View case study
-              </span>
+                <span
+                  className="text-[11px] font uppercase text-bone transition-colors duration-500 group-hover:text-orange"
+                  style={courier}
+                >
+                  View case study
+                </span>
 
-              <span className="text-[19px] text-orange transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
-                ↗
-              </span>
-            </Link>
+                <span className="text-[19px] text-orange transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
+                  ↗
+                </span>
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() =>
+                  setComingSoonOpen(true)
+                }
+                className="group flex w-full items-center justify-between border-t border-white/25 py-5 text-left"
+              >
+                <span
+                  className="text-[11px] font uppercase text-bone transition-colors duration-500 group-hover:text-orange"
+                  style={courier}
+                >
+                  View case study
+                </span>
+
+                <span className="text-[19px] text-orange transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
+                  ↗
+                </span>
+              </button>
+            )}
           </motion.div>
         </div>
       </motion.div>
+
+      <ComingSoonModal
+        open={comingSoonOpen}
+        projectTitle={project.title}
+        onClose={() =>
+          setComingSoonOpen(false)
+        }
+        reduceMotion={reduceMotion}
+      />
     </motion.div>
   );
 }
 
-/* =========================================================
-   DESKTOP PREVIEW ROW
-========================================================= */
-
 function PreviewRow({
-  number,
   label,
   content,
   expanded,
@@ -999,7 +993,6 @@ function PreviewRow({
   open,
   reduceMotion,
 }: {
-  number: string;
   label: string;
   content: string;
   expanded: boolean;
@@ -1035,14 +1028,12 @@ function PreviewRow({
       >
         <div className="flex items-center gap-3">
           <span
-            className="text-[9px] font-bold text-orange"
+            className="text-[9px] font text-orange"
             style={courier}
-          >
-            {number}
-          </span>
+          />
 
           <span
-            className={`text-[12px] font-bold uppercase transition-colors duration-500 lg:text-[13px] ${
+            className={`text-[12px] font- uppercase transition-colors duration-500 lg:text-[13px] ${
               expanded
                 ? 'text-orange'
                 : 'text-bone group-hover:text-orange'
@@ -1151,10 +1142,6 @@ function PreviewRow({
   );
 }
 
-/* =========================================================
-   MOBILE PROJECT
-========================================================= */
-
 function MobileProject({
   project,
   logo,
@@ -1171,6 +1158,12 @@ function MobileProject({
   const [openSection, setOpenSection] =
     useState<string | null>(null);
 
+  const [comingSoonOpen, setComingSoonOpen] =
+    useState(false);
+
+  const hasCaseStudy =
+    !comingSoonSlugs.has(project.slug);
+
   const toggleSection = (section: string) => {
     setOpenSection((current) =>
       current === section ? null : section
@@ -1179,18 +1172,23 @@ function MobileProject({
 
   return (
     <div className="overflow-hidden bg-black">
-      {/* IMAGE / TAP TARGET */}
-
       <motion.button
         type="button"
-        onClick={() =>
-          setPreviewOpen(!previewOpen)
-        }
+        onClick={() => {
+          if (!hasCaseStudy) {
+            setComingSoonOpen(true);
+            return;
+          }
+
+          setPreviewOpen(!previewOpen);
+        }}
         aria-expanded={previewOpen}
         aria-label={
-          previewOpen
-            ? `Close ${project.title} preview`
-            : `Preview ${project.title}`
+          hasCaseStudy
+            ? previewOpen
+              ? `Close ${project.title} preview`
+              : `Preview ${project.title}`
+            : `${project.title} case study coming soon`
         }
         className="relative block w-full overflow-hidden bg-[#111] text-left"
         initial={false}
@@ -1238,9 +1236,15 @@ function MobileProject({
           className="absolute inset-0 bg-black"
           initial={false}
           animate={{
-            opacity: previewOpen
-              ? 0.42
-              : 0.32,
+            opacity:
+              project.slug ===
+              'che-bella-donna'
+                ? previewOpen
+                  ? 0.64
+                  : 0.56
+                : previewOpen
+                  ? 0.42
+                  : 0.32,
           }}
           transition={{
             duration: 0.65,
@@ -1269,39 +1273,38 @@ function MobileProject({
               ease,
             }}
           >
-            <div className="relative h-[38%] w-[78%]">
-              <Image
-                src={logo}
-                alt={project.title}
-                fill
-                sizes="80vw"
-                className="object-contain"
-              />
+           <div
+  className={
+    project.slug === 'printbundle'
+      ? 'relative h-[52%] w-full'
+      : 'relative h-[38%] w-[78%]'
+  }
+>
             </div>
           </motion.div>
         )}
 
-        <div className="absolute bottom-4 right-4 z-20">
-          <motion.span
-            initial={false}
-            animate={{
-              rotate: previewOpen
-                ? 45
-                : 0,
-            }}
-            transition={{
-              duration: 0.5,
-              ease,
-            }}
-            className="flex h-8 w-8 items-center justify-center border border-white/40 text-[20px] leading-none text-bone"
-            aria-hidden="true"
-          >
-            +
-          </motion.span>
-        </div>
+        {hasCaseStudy && (
+          <div className="absolute bottom-4 right-4 z-20">
+            <motion.span
+              initial={false}
+              animate={{
+                rotate: previewOpen
+                  ? 45
+                  : 0,
+              }}
+              transition={{
+                duration: 0.5,
+                ease,
+              }}
+              className="flex h-8 w-8 items-center justify-center border border-white/40 text-[20px] leading-none text-bone"
+              aria-hidden="true"
+            >
+              +
+            </motion.span>
+          </div>
+        )}
       </motion.button>
-
-      {/* MOBILE PREVIEW */}
 
       <AnimatePresence initial={false}>
         {previewOpen && (
@@ -1335,8 +1338,6 @@ function MobileProject({
             className="overflow-hidden"
           >
             <div className="px-1 pb-6 pt-6">
-              {/* PROJECT HEADER */}
-
               <motion.div
                 initial={
                   reduceMotion
@@ -1357,7 +1358,7 @@ function MobileProject({
                 }}
               >
                 <p
-                  className="text-[10px] font-bold uppercase text-orange"
+                  className="text-[10px] font uppercase text-orange"
                   style={courier}
                 >
                   {project.type}
@@ -1370,8 +1371,6 @@ function MobileProject({
                   {project.title}
                 </h3>
               </motion.div>
-
-              {/* MOBILE ACCORDION */}
 
               <div className="mt-6">
                 <MobilePreviewRow
@@ -1451,8 +1450,6 @@ function MobileProject({
                 />
               </div>
 
-              {/* FULL CASE STUDY */}
-
               <motion.div
                 initial={
                   reduceMotion
@@ -1472,33 +1469,203 @@ function MobileProject({
                   ease,
                 }}
               >
-                <Link
-                  href={`/work/${project.slug}`}
-                  className="mt-6 flex items-center justify-between border-t border-white/25 py-5"
-                >
-                  <span
-                    className="text-[11px] font-bold uppercase text-bone"
-                    style={courier}
+                {hasCaseStudy ? (
+                  <Link
+                    href={`/work/${project.slug}`}
+                    className="mt-6 flex items-center justify-between border-t border-white/25 py-5"
                   >
-                    View case study
-                  </span>
+                    <span
+                      className="text-[11px] font- uppercase text-bone"
+                      style={courier}
+                    >
+                      View case study
+                    </span>
 
-                  <span className="text-[19px] text-orange">
-                    ↗
-                  </span>
-                </Link>
+                    <span className="text-[19px] text-orange">
+                      ↗
+                    </span>
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setComingSoonOpen(true)
+                    }
+                    className="mt-6 flex w-full items-center justify-between border-t border-white/25 py-5 text-left"
+                  >
+                    <span
+                      className="text-[11px] font- uppercase text-bone"
+                      style={courier}
+                    >
+                      View case study
+                    </span>
+
+                    <span className="text-[19px] text-orange">
+                      ↗
+                    </span>
+                  </button>
+                )}
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ComingSoonModal
+        open={comingSoonOpen}
+        projectTitle={project.title}
+        onClose={() =>
+          setComingSoonOpen(false)
+        }
+        reduceMotion={reduceMotion}
+      />
     </div>
   );
 }
 
-/* =========================================================
-   MOBILE PREVIEW ROW
-========================================================= */
+function ComingSoonModal({
+  open,
+  projectTitle,
+  onClose,
+  reduceMotion,
+}: {
+  open: boolean;
+  projectTitle: string;
+  onClose: () => void;
+  reduceMotion: boolean | null;
+}) {
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (
+      event: KeyboardEvent
+    ) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener(
+      'keydown',
+      handleKeyDown
+    );
+
+    return () =>
+      window.removeEventListener(
+        'keydown',
+        handleKeyDown
+      );
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 px-5 backdrop-blur-[2px]"
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                }
+          }
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          transition={{
+            duration: reduceMotion
+              ? 0
+              : 0.3,
+            ease,
+          }}
+          onClick={onClose}
+        >
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="coming-soon-title"
+            className="relative w-full max-w-[560px] border border-white/20 bg-black px-7 py-8 text-bone md:px-10 md:py-10"
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    y: 18,
+                    scale: 0.985,
+                  }
+            }
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            }}
+            exit={{
+              opacity: 0,
+              y: 10,
+              scale: 0.99,
+            }}
+            transition={{
+              duration: reduceMotion
+                ? 0
+                : 0.4,
+              ease,
+            }}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close case study coming soon modal"
+              className="absolute right-5 top-5 text-[22px] leading-none text-white/55 transition-colors duration-300 hover:text-orange"
+            >
+              ×
+            </button>
+
+            <p
+              className="text-[10px] uppercase text-orange"
+              style={courier}
+            >
+              {projectTitle}
+            </p>
+
+            <h3
+              id="coming-soon-title"
+              className="mt-4 text-[34px] uppercase leading-[0.92] text-bone md:text-[44px]"
+              style={neueHaas}
+            >
+              Case study
+              <br />
+              coming soon.
+            </h3>
+
+            <p
+              className="mt-6 max-w-[430px] text-[13px] leading-[1.65] text-white/60"
+              style={courier}
+            >
+              We’re currently documenting the full
+              project. Check back soon for the
+              complete story.
+            </p>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-8 border-t border-white/25 pt-4 text-[11px] uppercase text-bone transition-colors duration-300 hover:text-orange"
+              style={courier}
+            >
+              Close ×
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 function MobilePreviewRow({
   number,
@@ -1546,14 +1713,14 @@ function MobilePreviewRow({
       >
         <div className="flex items-center gap-3">
           <span
-            className="text-[9px] font-bold text-orange"
+            className="text-[9px] font- text-orange"
             style={courier}
           >
             {number}
           </span>
 
           <span
-            className={`text-[11px] font-bold uppercase transition-colors duration-300 ${
+            className={`text-[11px] font- uppercase transition-colors duration-300 ${
               expanded
                 ? 'text-orange'
                 : 'text-bone'

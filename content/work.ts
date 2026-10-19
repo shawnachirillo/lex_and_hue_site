@@ -1,21 +1,17 @@
 /* =========================================================
-   LEX & HUE — WORK CONTENT
-
-   CASE STUDY ARCHITECTURE
-
-   Case studies are VISUAL compositions first.
-
-   The page renderer handles layout.
-   This file controls:
-   - project information
-   - project-specific colors
-   - sequence of compositions
-   - images
-   - supporting copy
-
-   Missing images can use placeholder blocks so the
-   composition can be designed before final assets exist.
-========================================================= */
+ *   LEX & HUE — WORK CONTENT
+ *   CASE STUDY ARCHITECTURE
+ *   Case studies are VISUAL compositions first.
+ *   The page renderer handles layout.
+ *   This file controls:
+ *   - project information
+ *   - project-specific colors
+ *   - sequence of compositions
+ *   - images
+ *   - supporting copy
+ *   Missing images can use placeholder blocks so the
+ *   composition can be designed before final assets exist.
+ *========================================================= */
 
 export type ProjectTheme = {
   background: string;
@@ -50,14 +46,13 @@ export type VisualAsset =
     };
 
 /* =========================================================
-   COMPOSITION TYPES
-========================================================= */
+ *   COMPOSITION TYPES
+ *========================================================= */
 
 export type WorkSection =
   /* -------------------------------------------------------
-     LARGE SINGLE IMAGE
-  ------------------------------------------------------- */
-
+   *     LARGE SINGLE IMAGE
+   *  ------------------------------------------------------- */
   | {
       type: 'hero-image';
       image: VisualAsset;
@@ -67,9 +62,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     TWO VISUALS SIDE BY SIDE
-  ------------------------------------------------------- */
-
+   *     TWO VISUALS SIDE BY SIDE
+   *  ------------------------------------------------------- */
   | {
       type: 'split';
       left: VisualAsset;
@@ -79,9 +73,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     LARGE VISUAL + SMALLER STACK
-  ------------------------------------------------------- */
-
+   *     LARGE VISUAL + SMALLER STACK
+   *  ------------------------------------------------------- */
   | {
       type: 'editorial-grid';
       hero: VisualAsset;
@@ -92,9 +85,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     LOGO PRESENTATION
-  ------------------------------------------------------- */
-
+   *     LOGO PRESENTATION
+   *  ------------------------------------------------------- */
   | {
       type: 'logo-field';
       logo: VisualAsset;
@@ -105,9 +97,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     BRAND MARKS / IDENTITY PIECES
-  ------------------------------------------------------- */
-
+   *     BRAND MARKS / IDENTITY PIECES
+   *  ------------------------------------------------------- */
   | {
       type: 'identity-grid';
       assets: VisualAsset[];
@@ -115,9 +106,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     PRODUCT / PACKAGING
-  ------------------------------------------------------- */
-
+   *     PRODUCT / PACKAGING
+   *  ------------------------------------------------------- */
   | {
       type: 'product-showcase';
       hero: VisualAsset;
@@ -127,9 +117,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     DIGITAL
-  ------------------------------------------------------- */
-
+   *     DIGITAL
+   *  ------------------------------------------------------- */
   | {
       type: 'digital-showcase';
       desktop: VisualAsset;
@@ -139,9 +128,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     ONE QUIET TEXT MOMENT
-  ------------------------------------------------------- */
-
+   *     ONE QUIET TEXT MOMENT
+   *  ------------------------------------------------------- */
   | {
       type: 'note';
       label?: string;
@@ -150,9 +138,8 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     RARE LARGE STATEMENT
-  ------------------------------------------------------- */
-
+   *     RARE LARGE STATEMENT
+   *  ------------------------------------------------------- */
   | {
       type: 'statement';
       text: string;
@@ -161,17 +148,16 @@ export type WorkSection =
     }
 
   /* -------------------------------------------------------
-     FINAL OUTCOME
-  ------------------------------------------------------- */
-
+   *     FINAL OUTCOME
+   *  ------------------------------------------------------- */
   | {
       type: 'outcome';
       body: string;
     };
 
 /* =========================================================
-   PROJECT
-========================================================= */
+ *   PROJECT
+ *========================================================= */
 
 export type WorkItem = {
   slug: string;
@@ -204,13 +190,13 @@ export type WorkItem = {
 };
 
 /* =========================================================
-   PROJECTS
-========================================================= */
+ *   PROJECTS
+ *========================================================= */
 
 export const work: readonly WorkItem[] = [
   /* =======================================================
-     THE EAST END CO.
-  ======================================================= */
+   *     THE EAST END CO.
+   *  ======================================================= */
 
   {
     slug: 'the-east-end-company',
@@ -520,8 +506,8 @@ export const work: readonly WorkItem[] = [
   },
 
   /* =======================================================
-     MODERN GODDESS COACHING
-  ======================================================= */
+   *     MODERN GODDESS COACHING
+   *  ======================================================= */
 
   {
     slug: 'modern-goddess-coaching',
@@ -752,13 +738,13 @@ export const work: readonly WorkItem[] = [
   },
 
   /* =======================================================
-     LEGACY AT HOME
-  ======================================================= */
+   *     LEGACY AT HOME
+   *  ======================================================= */
 
   {
     slug: 'legacy-at-home',
 
-    index: '03',
+    index: '05',
 
     title: 'Legacy At Home',
 
@@ -776,7 +762,7 @@ export const work: readonly WorkItem[] = [
     eyebrow:
       'Care / Trust / Repositioning',
 
-    image: '/images/hero.jpg',
+    image: '/images/comfort.jpg',
 
     logo: '/images/LAHC_white_logo.png',
 
@@ -914,8 +900,8 @@ export const work: readonly WorkItem[] = [
   },
 
   /* =======================================================
-     THE STILLPOINT
-  ======================================================= */
+   *     THE STILLPOINT
+   *  ======================================================= */
 
   {
     slug: 'the-stillpoint',
@@ -1092,5 +1078,96 @@ export const work: readonly WorkItem[] = [
           'The resulting atmosphere feels calm, rooted, and intentional—supporting both the physical space and the broader client experience.',
       },
     ],
+  },
+
+  /* =======================================================
+     CHE BELLA DONNA
+  ======================================================= */
+
+  {
+    slug: 'che-bella-donna',
+
+    index: '05',
+
+    title: 'Che Bella Donna',
+
+    type: 'Front-End / UI Development',
+
+    copy:
+      'An established visual direction translated into a polished, responsive digital experience.',
+
+    services: [
+      'Front-End Development',
+      'Responsive UI',
+      'Interaction',
+    ],
+
+    eyebrow:
+      'Fashion / Digital / Development',
+
+    image: '/images/CBD_thumbnail.png',
+
+    logo: '/images/CBD_white_logo.png',
+
+    gradient:
+      'linear-gradient(135deg, #111111 0%, #252525 50%, #000000 100%)',
+
+    overview:
+      'Che Bella Donna is a front-end UI project focused on translating an established visual direction into a polished digital experience.',
+
+    challenge:
+      'The challenge was preserving the character of the original design while making it work fluidly across screen sizes, interactions, and real-world content.',
+
+    direction:
+      'We focused on faithful UI execution, responsive behavior, typography, spacing, and interaction—building the experience without losing the details that gave the design its personality.',
+
+    outcome:
+      'The result is a responsive front-end experience that carries the visual direction from static design into a functional, cohesive digital interface.',
+
+    featured: true,
+  },
+ 
+  {
+    slug: 'printbundle',
+  
+    index: '03',
+  
+    title: 'PrintBundle',
+  
+    type: 'Product Design / Development',
+  
+    copy:
+      'A Chrome extension that turns scattered email attachments into one organized, print-ready bundle.',
+  
+    services: [
+      'Product Design',
+      'UX/UI',
+      'Front-End Development',
+      'Chrome Extension',
+    ],
+  
+    eyebrow:
+      'Product / Utility / Development',
+  
+    image: '/images/PB_thumbnail2.jpg',
+  
+    logo: '/images/Printbundle_Logo.png',
+  
+    gradient:
+      'linear-gradient(135deg, #090909 0%, #161616 58%, #ADFF2F 100%)',
+  
+    overview:
+      'PrintBundle is a Chrome extension designed to simplify a frustrating everyday workflow: printing multiple attachments scattered across different emails. Instead of opening, downloading, and printing files one at a time, users can gather the documents they need and prepare them as one organized print-ready bundle.',
+  
+    challenge:
+      'Printing several email attachments is deceptively tedious. Files may live across different messages, require separate downloads, and need to be opened and printed individually. The challenge was turning that fragmented process into a single, intuitive workflow without adding unnecessary complexity.',
+  
+    direction:
+      'The product was built around a focused sequence: select, review, organize, and print. Users can choose the attachments they need, review the collection, remove or reorder files, and combine them into a single document ready for the browser’s print flow.',
+  
+    outcome:
+      'PrintBundle transforms a repetitive multi-step task into a focused browser utility, reducing the friction between finding documents in an inbox and getting them onto paper.',
+  
+    featured: true,
   },
 ] as const;
